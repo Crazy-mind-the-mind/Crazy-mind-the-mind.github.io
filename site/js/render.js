@@ -4,17 +4,12 @@ const ctx = canvas.getContext("2d");
 
 
 
+class RenderEngine{
+    constructor(){
 
-
-
-var render_queue=[
-    {
-        name:"test",
-        render_mode:0,
-        rect:new rect2(0,0,10,10),
-        color:"#ff0000"
     }
-];
+}
+
 
 
 
@@ -64,4 +59,4 @@ function render_projectile(projetile){
 }
 
 
-render_canvas()
+module.exports=new RenderEngine()
