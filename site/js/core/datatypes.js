@@ -18,7 +18,7 @@ class vec2{
     	return 0;
     }
     
-    angleTo{
+    angleTo()
     	return 0;
     }
 }
@@ -27,6 +27,10 @@ class rect2{
 	constructor(x,y,w,h){
 		this.origin=new vec2(x,y);
 		this.size=new vec2(w,h);
+	}
+	intersects(otherRect2){
+		(this.origin.x-otherRect2.origin.x);
+		
 	}
 	
 }
