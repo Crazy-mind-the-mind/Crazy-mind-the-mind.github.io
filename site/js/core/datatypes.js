@@ -30,7 +30,7 @@ class rect2{
 	}
 	intersects(otherRect2){
 		(this.origin.x-otherRect2.origin.x);
-		
+		return false;
 	}
 	
 }
