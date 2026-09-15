@@ -33,9 +33,10 @@ class Game{
     run(){
 
         let running=true;
-
-        setTimeout(update,1000/this.constants.updateRate);
-        setTimeout(render,1000/30);
+		
+        this.gameUpdateTick=setInterval(update,1000/this.constants.updateRate);
+        this.gameRenderTick=setInterval(render,1000/30);
+        
     }
 
     update(){
@@ -46,6 +47,11 @@ class Game{
     
     handleEvents(){
     	this.characters.forEach();
+    }
+    
+    quit(){
+    	clearInterval(this.gameUpdateTick);
+    	clearInterval(this.gameRenderTick);
     }
 
 
