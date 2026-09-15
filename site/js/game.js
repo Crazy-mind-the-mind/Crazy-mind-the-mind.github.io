@@ -13,11 +13,20 @@ var plr_data = {
 class Game{
     
     constructor(){
-
-        this.deltaTime =0.0;
-
-        this.player=null;
-        this.enemies=[];
+    	this.constants={
+    		updateRate:20
+    	}
+		this.settings={
+			
+		};
+		
+		
+        this.deltaTime =0;
+        
+        
+        
+        
+        this.characters=[];
         this.projectiles=[];
     }
 
@@ -25,34 +34,24 @@ class Game{
 
         let running=true;
 
-        while (running) {
-            this.deltaTime= Date.getUTCMilliseconds();
-            if (deltaTime> 1000/30){
-                console.log(this.deltaTime);
-            }
-        }
+        setTimeout(update,1000/this.constants.updateRate);
+        setTimeout(render,1000/30);
     }
 
     update(){
-        this.player.update()
-        this.enemies.forEach(enemy => {
-            enemy.update()
-        });
     }
     
     render(){
-        this.player.render()
-        this.enemies.forEach(enemy => {
-            enemy.render()
-        });
     }
-
+    
+    handleEvents(){
+    	this.characters.forEach();
+    }
 
 
 }
 
-var game = new Game
-  ();
+var game = new Game();
 
 game.run();
 
