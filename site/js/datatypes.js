@@ -4,6 +4,15 @@ class vec2{
         this.x=x;
         this.y=y;
     }
+    
+    normalized(){
+        let result=new vec2(0,0);
+        return result;
+    }
+    rotated(rotation){
+        let result=new vec2(0,0);
+        return result;
+    }
 }
 
 
