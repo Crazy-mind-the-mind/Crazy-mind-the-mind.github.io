@@ -5,7 +5,8 @@ var $container = document.getElementById('container');
 const gameUtils = function (){
 	var gameUtils=this;
     gameUtils.canvas= function(){
-        this.getPixelRatio = function(context) {
+    	var canvas=this;
+        canvas.getPixelRatio = function(context) {
             console.log("Determining pixel ratio.");
             
             var backingStores=[
@@ -24,7 +25,7 @@ const gameUtils = function (){
 
             return deviceRatio / backingRatio;
         },
-        this.generateCanvas = function(w, h) {
+        canvas.generateCanvas = function(w, h) {
             console.log('Generating canvas.');
 
             var canvas = document.createElement('canvas'),
@@ -41,7 +42,7 @@ const gameUtils = function (){
 
             return canvas;
         }
-        return this;
+        return canvas;
     };
     gameUtils.datatypes= function(){
     	var datatypes=this;
