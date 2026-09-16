@@ -247,7 +247,9 @@ const gamePlayers = function() {
 
 		update() {}
 
-		render() {}
+		render() {
+			var renderer=this.scope.render;
+		}
 
 
 	};
