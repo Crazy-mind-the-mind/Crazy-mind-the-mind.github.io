@@ -207,6 +207,7 @@ const gameUtils = function (){
 		};
     	return this;
 	  };
+	gameUtils.dataSaver=function(){}
 	return gameUtils;
 }();
 
