@@ -41,7 +41,7 @@ const gameUtils = {
 
             return canvas;
         }
-    }
+    },
     datatypes:{
     	vec2 : function vec2(x,y){
     		var vec2=this;
@@ -64,16 +64,48 @@ const gameUtils = {
     					);
     		};
     		rect2.intersects_rect=function intersects_rect(rect){
-    			return (
-    				(rect2.intersects_point(new gameUtils.datatypes.vec2(rect.origin.x,rect.origin.y))) &&
-    				(rect2.intersects_point(new gameUtils.datatypes.vec2(rect.origin.x,rect.origin.y)))
-    				(rect2.intersects_point(new gameUtils.datatypes.vec2(rect.origin.x,rect.origin.y)))
-    				(rect2.intersects_point(new gameUtils.datatypes.vec2(rect.origin.x,rect.origin.y))) 
-    				);
+    			let result= false;
+    			result=gameUtils.helper.isInRange(rect.origin.x,rect2.origin.x,rect2.origin.x+rect2.size.x);
+    			result=result || gameUtils.helper.isInRange(rect.origin.x+rect.size.x,rect2.origin.x,rect2.origin.x+rect2.size.x);
+    			
+    			result=result || gameUtils.helper.isInRange(rect.origin.y,rect2.origin.y,rect2.origin.y+rect2.size.y);
+    			result=result || gameUtils.helper.isInRange(rect.origin.y+rect.size.y,rect2.origin.y,rect2.origin.y+rect2.size.y);
+    			
+    			
+    			
+    			return result
     		}
+    		
     		return rect2;
     	}
     	
+    },
+    helper:{
+    	isInRange: function isInRange(v,min,max){
+    		return v>=min && v<=max;
+    	}
+    },
+    collision:{
+    	CollisionAbstract : class {
+    		constructor(){
+    			
+    		}
+    		
+    		intersects_with(collision){
+    			
+    		}
+    	}
+    	RectCollision : class extends CollisionAbstract{
+    		constructor(){
+    			
+    		}
+    	}
+    	CircleCollision : class extends CollisionAbstract{
+    		constructor(){
+    			
+    		}
+    		
+    	}
     }
 };
 
