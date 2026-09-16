@@ -106,21 +106,22 @@ const gameUtils = function (){
     	return datatypes;
     }();
     gameUtils.ui= function(){
-		  this.UIRoot=function(){
-		  };
-		  this.UINode=class {
-			  constructor(parent){
-				  this.parent=parent;
-			  }
-			  render(){
-
-			  }
-      };
-		  this.UIPanel=class{
-		  };
-    	this.UILabel=class {
-		  };
-      return this;
+		this.UIRoot=function(){
+			  };
+		this.UINode=class {
+				  
+			constructor(parent){
+				this.parent=parent;
+			}
+			render(){
+	
+			}
+		};
+		this.UIPanel=class{
+		};
+	    this.UILabel=class {
+		};
+	    return this;
     }();
     gameUtils.helper=function(){
     	this.isInRange=function isInRange(v,min,max){
