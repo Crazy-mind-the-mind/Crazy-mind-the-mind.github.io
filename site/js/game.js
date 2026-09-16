@@ -79,10 +79,10 @@ const gameUtils = {
     		
     		return rect2;
     	}
-    	Texture: function Texture(w,h){
-    		var Texture = this;
+    	Sprite: function Sprite(w,h){
+    		var Sprite = this;
     		
-    		return Texture;
+    		return Sprite;
     	}
     },
     helper:{
