@@ -1,6 +1,7 @@
 
 var $container = document.getElementById('container');
 
+
 const gameUtils = {
     
     canvas:{
@@ -78,7 +79,11 @@ const gameUtils = {
     		
     		return rect2;
     	}
-    	
+    	Texture: function Texture(w,h){
+    		var Texture = this;
+    		
+    		return Texture;
+    	}
     },
     helper:{
     	isInRange: function isInRange(v,min,max){
