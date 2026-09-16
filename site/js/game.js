@@ -106,6 +106,7 @@ const gameUtils = function (){
     	return datatypes;
     }();
     gameUtils.ui= function(){
+    	var ui
 		this.UIRoot=function(){
 			  };
 		this.UINode=class {
