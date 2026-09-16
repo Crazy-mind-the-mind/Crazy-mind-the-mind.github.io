@@ -43,7 +43,7 @@ const gameUtils = function (){
             return canvas;
         }
         return canvas;
-    };
+    }();
     gameUtils.datatypes= function(){
     	var datatypes=this;
     	datatypes.vec2=function(x,y){
@@ -104,7 +104,7 @@ const gameUtils = function (){
         }
 		  };
     	return datatypes;
-    };
+    }();
     gameUtils.ui= function(){
 		  this.UIRoot=function(){
 		  };
@@ -121,13 +121,13 @@ const gameUtils = function (){
     	this.UILabel=class {
 		  };
       return this;
-    };
+    }();
     gameUtils.helper=function(){
     	this.isInRange=function isInRange(v,min,max){
     		return v>=min && v<=max;
     	};
       return this;		
-    };
+    }();
     gameUtils.collision=function(){
     	var collision=this;
     	collision.collisionSystem=function(){
@@ -198,7 +198,7 @@ const gameUtils = function (){
     		}
     	};
     	return collision;
-    };
+    }();
 	gameUtils.events=function(){
 		this.eventSystem = function eventSystem(){
 			var eventSystem=this
@@ -206,8 +206,11 @@ const gameUtils = function (){
 			return this;
 		};
     	return this;
-	  };
-	gameUtils.dataSaver=function(){}
+	  }();
+	gameUtils.dataSaver=function(){
+		var dataSaver=this;
+		return dataSaver;
+	}();
 	return gameUtils;
 }();
 
@@ -298,7 +301,7 @@ const gamePlayers = function(){
 			super(scope,x,y)
 		}
 	};
-	gamePlayersgamePlayers.TankEnemyCharacter=class extends gamePlayers.EnemyCharacter{
+	gamePlayers.TankEnemyCharacter=class extends gamePlayers.EnemyCharacter{
 		constructor(scope,x,y){
 			super(scope,x,y)
 		}
