@@ -4,7 +4,7 @@ var $container = document.getElementById('container');
 
 const gameUtils = function (){
 	var gameUtils=this;
-    this.canvas= function(){
+    gameUtils.canvas= function(){
         this.getPixelRatio = function(context) {
             console.log("Determining pixel ratio.");
             
@@ -43,7 +43,7 @@ const gameUtils = function (){
         }
         return this;
     };
-    this.datatypes= function(){
+    gameUtils.datatypes= function(){
     	var datatypes=this;
     	datatypes.vec2=function(x,y){
     		var vec2=this;
@@ -104,7 +104,7 @@ const gameUtils = function (){
 		  };
     	return datatypes;
     };
-    this.ui= function(){
+    gameUtils.ui= function(){
 		  this.UIRoot=function(){
 		  };
 		  this.UINode=class {
@@ -121,13 +121,13 @@ const gameUtils = function (){
 		  };
       return this;
     };
-    this.helper=function(){
+    gameUtils.helper=function(){
     	this.isInRange=function isInRange(v,min,max){
     		return v>=min && v<=max;
     	};
       return this;		
     };
-    this.collision=function(){
+    gameUtils.collision=function(){
     	var collision=this;
     	collision.collisionSystem=function(){
     		var collision_groups={
@@ -198,7 +198,7 @@ const gameUtils = function (){
     	};
     	return collision;
     };
-	this.events=function(){
+	gameUtils.events=function(){
 		this.eventSystem = function eventSystem(){
 			var eventSystem=this
 			
@@ -206,7 +206,7 @@ const gameUtils = function (){
 		};
     	return this;
 	  };
-	return this;
+	return gameUtils;
 }();
 
 const gamePlayers = function(){
