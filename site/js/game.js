@@ -146,6 +146,82 @@ const gameUtils = {
     }
 };
 
+const gamePlayers={
+	Entity: class {
+		constructor(scope,x,y){
+			this.position=new gameUtils.datatypes.vec2();
+			this.z_index=0;
+			this.texture=null;
+		}
+		update(){
+			return;
+		}
+		render(){
+			return;
+		}
+	},
+	ParallaxLayer: class {
+		constructor(scope,x,y){
+			super(scope,x,y){
+			this.parallaxScale={
+					scale:gameUtils.datatypes.vec2(0,0),
+					offset:gameUtils.datatypes.vec2(0,0),
+					repeat:gameUtils.datatypes.vec2(0,0),
+				}	
+			}
+		}
+		
+		update(){
+			
+		}
+		
+		render(){
+			
+		}
+	}
+	Projectile: class extends gamePlayers.Entity(){
+		constructor(scope,x,y){
+			super(scope,x,y);
+			this.velocity=new gameUtils.datatypes.vec2();
+		}
+	},
+	Character : class extends gamePlayers.Entity(){
+		constructor(scope,x,y){
+			super(scope,x,y);
+			this.velocity=new gameUtils.datatypes.vec2();
+			
+			this.collision=null;
+			
+			this.statHealthMax=0;
+			this.statHealth=0;
+		}
+	},
+	PlayerCharacter : class extends gamePlayers.Character{
+		constructor(scope,x,y){
+			super(scope,x,y);
+			this.powerup=0;
+			this.powerupTime=0;
+		}
+		
+		update(){
+			
+		}
+		
+		render(){
+			
+		}
+		
+		
+	},
+	EnemyCharacter : class extends gamePlayers.Character{
+		constructor(scope,x,y){
+			super(scope,x,y);
+		}
+	}
+}
+
+
+
 const game={
     update:{
         gameUpdate:function gameUpdate(scope){
@@ -185,10 +261,12 @@ const game={
             
             if (scope.state.hasOwnProperty('entities')) {
                 let entities = scope.state.entities;
-                // Loop through entities
-                for (let entity in entities) {
-                    
-                    entities[entity].render();
+                let entitiesZOrdered=[]
+                
+                
+                for (let entity in entitiesZOrdered) {
+                    if (!(entitiesZOrdered[entity] instanceof gamePlayers.Entity)) continue;
+                    entitiesZOrdered[entity].render();
                 }
             }    
             }
@@ -267,67 +345,6 @@ const game={
         }
     },
 }
-
-
-
-const gamePlayers={
-	Entity: class {
-		constructor(scope,x,y){
-			this.position=new gameUtils.datatypes.vec2();
-			this.z_index=0;
-		}
-		update(){
-			return;
-		}
-		render(){
-			return;
-		}
-	},
-	ParallaxLayer: class {
-		
-	}
-	Projectile: class extends gamePlayers.Entity(){
-		constructor(scope,x,y){
-			super(scope,x,y);
-			this.velocity=new gameUtils.datatypes.vec2();
-		}
-	},
-	Character : class extends gamePlayers.Entity(){
-		constructor(scope,x,y){
-			super(scope,x,y);
-			this.velocity=new gameUtils.datatypes.vec2();
-			
-			this.collision=null;
-			
-			this.statHealthMax=0;
-			this.statHealth=0;
-		}
-	},
-	PlayerCharacter : class extends gamePlayers.Character{
-		constructor(scope,x,y){
-			super(scope,x,y);
-			this.powerup=0;
-			this.powerupTime=0;
-		}
-		
-		update(){
-			
-		}
-		
-		render(){
-			
-		}
-		
-		
-	},
-	EnemyCharacter : class extends gamePlayers.Character{
-		constructor(scope,x,y){
-			super(scope,x,y);
-		}
-	}
-}
-
-
 
 
 
