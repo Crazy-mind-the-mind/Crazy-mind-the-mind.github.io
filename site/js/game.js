@@ -485,8 +485,14 @@ function Game(w, h, targetFps, showFps) {
 	this.render = game.render.gameRender(this);
 	this.events = game.events.gameEvents(this);
 	this.loop = game.loop.gameLoop(this);
+	this.state['entities']=[];
+
+	let player = new gamePlayers.PlayerCharacter(this,
+		this.constants.width/2,
+		this.constants.height/2);
 	
-	
+	this.state['entities'];
+
 	
 	console.log('Engine set up');
 
