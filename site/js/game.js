@@ -3,6 +3,7 @@ var $container = document.getElementById('container');
 
 
 const gameUtils = function (){
+	var gameUtils=this;
     this.canvas= function(){
         this.getPixelRatio = function(context) {
             console.log("Determining pixel ratio.");
@@ -210,7 +211,7 @@ const gameUtils = function (){
 
 const gamePlayers = function(){
 	var gamePlayers=this;
-	this.Entity=class {
+	gamePlayers.Entity=class {
 		constructor(scope,x,y){
 			this.scope=scope;
 			this.position=new gameUtils.datatypes.vec2();
@@ -224,7 +225,7 @@ const gamePlayers = function(){
 			return;
 		}
 	};
-	this.ParallaxLayer=class extends Entity{
+	gamePlayers.ParallaxLayer=class extends Entity{
 		constructor(scope,x,y){
 			super(scope,x,y)
 			this.parallaxScale={
@@ -243,7 +244,7 @@ const gamePlayers = function(){
 			
 		}
 	};
-	this.Projectile=class extends gamePlayers.Entity{
+	gamePlayers.Projectile=class extends gamePlayers.Entity{
 		constructor(scope,x,y){
 			super(scope,x,y);
 			this.velocity=new gameUtils.datatypes.vec2();
@@ -252,7 +253,7 @@ const gamePlayers = function(){
 			
 		}
 	};
-	this.Character=class extends gamePlayers.Entity{
+	gamePlayers.Character=class extends gamePlayers.Entity{
 		constructor(scope,x,y){
 			super(scope,x,y);
 			this.velocity=new gameUtils.datatypes.vec2(0,0);
@@ -263,7 +264,7 @@ const gamePlayers = function(){
 			this.statHealth=0;
 		}
 	};
-	this.PlayerCharacter=class extends gamePlayers.Character{
+	gamePlayers.PlayerCharacter=class extends gamePlayers.Character{
 		constructor(scope,x,y){
 			super(scope,x,y);
 			this.powerup=0;
@@ -280,27 +281,27 @@ const gamePlayers = function(){
 		
 		
 	};
-	this.EnemyCharacter=class extends gamePlayers.Character{
+	gamePlayers.EnemyCharacter=class extends gamePlayers.Character{
 		constructor(scope,x,y){
 			super(scope,x,y);
 		}
 	};
-	this.NormalEnemyCharacter=class extends gamePlayers.EnemyCharacter{
+	gamePlayers.NormalEnemyCharacter=class extends gamePlayers.EnemyCharacter{
 		constructor(scope,x,y){
 			super(scope,x,y)
 		}
 	};
-	this.WobblerEnemyCharacter=class extends gamePlayers.EnemyCharacter{
+	gamePlayers.WobblerEnemyCharacter=class extends gamePlayers.EnemyCharacter{
 		constructor(scope,x,y){
 			super(scope,x,y)
 		}
 	};
-	this.TankEnemyCharacter=class extends gamePlayers.EnemyCharacter{
+	gamePlayersgamePlayers.TankEnemyCharacter=class extends gamePlayers.EnemyCharacter{
 		constructor(scope,x,y){
 			super(scope,x,y)
 		}
 	};
-	return this;
+	return gamePlayers;
 }();
 
 const game={
