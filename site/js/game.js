@@ -42,7 +42,13 @@ const gameUtils = {
             return canvas;
         }
     }
-    
+    datatypes:{
+    	Vec2 : function Vec2(x,y){
+    		var x=0,y=0
+    		
+    		return this;
+    	}
+    }
 };
 
 const game={
@@ -166,6 +172,9 @@ const game={
         }
     },
 }
+
+
+
 
 
 
