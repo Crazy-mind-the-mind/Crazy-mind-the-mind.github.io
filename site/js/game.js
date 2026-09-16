@@ -87,11 +87,18 @@ const gameUtils = {
     	
     	sort: function sort(array,comp){
 			
+			let swapElements(a,b){
+				let temp=array[a];
+				array[a]=array[b];
+				array[b]=temp
+			}
 			let sortCycle= function (){
 				for (let element=0;;element++){
 					var compRes=comp(array[element],array[element+1]);
 				}
 			}
+			
+			
 			
 			let isSorted(){
 				for (let element = 0;; element++){
