@@ -43,10 +43,11 @@ const gameUtils = {
         }
     }
     datatypes:{
-    	Vec2 : function Vec2(x,y){
-    		var x=0,y=0
-    		
-    		return this;
+    	vec2 : function vec2(x,y){
+    		var vec2=this;
+    		vec2.x=x;
+    		vec2.y=y;
+    		return vec2;
     	}
     }
 };
