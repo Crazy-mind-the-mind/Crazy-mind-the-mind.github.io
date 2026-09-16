@@ -47,8 +47,33 @@ const gameUtils = {
     		var vec2=this;
     		vec2.x=x;
     		vec2.y=y;
+    		vec2.normalized=function normalized(){
+    			
+    		}
     		return vec2;
+    	},
+    	rect2: function rect2(x,y,w,h){
+    		var rect2=this;
+    		rect2.origin=new gameUtils.datatypes.vec2();
+    		rect2.size=new gameUtils.datatypes.vec2
+    		rect2.intersects_point=function intersects_point(point){
+    			return ((point.x <= rect2.origin.x+rect2.size.x &&
+    					point.x >= rect2.origin.x) &&
+    					(point.y <= rect2.origin.y+rect2.size.y &&
+    					point.y >= rect2.origin.y)
+    					);
+    		};
+    		rect2.intersects_rect=function intersects_rect(rect){
+    			return (
+    				(rect2.intersects_point(new gameUtils.datatypes.vec2(rect.origin.x,rect.origin.y))) &&
+    				(rect2.intersects_point(new gameUtils.datatypes.vec2(rect.origin.x,rect.origin.y)))
+    				(rect2.intersects_point(new gameUtils.datatypes.vec2(rect.origin.x,rect.origin.y)))
+    				(rect2.intersects_point(new gameUtils.datatypes.vec2(rect.origin.x,rect.origin.y))) 
+    				);
+    		}
+    		return rect2;
     	}
+    	
     }
 };
 
@@ -176,39 +201,61 @@ const game={
 
 
 
-
-
-
-class Entity{
-	constructor(){
+const gamePlayers={
+	Entity: class {
+		constructor(){
+			this.position=new gameUtils.datatypes.vec2();
+		}
+		update(){
+			return;
+		}
+		render(){
+			return;
+		}
+	},
+	Projectile: class extends gamePlayers.Entity(){
+		constructor(){
+			super();
+			this.velocity=new gameUtils.datatypes.vec2();
+		}
+	},
+	Character : class extends gamePlayers.Entity(){
+		constructor(){
+			super();
+			this.velocity=new gameUtils.datatypes.vec2();
+			
+			this.statHealthMax=0;
+			this.statHealth=0;
+		}
+	},
+	PlayerCharacter : class extends gamePlayers.Character{
+		constructor(){
+			super()
+			this.powerup=0;
+			this.powerupTime=0;
+		}
 		
+		update(){
+			
+		}
+		
+		render(){
+			
+		}
+		
+		
+	},
+	EnemyCharacter : class extends gamePlayers.Character{
+		constructor(){
+			super()
+		}
 	}
 }
 
-class Projectile extends Entity{
-	constructor(){
-		
-	}
-}
 
 
 
-class Character extends Entity{
-	constructor(){
-		
-	}
-}
 
-class PlayerCharacter extends Character{
-	constructor(){
-		
-	}
-}
-
-
-class EnemyCharacter extends Character{
-	
-}
 
 
 
