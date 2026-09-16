@@ -87,24 +87,39 @@ const gameUtils = {
     },
     collision:{
     	CollisionAbstract : class {
-    		constructor(){
+    		constructor(position){
+    			this.position=position
+    		}
+    		
+    		intersects_with(collision){
+    			return false
+    		}
+    	}
+    	RectCollision : class extends CollisionAbstract{
+    		constructor(position,extents){
+    			super(position);
+    			this.extents=extents
+    			this.rect=new gameUtils.datatypes.rect2(
+    				this.position.x,
+    				this.position.y,
+    				this.extents.x,
+    				this.extents.y
+    				);
     			
     		}
     		
     		intersects_with(collision){
-    			
-    		}
-    	}
-    	RectCollision : class extends CollisionAbstract{
-    		constructor(){
-    			
+    			return false;
     		}
     	}
     	CircleCollision : class extends CollisionAbstract{
-    		constructor(){
-    			
+    		constructor(radius){
+    			super(position);
+    			this.radius=radius;
     		}
-    		
+    		intersects_with(collision){
+    			return false;
+    		}
     	}
     }
 };
