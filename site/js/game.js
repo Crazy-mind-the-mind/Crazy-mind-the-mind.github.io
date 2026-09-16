@@ -108,53 +108,33 @@ const gameUtils = function () {
 		};
 		ui.UINode = class {
 
-			constructor(scope,parent) {
-				this.scope = scope;
-				this.parent = parent;
-				this.transform={
-					translation:{
-						x:{offset:0,scale:0},
-						y:{offset:0,scale:0},
-					},
-					scale:{
-						x:{offset:0,scale:0},
-						y:{offset:0,scale:0},
-					},
-				};
-			}
-			render() {
-
-			}
-		};
-		
-		ui.UIProgressBar=class extends ui.UINode{
 			constructor(parent) {
-				super(parent)
-				
+				this.parent = parent;
 			}
-			render() {
-				this.scope.context;
-			}
-		}
-
+			render() {}
+		};
 		return ui;
 	}();
 	gameUtils.helper = function() {
-		var helper = this;
+		var helper=this;
 		helper.isInRange = function isInRange(v, min, max) {
-			return v>=min && v<=max;
+			return v>==min && v<==max;
 		};
-
-		helper.drawRect= function(ctx,rect,color){
-			ctx.fillStyle=color;
-			ctx.fillRect(
-				rect.origin.x,
-				rect.origin.y,
-				rect.size.x,
-				rect.size.y,
-			);
-
-		}
+		
+		helper.canvas=function(){
+			var canvas=this;
+			canvas.render_rect=function(scope,rect,color){
+				scope.context.fillStyle="";
+				scope.context.fillRect(
+					rect.origin.x,
+					rect.origin.y,
+					rect.size.x,
+					rect.size.y
+				)
+			};
+			return canvas;
+			
+		}();
 		return helper;
 	}();
 	gameUtils.collision = function() {
@@ -284,15 +264,7 @@ const gamePlayers = function() {
 		update() {}
 
 		render() {
-			var plrrect=rect2(
-				this.position.x,
-				this.position.y,
-				30,
-				30
-			);
 			var renderer=this.scope.render;
-			gameUtils.helper.render.drawRect(this.scope.context,plrrect,"rgba(0,1,0,1)");
-
 		}
 
 
@@ -340,7 +312,7 @@ const game = {
 	},
 	render: {
 		gameRender: function gameRender(scope) {
-			var w = scope.constants.width,
+			let w = scope.constants.width,
 			h = scope.constants.height;
 
 			return function render() {
@@ -376,43 +348,42 @@ const game = {
 	},
 	loop: {
 		gameLoop: function gameLoop(scope) {
-			var loop = this;
+			let loop = this;
 
-			var fps = scope.constants.targetFps,
-				fpsInterval = 1000 / fps,
-				before = window.performance.now(),
+			let fps = scope.constants.targetFps,
+			fpsInterval = 1000 / fps,
+			before = window.performance.now(),
 
 
-				cycles = {
-					new: {
-						frameCount: 0,
-						startTime: before,
-						sinceStart: 0
-					},
-					old: {
-						frameCount: 0,
-						startTime: before,
-						sineStart: 0
-					}
+			cycles = {
+				new: {
+					frameCount: 0,
+					startTime: before,
+					sinceStart: 0
 				},
-				resetInterval = 5,
-				resetState = 'new';
+				old: {
+					frameCount: 0,
+					startTime: before,
+					sineStart: 0
+				}
+			},
+			resetInterval = 5,
+			resetState = 'new';
 
-			loop.fps = 0;	
+			loop.fps = 0
 
 			loop.main = function mainLoop(tframe) {
-				loop.stopLoop = window.requestAnimationFrame( loop.main );
-				
+				loop.stopLoop = window.requestAnimationFrame(loop.main);
 				var now = tframe,
-					elapsed = now - before,
-					activeCycle, targetResetInterval;
+				elapsed = now - before,
+				activeCycle,
+				targetResetInterval;
 
 				if (elapsed > fpsInterval) {
-					//console.log("Frame change");
 					before = now - (elapsed % fpsInterval);
 					scope.update(now);
 					scope.render();
-					//scope.events.eventSystem();
+					scope.events();
 				}
 
 				before = now - (elapsed % fpsInterval);
@@ -443,7 +414,7 @@ const game = {
 
 
 
-			loop.main(0);
+			loop.main();
 
 			return loop;
 		}
@@ -464,22 +435,16 @@ function Game(w, h, targetFps, showFps) {
 	this.state = {};
 
 	this.viewport = gameUtils.canvas.generateCanvas(w, h);
-	this.viewport.id = "game-viewport";
+	this.viewport.id = "gameViewport";
 
 	this.context = this.viewport.getContext('2d');
 
 	$container.insertBefore(this.viewport, $container.firstChild);
 
-	
-
 
 	this.context.font = '32px Arial';
 	this.context.fillStyle = '#fff';
-	console.log('Starting Engine');
-
 	this.context.fillText('man, i need a sandwich', 5, 50);
-
-	console.log('Starting Engine');
 
 	this.update = game.update.gameUpdate(this);
 	this.render = game.render.gameRender(this);
@@ -496,6 +461,7 @@ function Game(w, h, targetFps, showFps) {
 	
 	console.log('Engine set up');
 
+	game.loop.gameLoop(this)
 	return this;
 }
 
