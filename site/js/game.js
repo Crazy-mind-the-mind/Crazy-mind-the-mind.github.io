@@ -92,6 +92,8 @@ const gameUtils = {
     		}
     		
     		intersects_with(collision){
+    			
+    			
     			return false
     		}
     	}
@@ -109,7 +111,17 @@ const gameUtils = {
     		}
     		
     		intersects_with(collision){
-    			return false;
+    			let result=false
+    			if (collision instanceof gameUtils.collision.RectCollision){
+    				
+    			}
+    			else if (collision instanceof gameUtils.collision.CircleCollision ){
+    				
+    			}
+    			else{
+    				
+    			}
+    			return result;
     		}
     	}
     	CircleCollision : class extends CollisionAbstract{
@@ -118,7 +130,17 @@ const gameUtils = {
     			this.radius=radius;
     		}
     		intersects_with(collision){
-    			return false;
+    			let result=false;
+    			if (collision instanceof gameUtils.collision.RectCollision){
+    				
+    			}
+    			else if (collision instanceof gameUtils.collision.CircleCollision ){
+    				
+    			}
+    			else{
+    				
+    			}
+    			return result;
     		}
     	}
     }
@@ -250,8 +272,9 @@ const game={
 
 const gamePlayers={
 	Entity: class {
-		constructor(){
+		constructor(scope,x,y){
 			this.position=new gameUtils.datatypes.vec2();
+			this.z_index=0;
 		}
 		update(){
 			return;
@@ -260,24 +283,29 @@ const gamePlayers={
 			return;
 		}
 	},
+	ParallaxLayer: class {
+		
+	}
 	Projectile: class extends gamePlayers.Entity(){
-		constructor(){
-			super();
+		constructor(scope,x,y){
+			super(scope,x,y);
 			this.velocity=new gameUtils.datatypes.vec2();
 		}
 	},
 	Character : class extends gamePlayers.Entity(){
-		constructor(){
-			super();
+		constructor(scope,x,y){
+			super(scope,x,y);
 			this.velocity=new gameUtils.datatypes.vec2();
+			
+			this.collision=null;
 			
 			this.statHealthMax=0;
 			this.statHealth=0;
 		}
 	},
 	PlayerCharacter : class extends gamePlayers.Character{
-		constructor(){
-			super()
+		constructor(scope,x,y){
+			super(scope,x,y);
 			this.powerup=0;
 			this.powerupTime=0;
 		}
@@ -293,8 +321,8 @@ const gamePlayers={
 		
 	},
 	EnemyCharacter : class extends gamePlayers.Character{
-		constructor(){
-			super()
+		constructor(scope,x,y){
+			super(scope,x,y);
 		}
 	}
 }
