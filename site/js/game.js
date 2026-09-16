@@ -43,7 +43,8 @@ const gameUtils = function (){
         return this;
     };
     this.datatypes= function(){
-    	this.vec2=function(x,y){
+    	var datatypes=this;
+    	datatypes.vec2=function(x,y){
     		var vec2=this;
     		vec2.x=x;
     		vec2.y=y;
@@ -52,7 +53,7 @@ const gameUtils = function (){
     		}
     		return vec2;
     	};
-    	this.rect2=function(x,y,w,h){
+    	datatypes.rect2=function(x,y,w,h){
     		var rect2=this;
     		rect2.origin=new gameUtils.datatypes.vec2();
     		rect2.size=new gameUtils.datatypes.vec2
@@ -78,19 +79,19 @@ const gameUtils = function (){
     		
     		return rect2;
     	};
-    	this.transform2=function (x,y,w,h){
+    	datatypes.transform2=function (x,y,w,h){
     		var transform2=this;
     		
     		
     		return transform2;
     	};
-      this.Sprite=class Sprite{
+    	datatypes.Sprite=class Sprite{
     		constructor(w,h){
 
 			  }
 			
     	};
-		  this.Animation= class Animation{
+		datatypes.Animation= class Animation{
         constructor(w,h){
           this.frames=[];
           
@@ -100,7 +101,7 @@ const gameUtils = function (){
 
         }
 		  };
-      return this;
+    	return datatypes;
     };
     this.ui= function(){
 		  this.UIRoot=function(){
@@ -126,7 +127,8 @@ const gameUtils = function (){
       return this;		
     };
     this.collision=function(){
-    	this.collisionSystem=function(){
+    	var collision=this;
+    	collision.collisionSystem=function(){
     		var collision_groups={
     			
     		};
@@ -136,7 +138,7 @@ const gameUtils = function (){
     		};
     		return this
     	};
-    	this.CollisionAbstract = class {
+    	collision.CollisionAbstract = class {
     		constructor(position){
     			this.position=position
     		}
@@ -147,7 +149,7 @@ const gameUtils = function (){
     			return false
     		}
     	};
-    	this.RectCollision=class extends gameUtils.collision.CollisionAbstract{
+    	collision.RectCollision=class extends collision.CollisionAbstract{
     		constructor(position,extents){
     			super(position);
     			this.extents=extents
@@ -174,7 +176,7 @@ const gameUtils = function (){
     			return result;
     		}
     	};
-    	this.CircleCollision=class extends gameUtils.collision.CollisionAbstract{
+    	collision.CircleCollision=class extends collision.CollisionAbstract{
     		constructor(radius){
     			super(position);
     			this.radius=radius;
@@ -193,20 +195,21 @@ const gameUtils = function (){
     			return result;
     		}
     	};
-      return this;
+    	return collision;
     };
-	  this.events=function(){
+	this.events=function(){
 		this.eventSystem = function eventSystem(){
 			var eventSystem=this
 			
 			return this;
 		};
-    return this;
+    	return this;
 	  };
 	return this;
 }();
 
 const gamePlayers = function(){
+	var gamePlayers=this;
 	this.Entity=class {
 		constructor(scope,x,y){
 			this.scope=scope;
