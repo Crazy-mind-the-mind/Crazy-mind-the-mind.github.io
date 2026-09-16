@@ -84,6 +84,12 @@ const gameUtils = {
     	isInRange: function isInRange(v,min,max){
     		return v>=min && v<=max;
     	}
+    	
+    	sort: function sort(array,comp){
+    		
+    		
+    		
+    	}
     },
     collision:{
     	CollisionAbstract : class {
