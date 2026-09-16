@@ -169,6 +169,42 @@ const game={
 
 
 
+class Entity{
+	constructor(){
+		
+	}
+}
+
+class Projectile extends Entity{
+	constructor(){
+		
+	}
+}
+
+
+
+class Character extends Entity{
+	constructor(){
+		
+	}
+}
+
+class PlayerCharacter extends Character{
+	constructor(){
+		
+	}
+}
+
+
+class EnemyCharacter extends Character{
+	
+}
+
+
+
+
+
+
 function Game(w,h,targetFps,showFps){
     this.constants={
         width: w,
