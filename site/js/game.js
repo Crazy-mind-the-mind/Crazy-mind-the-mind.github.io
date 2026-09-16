@@ -86,8 +86,23 @@ const gameUtils = {
     	}
     	
     	sort: function sort(array,comp){
-    		
-    		
+			
+			let sortCycle= function (){
+				for (let element=0;;element++){
+					var compRes=comp(array[element],array[element+1]);
+				}
+			}
+			
+			let isSorted(){
+				for (let element = 0;; element++){
+					var compRes=comp(array[element],array[element+1]);
+				}
+			}
+			
+			while (!isSorted()){
+				sortCycle();
+			}
+			    		
     		
     	}
     },
