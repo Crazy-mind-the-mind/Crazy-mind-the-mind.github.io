@@ -297,12 +297,12 @@ const game={
             
             if (scope.state.hasOwnProperty('entities')) {
                 let entities = scope.state.entities;
-                let entitiesZOrdered=scope.state.entities.duplicate();
+                let entitiesDrawQueue=entities.duplicate();
                 
                 
-                for (let entity in entitiesZOrdered) {
-                    if (!(entitiesZOrdered[entity] instanceof gamePlayers.Entity)) continue;
-                    entitiesZOrdered[entity].render();
+                for (let entity in entitiesDrawQueue) {
+                    if (!(entitiesDrawQueue[entity] instanceof gamePlayers.Entity)) continue;
+                    entitiesDrawQueue[entity].render();
                 }
             }    
             }
