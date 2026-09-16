@@ -24,7 +24,6 @@ const gameUtils = {
 
             return deviceRatio / backingRatio;
         },
-    
         generateCanvas : function generateCanvas(w, h) {
             console.log('Generating canvas.');
 
@@ -78,47 +77,40 @@ const gameUtils = {
     		}
     		
     		return rect2;
-    	}
+    	},
+    	transform2: function transform2(x,y,w,h){
+    		var transform2=this;
+    		
+    		
+    		return transform2;
+    	},
     	Sprite: function Sprite(w,h){
     		var Sprite = this;
     		
     		return Sprite;
-    	}
+    	},
+    },
+    ui:{
+    	
     },
     helper:{
     	isInRange: function isInRange(v,min,max){
     		return v>=min && v<=max;
-    	}
-    	
-    	sort: function sort(array,comp){
-			
-			let swapElements(a,b){
-				let temp=array[a];
-				array[a]=array[b];
-				array[b]=temp
-			}
-			let sortCycle= function (){
-				for (let element=0;;element++){
-					var compRes=comp(array[element],array[element+1]);
-				}
-			}
-			
-			
-			
-			let isSorted(){
-				for (let element = 0;; element++){
-					var compRes=comp(array[element],array[element+1]);
-				}
-			}
-			
-			while (!isSorted()){
-				sortCycle();
-			}
+    	},
 			    		
     		
-    	}
-    },
+    	},
     collision:{
+    	collisionSystem: function collisionSystem(){
+    		var collision_groups={
+    			
+    		}
+    		
+    		this.check_collisions_for(){
+    			
+    		}
+    		return this
+    	},
     	CollisionAbstract : class {
     		constructor(position){
     			this.position=position
@@ -129,7 +121,7 @@ const gameUtils = {
     			
     			return false
     		}
-    	}
+    	},
     	RectCollision : class extends CollisionAbstract{
     		constructor(position,extents){
     			super(position);
@@ -156,7 +148,7 @@ const gameUtils = {
     			}
     			return result;
     		}
-    	}
+    	},
     	CircleCollision : class extends CollisionAbstract{
     		constructor(radius){
     			super(position);
@@ -175,8 +167,16 @@ const gameUtils = {
     			}
     			return result;
     		}
-    	}
-    }
+    	},
+    },
+	events:{
+		eventSystem : function eventSystem(){
+			var eventSystem=this
+			
+			return this;
+		},
+	},
+	
 };
 
 const gamePlayers={
@@ -216,6 +216,9 @@ const gamePlayers={
 		constructor(scope,x,y){
 			super(scope,x,y);
 			this.velocity=new gameUtils.datatypes.vec2();
+			this.owner=null;
+			this.damage=0;
+			
 		}
 	},
 	Character : class extends gamePlayers.Entity(){
@@ -250,7 +253,7 @@ const gamePlayers={
 		constructor(scope,x,y){
 			super(scope,x,y);
 		}
-	}
+	},
 }
 
 
@@ -294,7 +297,7 @@ const game={
             
             if (scope.state.hasOwnProperty('entities')) {
                 let entities = scope.state.entities;
-                let entitiesZOrdered=[]
+                let entitiesZOrdered=scope.state.entities.duplicate();
                 
                 
                 for (let entity in entitiesZOrdered) {
