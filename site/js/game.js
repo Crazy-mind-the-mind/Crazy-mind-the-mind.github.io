@@ -140,10 +140,22 @@ const gameUtils = function () {
 		return ui;
 	}();
 	gameUtils.helper = function() {
-		this.isInRange = function isInRange(v, min, max) {
+		var helper = this;
+		helper.isInRange = function isInRange(v, min, max) {
 			return v>=min && v<=max;
 		};
-		return this;
+
+		helper.drawRect= function(ctx,rect,color){
+			ctx.fillStyle=color;
+			ctx.fillRect(
+				rect.origin.x,
+				rect.origin.y,
+				rect.size.x,
+				rect.size.y,
+			);
+
+		}
+		return helper;
 	}();
 	gameUtils.collision = function() {
 		var collision = this;
@@ -272,7 +284,15 @@ const gamePlayers = function() {
 		update() {}
 
 		render() {
+			var plrrect=rect2(
+				this.position.x,
+				this.position.y,
+				30,
+				30
+			);
 			var renderer=this.scope.render;
+			gameUtils.helper.render.drawRect(this.scope.context,plrrect,"rgba(0,1,0,1)");
+
 		}
 
 
@@ -465,6 +485,7 @@ function Game(w, h, targetFps, showFps) {
 	this.render = game.render.gameRender(this);
 	this.events = game.events.gameEvents(this);
 	this.loop = game.loop.gameLoop(this);
+	
 	
 	
 	console.log('Engine set up');
