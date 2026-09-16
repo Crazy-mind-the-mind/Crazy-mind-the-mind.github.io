@@ -2,10 +2,9 @@
 var $container = document.getElementById('container');
 
 
-const gameUtils = {
-    
-    canvas:{
-        getPixelRatio: function getPixelRatio(context) {
+const gameUtils = function (){
+    this.canvas= function(){
+        this.getPixelRatio = function(context) {
             console.log("Determining pixel ratio.");
             
             var backingStores=[
@@ -24,7 +23,7 @@ const gameUtils = {
 
             return deviceRatio / backingRatio;
         },
-        generateCanvas : function generateCanvas(w, h) {
+        this.generateCanvas = function(w, h) {
             console.log('Generating canvas.');
 
             var canvas = document.createElement('canvas'),
@@ -41,9 +40,10 @@ const gameUtils = {
 
             return canvas;
         }
-    },
-    datatypes:{
-    	vec2 : function vec2(x,y){
+        return this;
+    };
+    this.datatypes= function(){
+    	this.vec2=function(x,y){
     		var vec2=this;
     		vec2.x=x;
     		vec2.y=y;
@@ -51,8 +51,8 @@ const gameUtils = {
     			
     		}
     		return vec2;
-    	},
-    	rect2: function rect2(x,y,w,h){
+    	};
+    	this.rect2=function(x,y,w,h){
     		var rect2=this;
     		rect2.origin=new gameUtils.datatypes.vec2();
     		rect2.size=new gameUtils.datatypes.vec2
@@ -77,41 +77,66 @@ const gameUtils = {
     		}
     		
     		return rect2;
-    	},
-    	transform2: function transform2(x,y,w,h){
+    	};
+    	this.transform2=function (x,y,w,h){
     		var transform2=this;
     		
     		
     		return transform2;
-    	},
-    	Sprite: function Sprite(w,h){
-    		var Sprite = this;
-    		
-    		return Sprite;
-    	},
-    },
-    ui:{
-    	
-    },
-    helper:{
-    	isInRange: function isInRange(v,min,max){
+    	};
+      this.Sprite=class Sprite{
+    		constructor(w,h){
+
+			  }
+			
+    	};
+		  this.Animation= class Animation{
+        constructor(w,h){
+          this.frames=[];
+          
+        }
+
+        getNextFrame(){
+
+        }
+		  };
+      return this;
+    };
+    this.ui= function(){
+		  this.UIRoot=function(){
+		  };
+		  this.UINode=class {
+			  constructor(parent){
+				  this.parent=parent;
+			  }
+			  render(){
+
+			  }
+      };
+		  this.UIPanel=class{
+		  };
+    	this.UILabel=class {
+		  };
+      return this;
+    };
+    this.helper=function(){
+    	this.isInRange=function isInRange(v,min,max){
     		return v>=min && v<=max;
-    	},
-			    		
-    		
-    	},
-    collision:{
-    	collisionSystem: function collisionSystem(){
+    	};
+      return this;		
+    };
+    this.collision=function(){
+    	this.collisionSystem=function(){
     		var collision_groups={
     			
-    		}
+    		};
     		
-    		this.check_collisions_for(){
+    		this.check_collisions_for= function check_collisions_for(){
     			
-    		}
+    		};
     		return this
-    	},
-    	CollisionAbstract : class {
+    	};
+    	this.CollisionAbstract = class {
     		constructor(position){
     			this.position=position
     		}
@@ -121,8 +146,8 @@ const gameUtils = {
     			
     			return false
     		}
-    	},
-    	RectCollision : class extends CollisionAbstract{
+    	};
+    	this.RectCollision=class extends gameUtils.collision.CollisionAbstract{
     		constructor(position,extents){
     			super(position);
     			this.extents=extents
@@ -148,8 +173,8 @@ const gameUtils = {
     			}
     			return result;
     		}
-    	},
-    	CircleCollision : class extends CollisionAbstract{
+    	};
+    	this.CircleCollision=class extends gameUtils.collision.CollisionAbstract{
     		constructor(radius){
     			super(position);
     			this.radius=radius;
@@ -167,21 +192,24 @@ const gameUtils = {
     			}
     			return result;
     		}
-    	},
-    },
-	events:{
-		eventSystem : function eventSystem(){
+    	};
+      return this;
+    };
+	  this.events=function(){
+		this.eventSystem = function eventSystem(){
 			var eventSystem=this
 			
 			return this;
-		},
-	},
-	
-};
+		};
+    return this;
+	  };
+	return this;
+}();
 
-const gamePlayers={
-	Entity: class {
+const gamePlayers=function(){
+	this.Entity=class {
 		constructor(scope,x,y){
+			this.scope=scope;
 			this.position=new gameUtils.datatypes.vec2();
 			this.z_index=0;
 			this.texture=null;
@@ -192,16 +220,16 @@ const gamePlayers={
 		render(){
 			return;
 		}
-	},
-	ParallaxLayer: class {
+	};
+	this.ParallaxLayer=class extends CustomElementRegistry{
 		constructor(scope,x,y){
-			super(scope,x,y){
+			super(scope,x,y)
 			this.parallaxScale={
 					scale:gameUtils.datatypes.vec2(0,0),
 					offset:gameUtils.datatypes.vec2(0,0),
 					repeat:gameUtils.datatypes.vec2(0,0),
 				}	
-			}
+			
 		}
 		
 		update(){
@@ -211,8 +239,8 @@ const gamePlayers={
 		render(){
 			
 		}
-	}
-	Projectile: class extends gamePlayers.Entity(){
+	};
+	this.Projectile=class extends gamePlayers.Entity(){
 		constructor(scope,x,y){
 			super(scope,x,y);
 			this.velocity=new gameUtils.datatypes.vec2();
@@ -220,8 +248,8 @@ const gamePlayers={
 			this.damage=0;
 			
 		}
-	},
-	Character : class extends gamePlayers.Entity(){
+	};
+	this.Character=class extends gamePlayers.Entity(){
 		constructor(scope,x,y){
 			super(scope,x,y);
 			this.velocity=new gameUtils.datatypes.vec2();
@@ -231,8 +259,8 @@ const gamePlayers={
 			this.statHealthMax=0;
 			this.statHealth=0;
 		}
-	},
-	PlayerCharacter : class extends gamePlayers.Character{
+	};
+	this.PlayerCharacter=class extends gamePlayers.Character{
 		constructor(scope,x,y){
 			super(scope,x,y);
 			this.powerup=0;
@@ -248,13 +276,29 @@ const gamePlayers={
 		}
 		
 		
-	},
-	EnemyCharacter : class extends gamePlayers.Character{
+	};
+	this.EnemyCharacter=class extends gamePlayers.Character{
 		constructor(scope,x,y){
 			super(scope,x,y);
 		}
-	},
-}
+	};
+	this.NormalEnemyCharacter=class extends gamePlayers.EnemyCharacter{
+		constructor(scope,x,y){
+			super(scope,x,y)
+		}
+	};
+	this.WobblerEnemyCharacter=class extends gamePlayers.EnemyCharacter{
+		constructor(scope,x,y){
+			super(scope,x,y)
+		}
+	};
+	this.TankEnemyCharacter=class extends gamePlayers.EnemyCharacter{
+		constructor(scope,x,y){
+			super(scope,x,y)
+		}
+	};
+	return this;
+}();
 
 
 
@@ -308,6 +352,11 @@ const game={
             }
         }
     },
+	events:{
+		gameEvents:function gameEvents(scope){
+			
+		}
+	},
     loop:{
         gameLoop:function gameLoop(scope){
                 let loop = this;
@@ -344,6 +393,7 @@ const game={
                         before = now - (elapsed % fpsInterval);
                         scope.update( now );
                         scope.render();
+						scope.events();
                     }
 
                     before = now - (elapsed % fpsInterval);
@@ -414,8 +464,9 @@ function Game(w,h,targetFps,showFps){
 
     this.update=game.update.gameUpdate(this);
     this.render=game.render.gameRender(this);
-    this.loop=game.loop.gameLoop(this);
-
+    this.events=game.events.gameEvents(this);
+	this.loop=game.loop.gameLoop(this);
+	
     game.loop.gameLoop(this)
     return this;
 }
