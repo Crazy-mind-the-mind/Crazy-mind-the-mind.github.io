@@ -8,20 +8,24 @@ export function gameRender(scope) {
 			h = scope.constants.height;
 
 			return function render() {
+				
+				scope.context.imageSmoothingEnabled = false;
 				scope.context.clearRect(0, 0, w, h);
 
 
-				scope.context.font = '32px Arial';
+				scope.context.font = '16px Arial';
+				scope.context.font
 				scope.context.fillStyle = '#fff';
-				scope.context.fillText('It\'s dangerous to travel this route alone.', 5, 50);
+				//scope.context.fillText('It\'s dangerous to travel this route alone.', 5, 50);
 				
 
 				if (scope.constants.showFps) {
 					scope.context.fillStyle = '#ff0';
 					scope.context.fillText(scope.loop.fps, w - 100, 50);
 				}
-
-
+				scope.context.save()
+				scope.context.scale(4,4)
+				//scope.context.translate(scope.constants.width/4,scope.constants.height/4);
 				if (scope.state.hasOwnProperty('entities')) {
 					var entities = scope.state.entities;
 					var entitiesDrawOrder = generateDrawOrderList(entities);
@@ -34,7 +38,7 @@ export function gameRender(scope) {
 						entities[entity].render();
 						}
 						catch (error){
-							//console.error(error);
+							console.error("Error rendering entity :",entity,error);
 							continue
 						}
 					}
@@ -52,9 +56,12 @@ export function gameRender(scope) {
 				//	}
 				//}
 
-				
 				if (scope.state.hasOwnProperty('ui')){
 
 				}
+
+				scope.context.restore()
+				
+
 			}
 }

@@ -3,6 +3,7 @@ import { gameRender } from "./core/game.render.mjs";
 import { gameLoop } from "./core/game.loop.mjs";
 import { gameSetup } from "./core/game.setup.mjs";
 import { generateCanvas , generateDrawOrderList} from "./utils/canvas.mjs";
+import { vec2 } from "./utils/dataTypes.mjs";
 
 
 
@@ -25,6 +26,7 @@ function Game(w, h, targetFps, showFps) {
 	}
 
 	this.state = {
+		'cameraScroll':new vec2(0,0),
 		'entities':[],
 	};
 
@@ -38,7 +40,7 @@ function Game(w, h, targetFps, showFps) {
 	
 
 
-	this.context.font = '32px Arial';
+	this.context.font = '8px Arial';
 	this.context.fillStyle = '#fff';
 	console.log('Starting Game');
 
@@ -68,4 +70,4 @@ function Game(w, h, targetFps, showFps) {
 }
 
 
-window.game = new Game(800, 600, 60, true);
+window.game = new Game(1920 , 1080 , 60, true);

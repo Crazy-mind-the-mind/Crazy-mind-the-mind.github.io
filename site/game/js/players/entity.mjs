@@ -6,14 +6,19 @@ import { loadTexture } from "../utils/helper.mjs";
 export class Entity{
     constructor(scope, x, y) {
 			this.scope = scope;
-			this.transform=new transform2(x,y)
+			this.transform=new transform2(x,y,1,1)
 			this.z_index = 0;
-			this.texture = new Texture();
+			this.texture;
 			this.renderable;
+			this.loadAssets()
 		}
 
 	async loadAssets(){
 		
+	}
+	
+	destroySelf(){
+		delete this;
 	}
 	update() {
 		return this;

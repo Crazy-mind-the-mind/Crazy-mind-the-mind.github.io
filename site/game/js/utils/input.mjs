@@ -1,6 +1,10 @@
 
 export var isPressed = {}
 
+export var isJustPressed = {}
+export var isJustReleased = {}
+
+
 export function keysDown() {
     var left, right, up, down, shoot;
 
@@ -20,7 +24,7 @@ export function keysDown() {
         if (ev.key === "ArrowLeft") { left = false; }
         if (ev.key === "ArrowUp") { up = false; }
         if (ev.key === "ArrowDown") { down = false; }
-        if (ev.key === " ") {shoot = true; }
+        if (ev.key === " ") {shoot = false; }
 
     };
 

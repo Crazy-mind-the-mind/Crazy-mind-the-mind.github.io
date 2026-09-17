@@ -1,0 +1,35 @@
+
+html, body {
+    margin: 0;
+    height: 100%;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+#game-viewport{
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    box-sizing: content-box;
+    image-rendering: smooth;
+    image-rendering: crisp-edges;
+    background: #000000;
+    object-fit: contain;
+    
+}
+
+#container{
+    box-sizing: content-box;
+    width: 100vw;
+    height: 100vh;
+    padding: 0px;
+    margin: 0px;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    object-fit: contain;
+
+}

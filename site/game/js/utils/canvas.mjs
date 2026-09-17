@@ -30,7 +30,7 @@ export function generateCanvas(w, h) {
 
 			var ratio = getPixelRatio(context);
 
-
+			//var gameSzMul=Math.max(document.body.clientWidth,document.body.clientHeight) / Math.max(w,h)
 			canvas.width = Math.round(w * ratio);
 			canvas.height = Math.round(h * ratio);
 			canvas.style.width = w +'px';

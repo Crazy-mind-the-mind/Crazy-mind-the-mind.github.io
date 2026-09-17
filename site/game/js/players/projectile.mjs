@@ -1,6 +1,7 @@
 
+import { assetLoader } from "../core/game.assetLoader.mjs";
 import { rect2,vec2} from "../utils/dataTypes.mjs";
-import { drawRect } from "../utils/helper.mjs";
+import { correctDrawTransform, deleteEntity, drawRect, drawTexture } from "../utils/helper.mjs";
 import { Entity } from "./entity.mjs";
 
 
@@ -10,24 +11,35 @@ export class Projectile extends Entity{
 			this.velocity = new vec2();
 			this.owner = null;
 			this.damage = 0;
-			this.timeLeft=3000;
+			this.timeLeft=30;
 			this.z_index=-10;
 	}
 
+	
+	async loadAssets(){
+		this.texture=await assetLoader.load("projectile","textures/projectile.png")
+	}
 	update(){
-		AI()
+		this.AI()
 		this.timeLeft-=1;
 		this.transform.position.x+=this.velocity.x;
 		this.transform.position.y+=this.velocity.y;
-	}
 
-	AI(){
-		
+		if (this.timeLeft<=0){
+			deleteEntity(this.scope,this)
+		}
 	}
+	AI(){
+		this.velocity.x+=1
+	}
+	
 	render(){
 		
-		var drawrect= new rect2()
-
-		drawRect(this.scope.context,drawrect,"#0000ff")
+		var renderer=this.scope.context
+		drawTexture(
+			renderer,
+			this.texture,
+			correctDrawTransform(this)
+		)
 	}
 }

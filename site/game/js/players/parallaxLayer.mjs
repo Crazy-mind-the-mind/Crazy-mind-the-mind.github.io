@@ -1,6 +1,7 @@
-import {vec2, rect2, Texture} from "../utils/dataTypes.mjs";
+import {vec2, rect2, Texture, transform2} from "../utils/dataTypes.mjs";
 import { Entity } from "./entity.mjs";
-import { drawRect , drawTexture, loadTexture } from "../utils/helper.mjs";
+import { correctDrawTransform, drawRect , drawTexture, loadTexture } from "../utils/helper.mjs";
+import { assetLoader } from "../core/game.assetLoader.mjs";
 
 
 
@@ -8,37 +9,61 @@ export class ParallaxLayer extends Entity{
     constructor(scope, x, y) {
 			super(scope, x, y)
 			this.parallaxScale = {
-				scale: new vec2(1, 1),
+				scale: new vec2(0, 0),
 				offset: new vec2(0, 0),
-				repeat: new vec2(0, 0),
+				repeat: new vec2(1, 1),
 			}
+
+			this.spriteObjects;
 			this.z_index=-500
+			
 			//this.texture=loadTexture('textures/starsBackground.png');
+			
 		}
 
+	async loadAssets(){
+		this.texture = await assetLoader.load("StarBackgroundTexture","textures/projectile.png")
+	}
     update() {
+		this.transform.position.x = this.scope.state.cameraScroll.x* this.parallaxScale.scale.x + this.parallaxScale.offset
+		this.transform.position.y = this.scope.state.cameraScroll.y* this.parallaxScale.scale.y + this.parallaxScale.offset
+		
+		this.transform.scale.x*=10
+		this.transform.scale.y*=10
+		//console.log("yo")
 
+		//this.transform.position.x= this.scope.viewport.width % this.transform.position.x 
+		//this.transform.position.y = this.scope.viewport.height % this.transform.position.y
+		
 	}
 
     render() {
 		var renderer=this.scope.context;
-		drawRect(
+		var drawTransform=correctDrawTransform(this);
+		
+		drawTransform.position.x = -(this.scope.viewport.width % this.transform.position.x)
+		drawTransform.position.y = -(this.scope.viewport.height % this.transform.position.y)
+		
+		drawTexture(
 			renderer,
-			new rect2(
-				this.transform.position.x,
-				this.transform.position.y,
-				200,200
-			),
-			"black"
-		);
-		//if (this.texture===null) return;
-		//console.log("Rendered.");
-		//draw(
-		//	renderer,
-		//	this.texture,
-		//	this.transform.position,
-		//	this.transform.scale
-		//);
+			this.texture,
+			drawTransform
+
+		)
+
+		if (!this.parallaxScale.repeat.isNearZero()){
+			var repeatTransform = transform2.copy(drawTransform)
+			repeatTransform.position.x+=this.scope.viewport.width
+			repeatTransform.position.y+=this.scope.viewport.height
+
+			drawTexture(
+				renderer,
+				this.texture,
+				repeatTransform
+
+			)
+
+		}
 		
 
 	}
