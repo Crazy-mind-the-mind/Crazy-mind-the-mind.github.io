@@ -1,5 +1,7 @@
 
 import { generateDrawOrderList } from "../utils/canvas.mjs";
+import { Entity } from "../players/entity.mjs";
+
 
 export function gameRender(scope) {
 			var w = scope.constants.width,
@@ -19,21 +21,34 @@ export function gameRender(scope) {
 					scope.context.fillText(scope.loop.fps, w - 100, 50);
 				}
 
-				if (scope.state.hasOwnProperty('ui')){
-
-				}
 
 				if (scope.state.hasOwnProperty('entities')) {
 					let entities = scope.state.entities;
-					let entitiesDrawQueue = generateDrawOrderList(entities);
+					let entitiesDrawOrder = generateDrawOrderList([...entities.keys()]);
 
 
 
-					for (let entity of entitiesDrawQueue) {
-						if (!(entities[entity] instanceof gamePlayers.Entity)) continue;
+					for (let entity in entitiesDrawOrder) {
 						
 						entities[entity].render();
 					}
+				}
+
+				if (scope.state.hasOwnProperty('projectiles')) {
+					let entities = scope.state.projectiles;
+					//let entitiesDrawQueue = generateDrawOrderList(entities);
+
+
+
+					for (let entity in entities) {
+						//console.log(entity)
+						entities[entity].render();
+					}
+				}
+
+				
+				if (scope.state.hasOwnProperty('ui')){
+
 				}
 			}
 }

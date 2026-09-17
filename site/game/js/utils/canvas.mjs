@@ -1,3 +1,4 @@
+import { insertion_sort } from "./helper.mjs";
 
 
 
@@ -39,20 +40,7 @@ export function generateCanvas(w, h) {
 			return canvas;
 }
 
-export function generateDrawOrderList(drawqueue){
-			var result=[];
-			var smallestZIdx=0;
-
-			var comp = function(a,b){
-				
-			};
-
-			while (result.length < drawqueue.length){
-				for (let i=0; i<drawqueue.length;i++){
-					if (result.includes(i)) continue;
-					smallestZIdx= drawqueue[i].z_index<drawqueue[smallestZIdx]? i:smallestZIdx;
-				}
-				result.push(smallestZIdx);
-			}
-			return result;
+export function generateDrawOrderList(objects){
+	insertion_sort(objects, (a,b)=>{return})
+			
 }

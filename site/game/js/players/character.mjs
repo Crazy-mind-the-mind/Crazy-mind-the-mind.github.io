@@ -1,4 +1,4 @@
-import { vec2 } from "../utils/datattypes/vec2.mjs";
+import { vec2 } from "../utils/dataTypes.mjs";
 import { Entity } from "./entity.mjs";
 
 
