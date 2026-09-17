@@ -41,6 +41,17 @@ export function generateCanvas(w, h) {
 }
 
 export function generateDrawOrderList(objects){
-	insertion_sort(objects, (a,b)=>{return})
+
+	var result = insertion_sort(Object.keys(objects), 
+		function(a,b){
+			//console.log(a,objects[a].z_index)
+			//console.log(b,objects[b].z_index)
+			return objects[a].z_index > objects[b].z_index;
+
+		});
+
+
+
+	return result;
 			
 }

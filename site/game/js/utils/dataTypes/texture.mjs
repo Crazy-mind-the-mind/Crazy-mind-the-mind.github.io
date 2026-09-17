@@ -4,7 +4,7 @@
 class Texture{
 
     constructor(image){
-        this.image=image || new ImageData(1,1);
+        this.image=image || new Image(1,1);
         //this.imageRect=image;
     }
 

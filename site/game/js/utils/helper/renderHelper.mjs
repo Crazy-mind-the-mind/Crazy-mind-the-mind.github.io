@@ -25,17 +25,13 @@ export function drawTexture(ctx,texture,position,scale){
 }
 
 export function loadTexture(path){
-	let image;
-	fetch(path)
-	.then(response => response.blob())
-	.then(blob =>{
-		let imgSrc = URL.createObjectURL(blob);
-		image = new ImageData(Uint8ClampedArray.from(imgSrc) );
-	})
-	.catch(error => {
-		console.error("Texture fetch err", error)
-	});
-	return new Texture(image);
+	const image = new Image();
+	image.src=path;
+	image.onload = ()=>{
+		return image;
+	}
+	
+	
 }
 
 

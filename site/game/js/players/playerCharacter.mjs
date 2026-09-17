@@ -1,8 +1,12 @@
 import { vec2, rect2, transform2} from "../utils/dataTypes.mjs";
-import { drawRect } from "../utils/helper.mjs";
+import { drawRect, drawTexture, loadTexture } from "../utils/helper.mjs";
 import { Character } from "./character.mjs";
 import { keysDown, isPressed } from "../utils/input.mjs";
 import { Projectile } from "./projectile.mjs";
+import { assetLoader } from "../core/game.assetLoader.mjs";
+
+
+
 export class PlayerCharacter extends Character{
         constructor(scope, x, y) {
 			super(scope, x, y);
@@ -10,11 +14,15 @@ export class PlayerCharacter extends Character{
 			this.powerupTime = 0;
 			this.moveSpeed=2
 			
-
+			
+			this.texture=assetLoader.get("projectile");
+			
 
 
 		}
-
+		async loadAssets(){
+			assetLoader.load("player","textures/projectile.png")
+		}
 		update() {
 			if (isPressed.left) {
             	this.transform.position.x -= this.moveSpeed;
@@ -56,6 +64,13 @@ export class PlayerCharacter extends Character{
 			
 			let renderer=this.scope.context;
 			drawRect(renderer,plrrect,'#40d870');
+
+			drawTexture(
+				renderer,
+				this.texture,
+				this.transform.position,
+				this.transform.scale,
+			)
 
 		}
 }

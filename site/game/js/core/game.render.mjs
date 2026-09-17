@@ -14,7 +14,7 @@ export function gameRender(scope) {
 				scope.context.font = '32px Arial';
 				scope.context.fillStyle = '#fff';
 				scope.context.fillText('It\'s dangerous to travel this route alone.', 5, 50);
-
+				
 
 				if (scope.constants.showFps) {
 					scope.context.fillStyle = '#ff0';
@@ -23,28 +23,34 @@ export function gameRender(scope) {
 
 
 				if (scope.state.hasOwnProperty('entities')) {
-					let entities = scope.state.entities;
-					let entitiesDrawOrder = generateDrawOrderList([...entities.keys()]);
+					var entities = scope.state.entities;
+					var entitiesDrawOrder = generateDrawOrderList(entities);
+						//console.log(entitiesDrawOrder)
 
 
 
-					for (let entity in entitiesDrawOrder) {
-						
+					for (let entity of entitiesDrawOrder) {
+						try{
 						entities[entity].render();
+						}
+						catch (error){
+							//console.error(error);
+							continue
+						}
 					}
 				}
 
-				if (scope.state.hasOwnProperty('projectiles')) {
-					let entities = scope.state.projectiles;
-					//let entitiesDrawQueue = generateDrawOrderList(entities);
+				//if (scope.state.hasOwnProperty('projectiles')) {
+				//	let entities = scope.state.projectiles;
+				//	//let entitiesDrawQueue = generateDrawOrderList(entities);
 
 
 
-					for (let entity in entities) {
-						//console.log(entity)
-						entities[entity].render();
-					}
-				}
+				//	for (let entity in entities) {
+				//		//console.log(entity)
+				//		entities[entity].render();
+				//	}
+				//}
 
 				
 				if (scope.state.hasOwnProperty('ui')){

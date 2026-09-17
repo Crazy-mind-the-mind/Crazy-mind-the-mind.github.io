@@ -11,6 +11,10 @@ export class Entity{
 			this.texture = new Texture();
 			this.renderable;
 		}
+
+	async loadAssets(){
+		
+	}
 	update() {
 		return this;
 	}

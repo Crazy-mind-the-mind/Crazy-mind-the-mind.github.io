@@ -1,5 +1,5 @@
-import { vec2 } from "../utils/datattypes/utils.datatypes.vec2.mjs";
-import { rect2 } from "../utils/dataTypes.mjs";
+
+import { rect2,vec2} from "../utils/dataTypes.mjs";
 import { drawRect } from "../utils/helper.mjs";
 import { Entity } from "./entity.mjs";
 
@@ -10,8 +10,8 @@ export class Projectile extends Entity{
 			this.velocity = new vec2();
 			this.owner = null;
 			this.damage = 0;
-			this.timeLeft=300;
-
+			this.timeLeft=3000;
+			this.z_index=-10;
 	}
 
 	update(){

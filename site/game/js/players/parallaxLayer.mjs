@@ -3,6 +3,7 @@ import { Entity } from "./entity.mjs";
 import { drawRect , drawTexture, loadTexture } from "../utils/helper.mjs";
 
 
+
 export class ParallaxLayer extends Entity{
     constructor(scope, x, y) {
 			super(scope, x, y)
@@ -11,8 +12,8 @@ export class ParallaxLayer extends Entity{
 				offset: new vec2(0, 0),
 				repeat: new vec2(0, 0),
 			}
-
-			this.texture=loadTexture('textures/starsBackground.png');
+			this.z_index=-500
+			//this.texture=loadTexture('textures/starsBackground.png');
 		}
 
     update() {
@@ -21,14 +22,23 @@ export class ParallaxLayer extends Entity{
 
     render() {
 		var renderer=this.scope.context;
-		if (this.texture===null) return;
-		console.log("Rendered.");
-		drawTexture(
+		drawRect(
 			renderer,
-			this.texture,
-			this.transform.position,
-			this.transform.scale
+			new rect2(
+				this.transform.position.x,
+				this.transform.position.y,
+				200,200
+			),
+			"black"
 		);
+		//if (this.texture===null) return;
+		//console.log("Rendered.");
+		//draw(
+		//	renderer,
+		//	this.texture,
+		//	this.transform.position,
+		//	this.transform.scale
+		//);
 		
 
 	}

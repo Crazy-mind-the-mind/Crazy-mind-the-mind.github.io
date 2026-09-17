@@ -1,3 +1,4 @@
+import { Projectile } from "../../players/projectile.mjs";
 
 
 
@@ -11,7 +12,7 @@ export function insertion_sort(array,comp){
         let currentElement = array[i];
         let lastIndex = i - 1;
 
-        while (lastIndex >= 0 && array[lastIndex] > currentElement) {
+        while (lastIndex >= 0 && comp(array[lastIndex],currentElement)) {
             array[lastIndex + 1] = array[lastIndex];
             lastIndex--;
         }
@@ -21,3 +22,27 @@ export function insertion_sort(array,comp){
     return array;
 
 }
+
+
+export function createProjectile(scope,x,y){
+    var entities = scope.state.entities;
+    var newProj= new Projectile(scope,x,y);
+    var newProjName="Projectile"
+    
+    var i=0;
+    while (i<1){
+        if (!entities.hasOwnProperty('Projectile'+i)){
+            newProjName=newProjName+1;
+            
+        }
+        i++;
+    }
+}
+export function createEnemy(){
+
+}
+
+
+export function deleteEntity(){
+    
+} 
