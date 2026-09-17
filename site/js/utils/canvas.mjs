@@ -1,7 +1,7 @@
 
 
 
-function getPixelRatio(context) {
+export function getPixelRatio(context) {
 			console.log("Determining pixel ratio.");
 
 			var backingStores = [
@@ -27,7 +27,7 @@ export function generateCanvas(w, h) {
 			var canvas = document.createElement('canvas'),
 			context = canvas.getContext('2d');
 
-			var ratio = this.getPixelRatio(context);
+			var ratio = getPixelRatio(context);
 
 
 			canvas.width = Math.round(w * ratio);
@@ -55,4 +55,4 @@ export function generateDrawOrderList(drawqueue){
 				result.push(smallestZIdx);
 			}
 			return result;
-		}
+}

@@ -1,5 +1,5 @@
 
-import { generateDrawOrderList } from "../utils/utils.canvas.mjs";
+import { generateDrawOrderList } from "../utils/canvas.mjs";
 
 export function gameRender(scope) {
 			var w = scope.constants.width,

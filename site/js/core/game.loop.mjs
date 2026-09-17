@@ -1,9 +1,37 @@
 
 
 
-export function gameLoop(scope) {
-			var loop = this;
 
+class AgameLoop{
+	constructor(){
+		var fps = scope.constants.targetFps,
+				fpsInterval = 1000 / fps,
+				before = window.performance.now(),
+
+
+				cycles = {
+					new: {
+						frameCount: 0,
+						startTime: before,
+						sinceStart: 0
+					},
+					old: {
+						frameCount: 0,
+						startTime: before,
+						sineStart: 0
+					}
+				},
+				resetInterval = 5,
+				resetState = 'new';
+
+			this.fps = 0;	
+
+	}
+}
+
+
+export function gameLoop(scope) {
+			
 			var fps = scope.constants.targetFps,
 				fpsInterval = 1000 / fps,
 				before = window.performance.now(),
@@ -24,10 +52,10 @@ export function gameLoop(scope) {
 				resetInterval = 5,
 				resetState = 'new';
 
-			loop.fps = 0;	
+			this.fps = 0;	
 
-			loop.main = function mainLoop(tframe) {
-				loop.stopLoop = window.requestAnimationFrame( loop.main );
+			this.main = function mainLoop(tframe) {
+				this.stopLoop = window.requestAnimationFrame( this.main );
 				
 				var now = tframe,
 					elapsed = now - before,
@@ -51,7 +79,7 @@ export function gameLoop(scope) {
 
 
 				activeCycle = cycles[resetState];
-				loop.fps = Math.round(1000 / (activeCycle.sinceStart / activeCycle.frameCount) * 100) / 100;
+				this.fps = Math.round(1000 / (activeCycle.sinceStart / activeCycle.frameCount) * 100) / 100;
 
 
 				targetResetInterval = (cycles.new.frameCount === cycles.old.frameCount
@@ -69,7 +97,7 @@ export function gameLoop(scope) {
 
 
 
-			loop.main(0);
+			this.main(0);
 
-			return loop;
+			return this;
 }

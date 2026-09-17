@@ -1,5 +1,5 @@
 
-import { vec2 } from "../utils/datattypes/utils.datatypes.vec2.mjs";
+import { vec2 } from "../utils/datattypes/vec2.mjs";
 
 
 

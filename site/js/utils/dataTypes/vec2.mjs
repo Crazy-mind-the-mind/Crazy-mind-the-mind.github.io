@@ -1,7 +1,7 @@
 
 
 
-export class vec2{
+class vec2{
     constructor(){
         this.x=0
         this.y=0
@@ -11,3 +11,5 @@ export class vec2{
         return 0;
     }
 }
+
+export {vec2};

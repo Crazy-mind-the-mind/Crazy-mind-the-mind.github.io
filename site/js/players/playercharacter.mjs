@@ -1,7 +1,7 @@
-import { rect2 } from "../utils/datattypes/utils.datatypes.rect2.mjs";
-import { Entity } from "./players.entity.mjs";
+import { rect2 } from "../utils/datattypes/rect2.mjs";
+import { Character } from "./character.mjs";
 
-export class PlayerCharacter extends Entity{
+export class PlayerCharacter extends Character{
         constructor(scope, x, y) {
 			super(scope, x, y);
 			this.powerup = 0;

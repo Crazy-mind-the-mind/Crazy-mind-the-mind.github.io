@@ -1,6 +1,6 @@
-import { vec2 } from "./utils.datatypes.vec2.mjs";
+import { vec2 } from "./vec2.mjs";
 
-export class rect2 {
+class rect2 {
 
 			constructor(x, y, w, h){
                 this.origin = new vec2(0,0);
@@ -27,3 +27,5 @@ export class rect2 {
 				return result
 			}
 }
+
+export {rect2};
