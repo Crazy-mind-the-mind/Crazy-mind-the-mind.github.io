@@ -9,7 +9,7 @@ export class ParallaxLayer extends Entity{
     constructor(scope, x, y) {
 			super(scope, x, y)
 			this.parallaxScale = {
-				scale: new vec2(0, 0),
+				scale: new vec2(1, 0),
 				offset: new vec2(0, 0),
 				repeat: new vec2(1, 1),
 			}
