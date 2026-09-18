@@ -18,11 +18,11 @@ export class ParallaxLayer extends Entity{
 			this.z_index=-500
 			
 			//this.texture=loadTexture('textures/starsBackground.png');
-			
+			loadAssets()
 		}
 
 	async loadAssets(){
-		this.texture = await assetLoader.load("StarBackgroundTexture","textures/projectile.png")
+		this.texture = await assetLoader.load("StarBackgroundTexture","textures/starBackground.png")
 	}
     update() {
 		this.transform.position.x = this.scope.state.cameraScroll.x* this.parallaxScale.scale.x + this.parallaxScale.offset
