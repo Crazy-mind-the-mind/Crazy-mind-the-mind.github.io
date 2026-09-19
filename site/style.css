@@ -11,3 +11,9 @@ html{
     min-height: 300px;
     min-width: 300px;
 }
+
+#foco-pagina{
+	background-color: blue;
+}
+#foco-pagina div h2{
+}
