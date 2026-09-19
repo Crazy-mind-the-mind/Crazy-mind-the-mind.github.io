@@ -12,6 +12,14 @@ export function gameUpdate(scope) {
 					}
 				}
 
+				if (state.hasOwnProperty('ui')) {
+					var entities = state.ui;
+					for (var entity in entities) {
+
+						entities[entity].update();
+					}
+				}
+
 				return state;
 	};
 }

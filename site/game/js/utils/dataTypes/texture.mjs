@@ -1,16 +1,16 @@
+import { transform2 } from "./transform2.mjs";
 
 
 
 class Texture{
 
     constructor(image){
-        this.image=image || new Image(1,1);
-        //this.imageRect=image;
+        console.log(image)
+        this.image=image;
+        this.imageTransform = new transform2;
+        this.imageModulate = "rgba(255, 255, 255, 1)"
     }
-
-    getTexture(){
-        return this.image;
-    }
+    
 }
 
 export {Texture}

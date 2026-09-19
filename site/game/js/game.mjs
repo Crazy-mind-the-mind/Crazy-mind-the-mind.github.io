@@ -3,7 +3,7 @@ import { gameRender } from "./core/game.render.mjs";
 import { gameLoop } from "./core/game.loop.mjs";
 import { gameSetup } from "./core/game.setup.mjs";
 import { generateCanvas , generateDrawOrderList} from "./utils/canvas.mjs";
-import { vec2 } from "./utils/dataTypes.mjs";
+import { transform2, vec2 } from "./utils/dataTypes.mjs";
 
 
 
@@ -22,11 +22,14 @@ function Game(w, h, targetFps, showFps) {
 		width: w,
 		height: h,
 		targetFps: targetFps,
-		showFps: showFps
+		showFps: showFps,
+		trueWidth:640,
+		trueHeight:360,
 	}
 
 	this.state = {
 		'cameraScroll':new vec2(0,0),
+		'cameraTransform': new transform2(0,0,1,1),
 		'entities':[],
 	};
 
@@ -70,4 +73,4 @@ function Game(w, h, targetFps, showFps) {
 }
 
 
-window.game = new Game(1920 , 1080 , 60, true);
+window.game = new Game(640 , 360 , 60, true);

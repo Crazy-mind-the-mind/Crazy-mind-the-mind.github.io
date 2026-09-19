@@ -6,25 +6,27 @@ export var isJustReleased = {}
 
 
 export function keysDown() {
-    var left, right, up, down, shoot;
+    var left, right, up, down, shoot, shoot2;
 
 
     // Set up `onkeydown` event handler.
     document.onkeydown = function (ev) {
-        if (ev.key === "ArrowRight") { right = true; }
-        if (ev.key === "ArrowLeft") { left = true; }
-        if (ev.key === "ArrowUp") { up = true; }
-        if (ev.key === "ArrowDown") { down = true; }
-        if (ev.key === " ") {shoot = true; }
+        if (ev.code === "ArrowRight") { right = true; }
+        if (ev.code === "ArrowLeft") { left = true; }
+        if (ev.code === "ArrowUp") { up = true; }
+        if (ev.code === "ArrowDown") { down = true; }
+        if (ev.code === "Space") {shoot = true; }
+        if (ev.code === "ControlLeft") {shoot2 = true; }
     };
 
     // Set up `onkeyup` event handler.
     document.onkeyup = function (ev) {
-        if (ev.key === "ArrowRight") { right = false; }
-        if (ev.key === "ArrowLeft") { left = false; }
-        if (ev.key === "ArrowUp") { up = false; }
-        if (ev.key === "ArrowDown") { down = false; }
-        if (ev.key === " ") {shoot = false; }
+        if (ev.code === "ArrowRight") { right = false; }
+        if (ev.code === "ArrowLeft") { left = false; }
+        if (ev.code === "ArrowUp") { up = false; }
+        if (ev.code === "ArrowDown") { down = false; }
+        if (ev.code === "Space") {shoot = false; }
+        if (ev.code === "ControlLeft") {shoot2 = false; }
 
     };
 
@@ -54,6 +56,12 @@ export function keysDown() {
 
     Object.defineProperty(isPressed, 'shoot', {
         get: function() { return shoot; },
+        configurable: true,
+        enumerable: true
+    });
+
+    Object.defineProperty(isPressed, 'shoot2', {
+        get: function() { return shoot2; },
         configurable: true,
         enumerable: true
     });

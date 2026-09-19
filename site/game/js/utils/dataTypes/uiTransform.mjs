@@ -2,14 +2,14 @@ import { vec2 } from "./vec2.mjs"
 
 
 class uiTransform{
-    constructor(){
+    constructor( pof,psc,scof,scsc){
         this.position={
-            offset: new vec2(0,0),
-            scale: new vec2(0,0)
+            offset: pof || new vec2(0,0),
+            scale: psc || new vec2(0,0)
         }
         this.scale={
-            offset: new vec2(10,10),
-            scale: new vec2(1,1)
+            offset: scof||new vec2(10,10),
+            scale: scsc||new vec2(1,1)
         }
     }
 }

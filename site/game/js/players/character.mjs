@@ -12,4 +12,9 @@ export class Character extends Entity{
 			this.statHealthMax = 0;
 			this.statHealth = 0;
 	}
+
+	update(){
+
+		this.transform.position.vecAdd(this.velocity)
+	}
 }

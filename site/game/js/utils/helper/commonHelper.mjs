@@ -1,14 +1,14 @@
-import { Projectile } from "../../players/projectile.mjs";
+import { Projectile} from "../../players/projectile.mjs";
 import { transform2, uiTransform } from "../dataTypes.mjs";
-
-
+import { ProjectileTypes } from "../../players/projectileTypes.mjs";
 
 export function isInRange(v, min, max) {
     return v>=min && v<=max;
 };
 
-export function Boundary(origin,limits){
-    
+export function Boundary(entity,limits){
+    entity.transform.position.x = Math.max(Math.min(limits.origin.x + limits.size.x, entity.transform.position.x),limits.origin.x)
+    entity.transform.position.y = Math.max(Math.min(limits.origin.y + limits.size.y, entity.transform.position.y),limits.origin.y)
 }
 
 export function insertion_sort(array,comp){
@@ -29,9 +29,11 @@ export function insertion_sort(array,comp){
 }
 
 
-export function createProjectile(scope,x,y){
+export function createProjectile(scope,x,y,type){
+    console.log(ProjectileTypes)
+    console.log(ProjectileTypes[type])
     var entities = scope.state.entities;
-    var newProj= new Projectile(scope,x,y);
+    var newProj= ProjectileTypes[type](scope,x,y);
     var newProjName="Projectile"
     
     var i=0;
@@ -46,6 +48,7 @@ export function createProjectile(scope,x,y){
     
         i++;
     }
+    return newProj;
 }
 export function createEnemy(){
 
@@ -75,10 +78,10 @@ export function deleteEntityByName(entity){
 
 export function parseUiTransform(scope,transform){
     return new transform2(
-        uiTransform.position.scale.x*scope.viewport.width +  uiTransform.position.offset.x,
-        uiTransform.position.scale.y*scope.viewport.height +  uiTransform.position.offset.y,
-        uiTransform.scale.scale.x*scope.viewport.width +  uiTransform.scale.offset.x,
-        uiTransform.scale.scale.y*scope.viewport.height +  uiTransform.scale.offset.y,
+        transform.position.scale.x*scope.constants.width +  transform.position.offset.x,
+        transform.position.scale.y*scope.constants.height +  transform.position.offset.y,
+        transform.scale.scale.x*scope.constants.width +  transform.scale.offset.x,
+        transform.scale.scale.y*scope.constants.height +  transform.scale.offset.y,
     )
 
 }

@@ -33,8 +33,8 @@ export function generateCanvas(w, h) {
 			//var gameSzMul=Math.max(document.body.clientWidth,document.body.clientHeight) / Math.max(w,h)
 			canvas.width = Math.round(w * ratio);
 			canvas.height = Math.round(h * ratio);
-			canvas.style.width = w +'px';
-			canvas.style.height = h +'px';
+			//canvas.style.width = w +'px';
+			//canvas.style.height = h +'px';
 			context.setTransform(ratio, 0, 0, ratio, 0, 0);
 
 			return canvas;
