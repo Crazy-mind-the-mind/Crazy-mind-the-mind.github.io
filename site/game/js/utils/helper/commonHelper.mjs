@@ -1,6 +1,7 @@
 import { Projectile} from "../../players/projectile.mjs";
 import { transform2, uiTransform } from "../dataTypes.mjs";
 import { ProjectileTypes } from "../../players/projectileTypes.mjs";
+import { EnemyCharacterTypes } from "../../players/enemyCharacterTypes.mjs";
 
 export function isInRange(v, min, max) {
     return v>=min && v<=max;
@@ -29,7 +30,8 @@ export function insertion_sort(array,comp){
 }
 
 
-export function createProjectile(scope,x,y,type){
+export function createProjectile(scope,x,y,type,options){
+    options = options || {}
     console.log(ProjectileTypes)
     console.log(ProjectileTypes[type])
     var entities = scope.state.entities;
@@ -37,7 +39,7 @@ export function createProjectile(scope,x,y,type){
     var newProjName="Projectile"
     
     var i=0;
-    while (i<100){
+    while (i<1000){
 
         if (!Object.keys(entities).includes("Projectile"+i) ){
             newProjName=newProjName+i;
@@ -48,10 +50,61 @@ export function createProjectile(scope,x,y,type){
     
         i++;
     }
+
+    var projVariables=Object.keys(newProj)
+    projVariables.forEach(variable => {
+        
+        switch (variable){
+            case "direction":
+                if (options.direction){
+                    newProj.direction = options.direction
+                    console.log(options.direction)
+                }
+                break;
+            case "velocity":
+                if (options.initialVelocity){
+                    newProj.velocity = options.initialVelocity
+                    console.log(options.initialVelocity)
+                }
+                break;
+        }
+        
+    });
+
     return newProj;
 }
-export function createEnemy(){
+export function createEnemy(scope,x,y,type,options){
+    options = options || {}
 
+    //console.log(ProjectileTypes)
+    //console.log(ProjectileTypes[type])
+    var entities = scope.state.entities;
+    var newEnemy= EnemyCharacterTypes[type](scope,x,y);
+    var newEnemyName="Enemy"
+    
+    var i=0;
+    while (i<100){
+
+        if (!Object.keys(entities).includes("Enemy"+i) ){
+            newEnemyName=newEnemyName+i;
+            console.log(newEnemyName)
+            entities[newEnemyName]=newEnemy;
+            break;
+        }
+    
+        i++;
+    }
+
+
+    var enemyVariables = Object.keys(newEnemy)
+    enemyVariables.forEach(variable => {
+        switch (variable){
+            case "position":
+                break;
+        }
+        
+    });
+    return newEnemy;
 }
 
 
@@ -72,6 +125,13 @@ export function deleteEntityByName(entity){
     
 } 
 
+
+export function radToDeg(value){
+    return value*180/Math.PI;
+}
+export function degToRad(value){
+    return value*(Math.pi/180);
+}
 
 
 

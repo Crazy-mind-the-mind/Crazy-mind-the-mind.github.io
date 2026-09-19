@@ -1,8 +1,10 @@
+import { transform2 } from "../dataTypes.mjs"
 
 
 export class CollisionAbstract{
-    constructor(position) {
-	        this.position = position
+    constructor(owner,position) {
+        this.owner = owner
+	    this.transform = new transform2()
     }
 
     intersects_with(collision) {

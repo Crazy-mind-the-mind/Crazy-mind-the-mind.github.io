@@ -1,13 +1,19 @@
 
 
-export var collision_groups = {};
+export var collision_groups = {
+	"player":[],
+	"enemies":[],
+	"projectiles":[],
 
-export function collisionSystemUpdate(){
-    
+};
 
-	return ;
+export function collisionSystemUpdate(scope){
+	return function collisionUpdate(){
+
+	};
 }
 
-function check_collisions_for() {
-	 return;
+function checkCollisionsForOfGroup(entity,group) {
+	
+	return;
 }

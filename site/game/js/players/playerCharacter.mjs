@@ -61,7 +61,7 @@ export class PlayerCharacter extends Character{
 							console.log("oops",e)
 						}
 					},
-					shootCooldownWaitTime:10,
+					shootCooldownWaitTime:30,
 					shootCooldownTime:0,
 				},
 				defaultShot3:{
@@ -70,9 +70,13 @@ export class PlayerCharacter extends Character{
 							player.scope,
 							player.transform.position.x,
 							player.transform.position.y,
-							2
+							2,
+							{
+								direction:new vec2(1,0),
+								initialVelocity: new vec2(2,0)
+							}
 						)
-						p.velocity.x=2
+						//p.velocity.x=2
 					},
 					shootCooldownWaitTime:10,
 					shootCooldownTime:0,
@@ -92,10 +96,12 @@ export class PlayerCharacter extends Character{
 			}
 
 			this.currentWeapon=this.weapons.defaultShot;
-			this.currentWeapon2=this.weapons.defaultShot3;
-			 
+			this.currentWeapon2=this.weapons.defaultShot2;
 			
 
+			this.scoringTimer = 60
+			
+			//this.transform.rotation = Math.PI/2
 
 		}
 		async loadAssets(){
@@ -146,37 +152,58 @@ export class PlayerCharacter extends Character{
 			this.currentWeapon.shootCooldownTime--;
 			this.currentWeapon2.shootCooldownTime--;
 
+			this.scoringTimer--;
+			if (this.scoringTimer==0){
+				this.scope.state.playerStatus.ScorePoints++
+				this.scoringTimer=60;
+			}
+
+
+
+
+
+
+
+
 			Boundary(this, new rect2(
 				0,
 				0,
 				this.scope.constants.trueWidth,
 				this.scope.constants.trueHeight,
 			))
+
+
+
 			
 		}
 
 		render() {
 
-			//this.scope.context.fillStyle = '#40d870';
-        	//this.scope.context.fillRect(
-            //this.transform.position.x,
-            //this.transform.position.y,
-            //50, 50
-        	//);
+			
+			if (!this.texture) return;
+			
 			var drawCorrectedTransform= correctDrawTransform(this)
 
+			drawCorrectedTransform.rotation
 			//console.log(plrrect.origin.x,plrrect.origin.y ,plrrect.size.x ,plrrect.size.y );
 			
 			let renderer=this.scope.context;
 			//drawRect(renderer,plrrect,'#40d870');
 			drawCorrectedTransform.scale.x=1.0
 
+			
+
+
 			drawTexture(
 				renderer,
 				this.texture,
-				drawCorrectedTransform
+				this.transform,
+				{
+					useCanvasTransforms:true,
+					offsets: vec2.copy(this.transform.position).vecSub(drawCorrectedTransform.position)
+				}
 			)
-
+			
 
 			//drawText(
 			//	renderer,

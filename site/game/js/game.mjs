@@ -4,6 +4,7 @@ import { gameLoop } from "./core/game.loop.mjs";
 import { gameSetup } from "./core/game.setup.mjs";
 import { generateCanvas , generateDrawOrderList} from "./utils/canvas.mjs";
 import { transform2, vec2 } from "./utils/dataTypes.mjs";
+import { gameScore } from "./core/game.score.mjs";
 
 
 
@@ -60,6 +61,7 @@ function Game(w, h, targetFps, showFps) {
 
 	this.setup()
 
+	this.scoreSystem = gameScore(this);
 	this.update = gameUpdate(this);
 	this.render = gameRender(this);
 	this.loop = new gameLoop(this);

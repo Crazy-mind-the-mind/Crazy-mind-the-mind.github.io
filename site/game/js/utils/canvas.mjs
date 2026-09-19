@@ -36,7 +36,7 @@ export function generateCanvas(w, h) {
 			//canvas.style.width = w +'px';
 			//canvas.style.height = h +'px';
 			context.setTransform(ratio, 0, 0, ratio, 0, 0);
-
+			context.imageSmoothingEnabled=false
 			return canvas;
 }
 

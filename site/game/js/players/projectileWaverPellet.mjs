@@ -24,7 +24,7 @@ export class ProjectileWaverPellet extends Projectile{
 	AI(){
 		
 		this.waveTime++;
-		this.velocity.x+=0.05
+		this.velocity.x+=0.05* this.direction.x || 1
 		this.velocity.y=Math.sin((this.waveTime+this.randomWavePoint+ (Math.PI/2) )/10 )*2
 	}
 	

@@ -80,7 +80,10 @@ export function drawRect(ctx,rect,color){
 }
 
 
-export function drawTexture(ctx,texture,transform){
+export function drawTexture(ctx,texture,transform,options){
+	options = options || {}
+
+
 	if (texture instanceof Texture){
 		
 		ctx.drawImage(
@@ -104,13 +107,31 @@ export function drawTexture(ctx,texture,transform){
 
 	}
 	else{
-		ctx.drawImage(
-			texture,
-			transform.position.x,
-			transform.position.y,
-			texture.width*transform.scale.x,
-			texture.height*transform.scale.y
-		)
+		ctx.save()
+
+		if (!options.useCanvasTransforms){
+			ctx.drawImage(
+				texture,
+				transform.position.x,
+				transform.position.y,
+				texture.width*transform.scale.x,
+				texture.height*transform.scale.y
+			)
+		}
+		else {
+			ctx.translate(transform.position.x,transform.position.y)
+			ctx.rotate(transform.rotation)
+			ctx.scale(transform.scale.x,transform.scale.y)
+			ctx.drawImage(
+				texture,
+				options.offsets?-options.offsets.x: 0,
+				options.offsets?-options.offsets.y: 0,
+				texture.width*transform.scale.x,
+				texture.height*transform.scale.y
+			)
+		}
+		
+		ctx.restore()
 	}
 
 }

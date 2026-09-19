@@ -18,6 +18,7 @@ export class Projectile extends Entity{
 			this.z_index=-10;
 			this.friendly=false;
 			this.hostile=false;
+			this.direction = new vec2(0,0)
 
 	}
 

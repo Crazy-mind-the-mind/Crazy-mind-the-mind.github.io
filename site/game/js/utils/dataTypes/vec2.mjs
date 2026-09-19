@@ -28,16 +28,33 @@ class vec2{
         return new vec2(this.vecLength()!==0?this.x/this.vecLength():0 ,this.vecLength()!==0?this.y/this.vecLength():0);
     }
 
+    directionTo(vector){
+        return vec2.copy(this).vecSub(vec2.copy(vector)).normalized()
+    }
     vecMult(factor){
         this.x*=factor
         this.y*=factor
+        return this
+
+    }
+    vecDiv(factor){
+        this.x/=factor
+        this.y/=factor
+        return this
+
     }
 
     vecAdd(vector){
-        this.x+=vector.x
-        this.y+=vector.y
+        this.x+=vector.x;
+        this.y+=vector.y;
+        return this;
     }
 
+    vecSub(vector){
+        this.x-=vector.x;
+        this.y-=vector.y;
+        return this;
+    }
     [Symbol.toPrimitive](hint){
 
     }

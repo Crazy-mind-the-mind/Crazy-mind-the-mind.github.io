@@ -4,9 +4,9 @@ import { UINode } from "./uiNode.mjs";
 
 
 export class UILabel extends UINode{
-    constructor(scope,x,y,parent){
+    constructor(scope,x,y,parent,text){
         super(scope,x,y,parent)
-        this.text="";
+        this.text=text;
     }
 
 

@@ -1,6 +1,6 @@
-import { uiTransform, vec2 } from "../dataTypes.mjs"
-import { parseUiTransform } from "../helper.mjs";
-
+import { rect2, uiTransform, vec2 } from "../dataTypes.mjs"
+import { drawRect, parseUiTransform } from "../helper.mjs";
+import { transform2 } from "../dataTypes.mjs";
 
 
 class UINode{
@@ -14,15 +14,35 @@ class UINode{
     
     calculateTransform(){
         this.calculatedTransform=parseUiTransform(this.scope,this.transform);
+        if (this.parentNode!==null){
+            this.calculatedTransform.addTransform(
+            this.parentNode.calculatedTransform
+        )
+        }
     }
     update(){
-        
+        if (Object.keys(this.childrenNodes).length>0){
+            for (const child in this.childrenNodes) {
+                this.childrenNodes[child].update()
+            }
+        }
     }
     render(){
+
         this.visible=this.parentNode?this.parentNode.visible:this.visible;
-
-
         this.calculateTransform()
+
+        
+        //drawRect(this.scope.context,
+        //    new rect2(
+        //        this.calculatedTransform.position.x,
+        //        this.calculatedTransform.position.y,
+        //        4,
+        //        4,
+        //    ),
+        //    "#FFAA00"
+        //)
+
 
         if (Object.keys(this.childrenNodes).length>0){
             for (const child in this.childrenNodes) {
@@ -50,7 +70,7 @@ class UINode{
     }
 
     findChildByName(childName){
-
+        return this.childrenNodes[childName]
     }
 
     hasChild(childRef){

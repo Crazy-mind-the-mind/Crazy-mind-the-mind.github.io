@@ -1,7 +1,8 @@
+import { EnemyCharacterDefault } from "../players/enemyCharacterDefault.mjs";
 import { ParallaxLayer } from "../players/parallaxLayer.mjs";
 import { PlayerCharacter } from "../players/playerCharacter.mjs";
 import { Projectile } from "../players/projectile.mjs";
-import { loadFont } from "../utils/helper.mjs";
+import { createEnemy, loadFont } from "../utils/helper.mjs";
 import { keysDown } from "../utils/input.mjs";
 import { UILabel } from "../utils/ui/uiLabel.mjs";
 import { UINode } from "../utils/ui/uiNode.mjs";
@@ -45,7 +46,17 @@ export function gameSetup(scope) {
             scope.state.entities.player=new PlayerCharacter(scope,100,100);
             
 
+            // Debug Start Enemies
 
+            var enemies=[
+                  createEnemy(scope,scope.constants.width,scope.constants.height/2,1),
+                  createEnemy(scope,scope.constants.width,scope.constants.height/2,1),
+                  createEnemy(scope,scope.constants.width,scope.constants.height/2,1),
+            ]
+
+            enemies.forEach(enemy=> {
+                  console.log(enemy);
+            });
 
 
 
@@ -60,23 +71,66 @@ export function gameSetup(scope) {
 
             scope.state.ui = {}
             
-            var gameHUD=[
-                  new UINode(scope,0,0,null),
-                  new UILabel(scope,-10*"SCORE : 0".length/2,10,null),
-                  new UILabel(scope,-10*"HI-SCORE : 0".length/2,20,null),
-            ]
-            gameHUD[1].text="SCORE : 0"
-            gameHUD[2].text="HI-SCORE : 0"
-            gameHUD[1].transform.position.scale.y=0.02
-            gameHUD[1].transform.position.scale.x=0.1
-            gameHUD[2].transform.position.scale.y=0.04
-            gameHUD[2].transform.position.scale.x=0.1
-            gameHUD[0].addChild(gameHUD[1],"ScoreLabel")
-            gameHUD[0].addChild(gameHUD[2],"HighScoreLabel")
+            var gameHUD={
+                  "rootUINode":new UINode(
+                        scope,
+                        0,
+                        0,
+                        null),
+                  "rootScoreNode": new UINode(
+                        scope,
+                        10*"SCORE : ".length,
+                        0,
+                        null),
+                  "rootHighScoreNode": new UINode(
+                        scope,
+                        10*"HI-SCORE : ".length,
+                        0,
+                        null),
+                  "ScoreLabel":new UILabel(
+                        scope,
+                        -10*"SCORE : ".length,
+                        0,
+                        null,
+                        "SCORE : "),
+                  "HighScoreLabel":new UILabel(
+                        scope,
+                        -10*"HI-SCORE : ".length,
+                        0,
+                        null,
+                        "HI-SCORE : "),
+                  "ScorePoints":new UILabel(
+                        scope,
+                        0,
+                        0,
+                        null,
+                        "0"),
+                  "HighScorePoints":new UILabel(
+                        scope,
+                        0,
+                        0,
+                        null,
+                        "0"),
+            }
+            
+            gameHUD["rootScoreNode"].transform.position.offset.y+=10
+            gameHUD["rootScoreNode"].transform.position.offset.x+=10
+            gameHUD["rootHighScoreNode"].transform.position.offset.y+=20
+            gameHUD["rootHighScoreNode"].transform.position.offset.x+=10
+
+            gameHUD["rootScoreNode"].addChild(gameHUD["ScoreLabel"],"ScoreLabel")
+            gameHUD["rootScoreNode"].addChild(gameHUD["ScorePoints"],"ScorePoints")
+
+            gameHUD["rootHighScoreNode"].addChild(gameHUD["HighScoreLabel"],"HighScoreLabel")
+            gameHUD["rootHighScoreNode"].addChild(gameHUD["HighScorePoints"],"HighScorePoints")
+
+
+            gameHUD["rootUINode"].addChild(gameHUD["rootScoreNode"],"ScorePointsNode")
+            gameHUD["rootUINode"].addChild(gameHUD["rootHighScoreNode"],"HighScorePointsNode")
 
 
 
-            scope.state.ui["GameHUD"] = gameHUD[0]
+            scope.state.ui["GameHUD"] = gameHUD["rootUINode"]
 
 
             var DeadScreen=[
@@ -100,6 +154,20 @@ export function gameSetup(scope) {
 
 
             scope.state.ui["DeadScreen"] = DeadScreen[0]
+
+
+
+
+
+
+
+
+
+
+            scope.state.playerStatus = {
+                  "ScorePoints":0,
+                  "HighScorePoints":0
+            }
 
 
 
