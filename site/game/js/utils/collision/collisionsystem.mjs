@@ -25,12 +25,16 @@ export function checkCollisionsForEntity(entity) {
 		
 		var eCol=entity.collision	
 		var result = false;
-		
+		var checkedAlready= []
 		eCol.colliionMask.forEach(collisionGroupMask =>{
 			if (collisionGroups[collisionGroupMask]){
 				collisionGroups[collisionGroupMask].forEach(collider=>{
 					if (collider==eCol) continue;
+					if (checkedAlready.includes(collider)) continue;
+					
 					eCol.collidesWith(collider);
+					checkedAlready.push(collider)
+					
 				})
 			}
 		})
