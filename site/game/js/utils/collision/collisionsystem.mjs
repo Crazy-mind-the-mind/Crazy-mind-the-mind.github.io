@@ -1,7 +1,7 @@
 import { Entity } from "../../players/entity.mjs";
 
 
-export var collision_groups = {
+export var collisionGroups = {
 	"all":[],
 	"player":[],
 	"enemies":[],
@@ -10,21 +10,30 @@ export var collision_groups = {
 
 };
 
+export var existingColliders=[
+
+]
+
 export function collisionSystemUpdate(scope){
 	return function collisionUpdate(){
 
 	};
 }
 
-function checkCollisionsForEntity(entity) {
+export function checkCollisionsForEntity(entity) {
 	if (entity instanceof Entity){
 		
 		var eCol=entity.collision	
 		var result = false;
 		
-		for (eCol.collision_mask){
-			eCol.collides_with()
-		}
+		eCol.colliionMask.forEach(collisionGroupMask =>{
+			if (collisionGroups[collisionGroupMask]){
+				collisionGroups[collisionGroupMask].forEach(collider=>{
+					if (collider==eCol) continue;
+					eCol.collidesWith(collider);
+				})
+			}
+		})
 		
 		return result;
 	}
