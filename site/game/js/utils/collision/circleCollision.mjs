@@ -11,7 +11,7 @@ class CircleCollider extends ColliderAbstract{
 
     }
 
-    collides_with(collider){
+    collidesWith(collider){
         if (!collider instanceof CollisionAbstract){
             return false
         }
