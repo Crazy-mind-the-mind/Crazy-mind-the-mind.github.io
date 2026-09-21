@@ -14,8 +14,8 @@ class ColliderAbstract{
 		
 		this.collidingWith=[]
 
-        this.collision_layer=[];
-        this.collision_mask=[];
+        this.collisionLayer=params.collisionLayer||[];
+        this.collisionMask=params.collisionMask||[];
     }
     update(){
 
