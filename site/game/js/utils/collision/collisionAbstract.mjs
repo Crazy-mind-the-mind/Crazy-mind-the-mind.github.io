@@ -1,13 +1,36 @@
 import { transform2 } from "../dataTypes.mjs"
 
 
-export class CollisionAbstract{
-    constructor(owner,position) {
+class ColliderAbstract{
+    constructor(owner,position,params) {
+        params = params || {}
         this.owner = owner
 	    this.transform = new transform2()
+
+        this.active = params.active || true;
+        this.showCollision=params.showCollision || false;
+        this.collision_layer=[];
+        this.collision_mask=[];
+    }
+    update(){
+
     }
 
-    intersects_with(collision) {
-	    	return false
+    collides_with(collider) {
+        if (!collider instanceof CollisionAbstract) return false;
+
+        return this
     }
+
+    render(){
+       if (!this.showCollision) return;
+       
+       
+    }
+
+
+
+
 }
+
+export {ColliderAbstract}

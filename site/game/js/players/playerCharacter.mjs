@@ -4,10 +4,16 @@ import { Character } from "./character.mjs";
 import { keysDown, isPressed, isJustPressed } from "../utils/input.mjs";
 import { Projectile } from "./projectile.mjs";
 import { assetLoader } from "../core/game.assetLoader.mjs";
+import { RectCollider } from "../utils/collision/rectCollision.mjs";
+import { ColliderAbstract } from "../utils/collision/collisionAbstract.mjs";
 
-await assetLoader.load("player","textures/projectile.png")
 
-export class PlayerCharacter extends Character{
+
+
+class PlayerCharacter extends Character{
+
+		static weapons
+		
         constructor(scope, x, y) {
 			super(scope, x, y);
 			this.powerup = 0;
@@ -15,8 +21,9 @@ export class PlayerCharacter extends Character{
 			this.moveSpeed=2
 			
 			let player = this
-			this.weapons={
-				defaultShot:{
+			
+			PlayerCharacter.weapons={
+				DefaultShot:{
 					shootBehavior:function(){
 						createProjectile(
 							player.scope,
@@ -28,7 +35,7 @@ export class PlayerCharacter extends Character{
 					shootCooldownWaitTime:10,
 					shootCooldownTime:0,
 				},
-				defaultShot2:{
+				TripleShot:{
 					shootBehavior:function(){
 						var p1=createProjectile(
 							player.scope,
@@ -64,7 +71,7 @@ export class PlayerCharacter extends Character{
 					shootCooldownWaitTime:30,
 					shootCooldownTime:0,
 				},
-				defaultShot3:{
+				WaverShot:{
 					shootBehavior:function(){
 						var p =createProjectile(
 							player.scope,
@@ -81,7 +88,7 @@ export class PlayerCharacter extends Character{
 					shootCooldownWaitTime:10,
 					shootCooldownTime:0,
 				},
-				defaultShot4:{
+				SlugShot:{
 					shootBehavior:function(){
 						createProjectile(
 							player.scope,
@@ -95,13 +102,23 @@ export class PlayerCharacter extends Character{
 				},
 			}
 
-			this.currentWeapon=this.weapons.defaultShot;
-			this.currentWeapon2=this.weapons.defaultShot2;
+			this.currentSpellCards= [];
+			this.currentSpellCard= 0;
+			this.currentSpellCardChanged=false;
+			this.currentSpellCardUsed=false;
+
+			this.currentWeapon=PlayerCharacter.weapons.DefaultShot;
+			this.currentWeapon2=null;
 			
 
 			this.scoringTimer = 60
 			
-			//this.transform.rotation = Math.PI/2
+			this.collision = new RectCollider(this,this.transform.position,{
+				collisionRect: new rect2(this.transform.position.x,this.transform.position.x,16,16),
+				showCollision:true
+			})
+
+
 
 		}
 		async loadAssets(){
@@ -110,13 +127,10 @@ export class PlayerCharacter extends Character{
 		}
 		update() {
 			super.update(this)
-			//this.texture= await assetLoader.get("projectile");
-			//console.log(this.texture)
 
 			if (isPressed.left && !isPressed.right) {
             	this.velocity.x = -this.moveSpeed;
 			}
-
 			else if (isPressed.right && !isPressed.left) {
 				this.velocity.x = this.moveSpeed;
 			}
@@ -133,6 +147,7 @@ export class PlayerCharacter extends Character{
 			else{
 				this.velocity.y=0;
 			}
+
 			if (isPressed.shoot==true){
 				if (this.currentWeapon.shootCooldownTime<=0){
 					this.currentWeapon.shootBehavior()
@@ -141,28 +156,53 @@ export class PlayerCharacter extends Character{
 				
 			}
 			if (isPressed.shoot2==true){
-				if (this.currentWeapon2.shootCooldownTime<=0){
-					this.currentWeapon2.shootBehavior()
-					this.currentWeapon2.shootCooldownTime=this.currentWeapon2.shootCooldownWaitTime;
+				if (this.currentWeapon2){
+					if (this.currentWeapon2.shootCooldownTime<=0){
+						this.currentWeapon2.shootBehavior()
+						this.currentWeapon2.shootCooldownTime=this.currentWeapon2.shootCooldownWaitTime;
+					}
 				}
 				
 			}
+
+			if (isPressed.useSpellcard==true && !this.currentSpellCardUsed){
+				/*
+				if (this.currentSpellcards[this.currentSpellcard]){
+					this.currentSpellcards[this.currentSpellcard].action(this)
+				}
+				*/
+				this.currentSpellCardUsed=true
+			}
+			else if (isPressed.changeSpellcard==true && this.currentSpellCardUsed){
+				this.currentSpellCardUsed=true
+			}
+			else{
+				this.currentSpellCardUsed=false
+			}
+
+			if (isPressed.changeSpellcard==true && !this.currentSpellCardChanged){
+				this.currentSpellCard = (this.currentSpellCard+1) % this.currentSpellCards.length;
+				this.currentSpellCardChanged=true
+			}
+			else if (isPressed.changeSpellcard==true && this.currentSpellCardChanged){
+				this.currentSpellCardChanged=true
+			}
+			else{
+				this.currentSpellCardChanged=false
+			}
+
 			this.scope.state.cameraScroll.x+=1
-			//this.scope.state.cameraScroll.y=this.transform.position.y
-			this.currentWeapon.shootCooldownTime--;
-			this.currentWeapon2.shootCooldownTime--;
+
+			if (this.currentWeapon)
+				this.currentWeapon.shootCooldownTime--;
+			if (this.currentWeapon2)
+				this.currentWeapon2.shootCooldownTime--;
 
 			this.scoringTimer--;
 			if (this.scoringTimer==0){
 				this.scope.state.playerStatus.ScorePoints++
 				this.scoringTimer=60;
 			}
-
-
-
-
-
-
 
 
 			Boundary(this, new rect2(
@@ -172,13 +212,14 @@ export class PlayerCharacter extends Character{
 				this.scope.constants.trueHeight,
 			))
 
-
-
+			
+			if (this.collision && this.collision instanceof ColliderAbstract){
+				this.collision.update()
+			}
 			
 		}
 
 		render() {
-
 			
 			if (!this.texture) return;
 			
@@ -204,15 +245,15 @@ export class PlayerCharacter extends Character{
 				}
 			)
 			
+			if (this.collision && this.collision instanceof ColliderAbstract){
+				this.collision.render()
+			}
 
-			//drawText(
-			//	renderer,
-			//	new vec2(4,4),
-			//	"Player",
-			//	{
-			//		espacamento:10
-			//	}
-			//)
 			
 		}
 }
+
+
+
+
+export {PlayerCharacter}

@@ -10,8 +10,12 @@ class UINode{
         this.childrenNodes={};
         this.transform = new uiTransform(new vec2(x,y));
         this.visible=true;
+
+        this.loadAssets
     }
-    
+    async loadAssets(){
+
+    }
     calculateTransform(){
         this.calculatedTransform=parseUiTransform(this.scope,this.transform);
         if (this.parentNode!==null){

@@ -31,11 +31,20 @@ class vec2{
     directionTo(vector){
         return vec2.copy(this).vecSub(vec2.copy(vector)).normalized()
     }
+
+    distanceTo(vector){
+        return vec.copy(this).vecSub(vec2.copy(vector)).magnitude
+    }
     vecMult(factor){
         this.x*=factor
         this.y*=factor
         return this
 
+    }
+    vecMultVec(factor){
+        this.x*=factor.x
+        this.y*=factor.y
+        return this
     }
     vecDiv(factor){
         this.x/=factor

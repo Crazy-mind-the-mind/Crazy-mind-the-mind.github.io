@@ -1,4 +1,4 @@
-import { vec2 } from "../utils/dataTypes.mjs";
+import { transform2, vec2 } from "../utils/dataTypes.mjs";
 import { Entity } from "./entity.mjs";
 
 
@@ -14,7 +14,10 @@ export class Character extends Entity{
 	}
 
 	update(){
-
+		if (this.collision){
+			this.collision.transform=this.transform
+			this.collision.update()
+		}
 		this.transform.position.vecAdd(this.velocity)
 	}
 }

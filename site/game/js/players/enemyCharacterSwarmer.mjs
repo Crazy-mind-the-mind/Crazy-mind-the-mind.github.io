@@ -4,23 +4,23 @@ import { EnemyCharacter } from "./enemyCharacter.mjs";
 import { vec2, rect2} from "../utils/dataTypes.mjs";
 import { correctDrawTransform , drawTexture, createProjectile, degToRad} from "../utils/helper.mjs";
 
-export class EnemyCharacterDefault extends EnemyCharacter{
+export class EnemyCharacterSwarmer extends EnemyCharacter{
     constructor(scope, x, y){
         super(scope,x,y)
         this.shotCooldown= 180
         this.velocity = new vec2(-0.1,0)
         this.transform.rotation = Math.PI
-        this.moveSpeed = new vec2( 1 , 2 )
-        this.moveAccel = new vec2( Math.random() ,Math.random()*1.5 )
-        // this.movementPattern= [
-        //     new vec2(-25,0),
-        //     new vec2( 0,-50),
-        //     new vec2( 25,0),
-        //     new vec2(0,50),
-        // ]
+        this.moveSpeed = new vec2( 2 , 5 )
+        this.moveAccel = new vec2( Math.random()*2 ,Math.random()*5 )
+        this.movementPattern= [
+            new vec2(-25,0),
+            new vec2( 0,-50),
+            new vec2( 25,0),
+            new vec2(0,50),
+        ]
 
-        // this.currentMovementInPattern=0
-        // this.timerpattern=240
+        this.currentMovementInPattern=0
+        this.timerpattern=240
     }
 
 
@@ -28,7 +28,6 @@ export class EnemyCharacterDefault extends EnemyCharacter{
     async loadAssets(){
         this.texture = await assetLoader.load("EnemyShipDefault","textures/enemyShip.png")
     }
-
 
     AI(){
         super.AI(this)
@@ -39,21 +38,11 @@ export class EnemyCharacterDefault extends EnemyCharacter{
             vec2.copy(player.transform.position)
             .vecAdd(
                 new vec2(300,Math.random()*50-25 )
-             )
-            
-            
-            )
-            .vecMultVec(
-                new vec2(
-                    parseInt(
-                        Math.abs(player.transform.position.x-this.transform.position.x-300) >8 ),
-                    1
+                .vecAdd(
+                    this.movementPattern[this.currentMovementInPattern]
                 )
-            );
-
-        
-        
-        
+             ) 
+            )
 
         this.velocity.x+=-movdir.x*this.moveAccel.x;
         this.velocity.y+=-movdir.y *this.moveAccel.y;
@@ -77,9 +66,13 @@ export class EnemyCharacterDefault extends EnemyCharacter{
             console.log("velocity",this.velocity)
         }
 
-        
+        if (this.timerpattern<=0){
+            this.currentMovementInPattern++
+            this.currentMovementInPattern = this.currentMovementInPattern%4
+            this.timerpattern=240
+        }
         this.shotCooldown--
-        
+        this.timerpattern--
         
     }
 

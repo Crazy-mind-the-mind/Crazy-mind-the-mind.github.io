@@ -6,15 +6,19 @@ class rect2 {
 		this.origin = new vec2(x||0,y||0);
 		this.size = new vec2(w||0,h||0);
 	}
+	
+	get centerPoint(){
+		return vec2.copy(this.origin).vecAdd(vec2.copy(this.size).vecDiv(2));
+	}
 
-	intersects_point = function intersects_point(point) {
+	intersects_point(point) {
 		return ((point.x <= rect2.origin.x+rect2.size.x &&
 			point.x >= rect2.origin.x) &&
 			(point.y <= rect2.origin.y+rect2.size.y &&
 				point.y >= rect2.origin.y)
 		);
 	};
-	intersects_rect = function intersects_rect(rect) {
+	intersects_rect(rect) {
 		let result = false;
 		result = gameUtils.helper.isInRange(rect.origin.x, rect2.origin.x, rect2.origin.x+rect2.size.x);
 		result = result || gameUtils.helper.isInRange(rect.origin.x+rect.size.x, rect2.origin.x, rect2.origin.x+rect2.size.x);
@@ -25,7 +29,11 @@ class rect2 {
 
 
 		return result
-			}
+	}
+
+	
+
+
 }
 
 export {rect2};

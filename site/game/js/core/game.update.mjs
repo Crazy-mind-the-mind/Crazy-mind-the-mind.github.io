@@ -1,9 +1,12 @@
 
+import { isJustPressed,isJustReleased } from "../utils/input.mjs"
+
 
 export function gameUpdate(scope) {
 			return function update(tFrame) {
 				var state = scope.state || {};
 
+				
 				if (scope.scoreSystem){
 					scope.scoreSystem()
 				}
@@ -23,6 +26,9 @@ export function gameUpdate(scope) {
 					}
 				}
 
+				
+				
+				
 				return state;
 	};
 }

@@ -45,6 +45,7 @@ class gameLoop{
 			this.before = now - (elapsed % this.fpsInterval);
 			this.scope.update(now);
 			this.scope.render();
+			
 			//scope.events.eventSystem();
 		}
 

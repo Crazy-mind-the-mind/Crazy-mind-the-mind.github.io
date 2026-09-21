@@ -4,6 +4,7 @@ export var collision_groups = {
 	"player":[],
 	"enemies":[],
 	"projectiles":[],
+	
 
 };
 

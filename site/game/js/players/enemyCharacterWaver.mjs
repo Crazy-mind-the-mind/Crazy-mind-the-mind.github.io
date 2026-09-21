@@ -4,7 +4,7 @@ import { EnemyCharacter } from "./enemyCharacter.mjs";
 import { vec2, rect2} from "../utils/dataTypes.mjs";
 import { correctDrawTransform , drawTexture, createProjectile, degToRad} from "../utils/helper.mjs";
 
-export class EnemyCharacterDefault extends EnemyCharacter{
+export class EnemyCharacteWaver extends EnemyCharacter{
     constructor(scope, x, y){
         super(scope,x,y)
         this.shotCooldown= 180
