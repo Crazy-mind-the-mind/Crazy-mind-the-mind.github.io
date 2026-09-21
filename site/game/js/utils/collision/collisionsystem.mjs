@@ -45,3 +45,8 @@ export function checkCollisionsForEntity(entity) {
 
 	
 }
+
+
+export function registerCollider(collider){
+	collisionGroups["all"].push(collider)
+}
