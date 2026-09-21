@@ -3,6 +3,7 @@ import { assetLoader } from "../core/game.assetLoader.mjs";
 import { EnemyCharacter } from "./enemyCharacter.mjs";
 import { vec2, rect2} from "../utils/dataTypes.mjs";
 import { correctDrawTransform , drawTexture, createProjectile, degToRad} from "../utils/helper.mjs";
+import { RectCollider } from "../utils/collision/rectCollision.mjs";
 
 export class EnemyCharacterDefault extends EnemyCharacter{
     constructor(scope, x, y){
@@ -10,17 +11,16 @@ export class EnemyCharacterDefault extends EnemyCharacter{
         this.shotCooldown= 180
         this.velocity = new vec2(-0.1,0)
         this.transform.rotation = Math.PI
-        this.moveSpeed = new vec2( 1 , 2 )
-        this.moveAccel = new vec2( Math.random() ,Math.random()*1.5 )
-        // this.movementPattern= [
-        //     new vec2(-25,0),
-        //     new vec2( 0,-50),
-        //     new vec2( 25,0),
-        //     new vec2(0,50),
-        // ]
-
-        // this.currentMovementInPattern=0
-        // this.timerpattern=240
+        this.moveSpeed = new vec2( 2 , 2 )
+        this.moveAccel = new vec2( Math.random()*1.5 ,Math.random()*1.5 )
+        this.collision = new RectCollider(this,this.transform.position,{
+            collisionRect: new rect2(
+                this.transform.position.x,
+                this.transform.position.y,
+                16,16
+            ),
+            showCollision:true
+        });
     }
 
 
@@ -46,7 +46,9 @@ export class EnemyCharacterDefault extends EnemyCharacter{
             .vecMultVec(
                 new vec2(
                     parseInt(
-                        Math.abs(player.transform.position.x-this.transform.position.x-300) >8 ),
+                        Math.abs(player.transform.position.x-this.transform.position.x)-300 >8 || 
+                        this.transform.position.x-player.transform.position.x < 0
+                    ),
                     1
                 )
             );
@@ -111,6 +113,9 @@ export class EnemyCharacterDefault extends EnemyCharacter{
             }
         )
         
+        if (this.collision){
+			this.collision.render()
+		}
     }
     
 

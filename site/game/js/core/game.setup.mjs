@@ -50,8 +50,11 @@ export function gameSetup(scope) {
 
             var enemies=[
                   createEnemy(scope,scope.constants.width,scope.constants.height/2,1),
+                  createEnemy(scope,scope.constants.width,scope.constants.height/2,2),
+                  createEnemy(scope,scope.constants.width,scope.constants.height/2,3),
                   createEnemy(scope,scope.constants.width,scope.constants.height/2,1),
-                  createEnemy(scope,scope.constants.width,scope.constants.height/2,1),
+                  createEnemy(scope,scope.constants.width,scope.constants.height/2,2),
+                  createEnemy(scope,scope.constants.width,scope.constants.height/2,3),
             ]
 
             enemies.forEach(enemy=> {

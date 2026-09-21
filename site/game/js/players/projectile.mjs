@@ -1,5 +1,6 @@
 
 import { assetLoader } from "../core/game.assetLoader.mjs";
+import { RectCollider } from "../utils/collision/rectCollision.mjs";
 import { rect2,vec2} from "../utils/dataTypes.mjs";
 import { correctDrawTransform, deleteEntity, drawRect, drawTexture } from "../utils/helper.mjs";
 import { Entity } from "./entity.mjs";
@@ -19,6 +20,19 @@ export class Projectile extends Entity{
 			this.friendly=false;
 			this.hostile=false;
 			this.direction = new vec2(0,0)
+			this.collision=new RectCollider(
+				this,
+				this.transform.position,
+				{
+					collisionRect: new rect2(
+						this.transform.position.x,
+						this.transform.position.y,
+						8,8
+					),
+					showCollision:true,
+					color:"#ff000088"
+				}
+			)
 
 	}
 
@@ -35,6 +49,11 @@ export class Projectile extends Entity{
 		if (this.timeLeft<=0){
 			deleteEntity(this.scope,this)
 		}
+
+		if (this.collision){
+			this.collision.transform=this.transform
+			this.collision.update()
+		}
 	}
 	AI(){
 		
@@ -49,6 +68,10 @@ export class Projectile extends Entity{
 			this.texture,
 			correctDrawTransform(this)
 		)
+
+		if (this.collision){
+			this.collision.render()
+		}
 	}
 }
 

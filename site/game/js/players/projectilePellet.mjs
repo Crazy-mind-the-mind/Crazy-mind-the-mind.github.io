@@ -18,16 +18,6 @@ export class ProjectilePellet extends Projectile{
 		this.texture=await assetLoader.load("projectile","textures/projectile.png")
 		this.lightTexture=await assetLoader.load("texture","textures/light.png")
 	}
-	update(){
-		this.AI()
-		this.timeLeft-=1;
-		this.transform.position.x+=this.velocity.x;
-		this.transform.position.y+=this.velocity.y;
-
-		if (this.timeLeft<=0){
-			deleteEntity(this.scope,this)
-		}
-	}
 	AI(){
 		this.velocity.x*=0.99;
 		this.velocity.y*=0.99;

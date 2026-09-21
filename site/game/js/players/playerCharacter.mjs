@@ -213,9 +213,9 @@ class PlayerCharacter extends Character{
 			))
 
 			
-			if (this.collision && this.collision instanceof ColliderAbstract){
-				this.collision.update()
-			}
+			// if (this.collision && this.collision instanceof ColliderAbstract){
+			// 	this.collision.update()
+			// }
 			
 		}
 
@@ -244,10 +244,8 @@ class PlayerCharacter extends Character{
 					offsets: vec2.copy(this.transform.position).vecSub(drawCorrectedTransform.position)
 				}
 			)
-			
-			if (this.collision && this.collision instanceof ColliderAbstract){
-				this.collision.render()
-			}
+
+			super.render()
 
 			
 		}

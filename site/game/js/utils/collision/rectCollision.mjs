@@ -48,7 +48,7 @@ class RectCollider extends ColliderAbstract{
     render(){
         if (!this.showCollision) return;
         if (this.owner){
-            drawRect(this.owner.scope.context,this.collisionRect,"#FF00FF88")
+            drawRect(this.owner.scope.context,this.collisionRect,this.collisionColor)
         }
     }
 }

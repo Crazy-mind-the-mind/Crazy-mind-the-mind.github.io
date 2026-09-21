@@ -20,4 +20,11 @@ export class Character extends Entity{
 		}
 		this.transform.position.vecAdd(this.velocity)
 	}
+
+	render(){
+		super.render()
+		if (this.collision){
+			this.collision.render()
+		}
+	}
 }

@@ -32,8 +32,8 @@ export function insertion_sort(array,comp){
 
 export function createProjectile(scope,x,y,type,options){
     options = options || {}
-    console.log(ProjectileTypes)
-    console.log(ProjectileTypes[type])
+    // console.log(ProjectileTypes)
+    // console.log(ProjectileTypes[type])
     var entities = scope.state.entities;
     var newProj= ProjectileTypes[type](scope,x,y);
     var newProjName="Projectile"
@@ -58,13 +58,13 @@ export function createProjectile(scope,x,y,type,options){
             case "direction":
                 if (options.direction){
                     newProj.direction = options.direction
-                    console.log(options.direction)
+                    // console.log(options.direction)
                 }
                 break;
             case "velocity":
                 if (options.initialVelocity){
                     newProj.velocity = options.initialVelocity
-                    console.log(options.initialVelocity)
+                    // console.log(options.initialVelocity)
                 }
                 break;
         }

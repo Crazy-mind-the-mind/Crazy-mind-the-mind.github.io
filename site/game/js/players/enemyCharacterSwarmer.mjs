@@ -3,11 +3,12 @@ import { assetLoader } from "../core/game.assetLoader.mjs";
 import { EnemyCharacter } from "./enemyCharacter.mjs";
 import { vec2, rect2} from "../utils/dataTypes.mjs";
 import { correctDrawTransform , drawTexture, createProjectile, degToRad} from "../utils/helper.mjs";
+import { RectCollider } from "../utils/collision/rectCollision.mjs";
 
 export class EnemyCharacterSwarmer extends EnemyCharacter{
     constructor(scope, x, y){
         super(scope,x,y)
-        this.shotCooldown= 180
+        this.shotCooldown= 240
         this.velocity = new vec2(-0.1,0)
         this.transform.rotation = Math.PI
         this.moveSpeed = new vec2( 2 , 5 )
@@ -21,6 +22,16 @@ export class EnemyCharacterSwarmer extends EnemyCharacter{
 
         this.currentMovementInPattern=0
         this.timerpattern=240
+
+
+         this.collision = new RectCollider(this,this.transform.position,{
+            collisionRect: new rect2(
+                this.transform.position.x,
+                this.transform.position.y,
+                16,16
+            ),
+            showCollision:true
+        });
     }
 
 
@@ -37,7 +48,7 @@ export class EnemyCharacterSwarmer extends EnemyCharacter{
         var movdir = this.transform.position.directionTo(
             vec2.copy(player.transform.position)
             .vecAdd(
-                new vec2(300,Math.random()*50-25 )
+                new vec2(100,Math.random()*50-25 )
                 .vecAdd(
                     this.movementPattern[this.currentMovementInPattern]
                 )
@@ -61,7 +72,7 @@ export class EnemyCharacterSwarmer extends EnemyCharacter{
                     initialVelocity: new vec2(-5,0)
                 }
             )
-            this.shotCooldown=180
+            this.shotCooldown=240
 
             console.log("velocity",this.velocity)
         }
@@ -103,6 +114,10 @@ export class EnemyCharacterSwarmer extends EnemyCharacter{
                 offsets: vec2.copy(this.transform.position).vecSub(drawCorrectedTransform.position)
             }
         )
+
+        if (this.collision){
+			this.collision.render()
+		}
         
     }
     
