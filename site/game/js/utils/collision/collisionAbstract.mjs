@@ -19,7 +19,7 @@ class ColliderAbstract{
 
     }
 
-    collides_with(collider) {
+    collidesWith(collider) {
         if (!collider instanceof CollisionAbstract) return false;
 
         return this
