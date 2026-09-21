@@ -1,9 +1,13 @@
 
 import { assetLoader } from "../core/game.assetLoader.mjs";
+import { ColliderAbstract } from "../utils/collision/collisionAbstract.mjs";
 import { RectCollider } from "../utils/collision/rectCollision.mjs";
 import { rect2,vec2} from "../utils/dataTypes.mjs";
 import { correctDrawTransform, deleteEntity, drawRect, drawTexture } from "../utils/helper.mjs";
+import { Character } from "./character.mjs";
+import { EnemyCharacter } from "./enemyCharacter.mjs";
 import { Entity } from "./entity.mjs";
+import { PlayerCharacter } from "./playercharacter.mjs";
 
 
 export class Projectile extends Entity{
@@ -19,6 +23,7 @@ export class Projectile extends Entity{
 			this.z_index=-10;
 			this.friendly=false;
 			this.hostile=false;
+			this.pierces=1;
 			this.direction = new vec2(0,0)
 			this.collision=new RectCollider(
 				this,
@@ -29,8 +34,10 @@ export class Projectile extends Entity{
 						this.transform.position.y,
 						8,8
 					),
-					showCollision:true,
-					color:"#ff000088"
+					showCollision:scope.constants.showColliders,
+					color:"#ff000088",
+					collisionLayer:["projectiles"],
+					collisionMask:["player","enemies"],
 				}
 			)
 
@@ -38,15 +45,15 @@ export class Projectile extends Entity{
 
 	
 	async loadAssets(){
-		this.texture=await assetLoader.load("projectile","textures/projectile.png")
+		this.texture=await assetLoader.load("projectile","textures/projectiles/projectile.png")
 	}
 	update(){
 		this.AI()
 		this.timeLeft-=1;
 		this.transform.position.x+=this.velocity.x;
 		this.transform.position.y+=this.velocity.y;
-
-		if (this.timeLeft<=0){
+		this.characterExcludes=[];
+		if (this.timeLeft<=0 || this.pierces == 0){
 			deleteEntity(this.scope,this)
 		}
 
@@ -72,6 +79,25 @@ export class Projectile extends Entity{
 		if (this.collision){
 			this.collision.render()
 		}
+	}
+
+	onCollisionReceived(collider){
+		if (collider instanceof ColliderAbstract ){
+				if (collider.owner && collider.owner instanceof Character ){
+					var collidingCharacter=collider.owner
+					
+
+					if (collidingCharacter instanceof PlayerCharacter && this.hostile){
+						this.pierces--;
+					}
+					if (collidingCharacter instanceof EnemyCharacter && this.friendly){
+						this.pierces--;
+					}
+
+					//this.characterExcludes.push(collider.owner);
+							
+				}
+			}
 	}
 }
 

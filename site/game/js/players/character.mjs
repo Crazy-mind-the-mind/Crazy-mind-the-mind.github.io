@@ -1,3 +1,4 @@
+import { assetLoader } from "../core/game.assetLoader.mjs";
 import { transform2, vec2 } from "../utils/dataTypes.mjs";
 import { Entity } from "./entity.mjs";
 
@@ -11,8 +12,13 @@ export class Character extends Entity{
 
 			this.statHealthMax = 0;
 			this.statHealth = 0;
-	}
 
+			this.immunityFramesWaitTime = 30
+			this.immunityFramesTime = 0
+	}
+	loadAssets(){
+		//this.texture = await assetLoader.load("WaverEnemyShip","textures/ships/ship.png");
+	}
 	update(){
 		if (this.collision){
 			this.collision.transform=this.transform
@@ -26,5 +32,17 @@ export class Character extends Entity{
 		if (this.collision){
 			this.collision.render()
 		}
+	}
+
+	onCollisionReceived(collider){
+		console.log("Collision")
+	}
+
+	Hurt(damageAmount){
+		if (this.immunityFramesTime>0) return;
+
+		this.statHealth-=damageAmount;
+		this.immunityFramesTime=this.immunityFramesWaitTime;
+
 	}
 }

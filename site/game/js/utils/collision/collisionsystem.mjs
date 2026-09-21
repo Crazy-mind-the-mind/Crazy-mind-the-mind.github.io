@@ -1,4 +1,5 @@
 import { Entity } from "../../players/entity.mjs";
+import { ColliderAbstract } from "./collisionAbstract.mjs";
 
 
 export var collisionGroups = {
@@ -16,28 +17,38 @@ export var existingColliders=[
 
 export function collisionSystemUpdate(scope){
 	return function collisionUpdate(){
-		
+		collisionGroups["all"].forEach( collider =>{
+			checkCollisionsForEntity(collider)
+		} )
 	};
 }
 
-export function checkCollisionsForEntity(entity) {
-	if (entity instanceof Entity){
+export function checkCollisionsForEntity(victimCollider) {
+	if (victimCollider instanceof ColliderAbstract){
 		
-		var eCol=entity.collision	
-		var result = false;
+		victimCollider	
+		var result = [];
 		var checkedAlready= []
-		eCol.colliionMask.forEach(collisionGroupMask =>{
-			if (collisionGroups[collisionGroupMask]){
-				collisionGroups[collisionGroupMask].forEach(collider=>{
-					if (collider==eCol) continue;
+		
+		for (const group of victimCollider.collisionMask) {
+			
+			if (collisionGroups[group]){
+
+				for (const collider of collisionGroups[group]) {
+					if (collider==victimCollider) continue;
 					if (checkedAlready.includes(collider)) continue;
 					
-					eCol.collidesWith(collider);
+					var collisionHappened=victimCollider.collidesWith(collider);
 					checkedAlready.push(collider)
 					
-				})
+					if (collisionHappened){
+						
+					}
+					
+				}
 			}
-		})
+
+		}
 		
 		return result;
 	}
@@ -48,7 +59,20 @@ export function checkCollisionsForEntity(entity) {
 
 
 export function registerCollider(collider){
-	collisionGroups["all"].push(collider)
+	if (collider instanceof ColliderAbstract){
+		collisionGroups["all"].push(collider)
+		if (collider.collisionLayer && collider.collisionLayer.length>0){
+			collider.collisionLayer.forEach(collisionGroup =>{
+				if ( Object.keys(collisionGroups).includes(collisionGroup)){
+					collisionGroups[collisionGroup].push(collider);
+				}
+			})
+		}
+
+	}
+	
 }
 
-export function removeCollider()
+export function removeCollider(){
+
+}

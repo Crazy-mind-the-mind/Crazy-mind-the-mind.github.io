@@ -6,6 +6,7 @@ import { generateCanvas , generateDrawOrderList} from "./utils/canvas.mjs";
 import { transform2, vec2 } from "./utils/dataTypes.mjs";
 import { gameScore } from "./core/game.score.mjs";
 import { gameWaveSystem } from "./core/game.waveSystem.mjs";
+import { collisionSystemUpdate } from "./utils/collision/collisionsystem.mjs";
 
 
 
@@ -19,7 +20,8 @@ var $container = document.getElementById('container');
 
 
 
-function Game(w, h, targetFps, showFps) {
+function Game(w, h, targetFps, showFps,gameOptions) {
+	gameOptions = gameOptions || {}
 	this.constants = {
 		width: w,
 		height: h,
@@ -27,6 +29,7 @@ function Game(w, h, targetFps, showFps) {
 		showFps: showFps,
 		trueWidth:640,
 		trueHeight:360,
+		showColliders: gameOptions.showColliders || false
 	}
 
 	this.state = {
@@ -61,6 +64,7 @@ function Game(w, h, targetFps, showFps) {
 	this.setup = gameSetup(this);
 
 	this.setup()
+	this.collisionSystem = collisionSystemUpdate(this);
 	this.waveSystem = new gameWaveSystem(this);
 	this.scoreSystem = gameScore(this);
 	this.update = gameUpdate(this);

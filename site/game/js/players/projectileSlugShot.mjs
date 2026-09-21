@@ -16,7 +16,7 @@ export class ProjectileSlugShot extends Projectile{
 
 	
 	async loadAssets(){
-		assetLoader.load("projectileSlug","textures/projectileSlug.png").then(
+		assetLoader.load("projectileSlug","textures/projectiles/projectileSlug.png").then(
 			(imageTex)=>{
 				this.texture = new Texture(imageTex)
 			}

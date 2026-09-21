@@ -1,4 +1,5 @@
 import { transform2 } from "../dataTypes.mjs"
+import { registerCollider } from "./collisionsystem.mjs";
 
 
 class ColliderAbstract{
@@ -16,6 +17,9 @@ class ColliderAbstract{
 
         this.collisionLayer=params.collisionLayer||[];
         this.collisionMask=params.collisionMask||[];
+
+        this.oncollisionevent=owner.onCollisionReceived;
+        registerCollider(this);
     }
     update(){
 
@@ -24,7 +28,7 @@ class ColliderAbstract{
     collidesWith(collider) {
         if (!collider instanceof CollisionAbstract) return false;
 
-        return this
+        return false
     }
 
     render(){

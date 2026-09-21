@@ -8,6 +8,8 @@ import { RectCollider } from "../utils/collision/rectCollision.mjs";
 export class EnemyCharacterDefault extends EnemyCharacter{
     constructor(scope, x, y){
         super(scope,x,y)
+        this.statHealth=3
+		this.statHealthMax=3
         this.shotCooldown= 180
         this.velocity = new vec2(-0.1,0)
         this.transform.rotation = Math.PI
@@ -19,14 +21,14 @@ export class EnemyCharacterDefault extends EnemyCharacter{
                 this.transform.position.y,
                 16,16
             ),
-            showCollision:true
+            showCollision: scope.constants.showColliders
         });
     }
 
 
 
     async loadAssets(){
-        this.texture = await assetLoader.load("EnemyShipDefault","textures/enemyShip.png")
+        this.texture = await assetLoader.load("EnemyShipDefault","textures/ships/enemyShip.png")
     }
 
 
@@ -71,12 +73,15 @@ export class EnemyCharacterDefault extends EnemyCharacter{
                 1,
                 {
                     direction:new vec2(-1,0),
-                    initialVelocity: new vec2(-5,0)
+                    initialVelocity: new vec2(-5,0),
+                    friendly:false,
+                    hostile:true,
+                    owner:this,
                 }
             )
             this.shotCooldown=180
 
-            console.log("velocity",this.velocity)
+            //console.log("velocity",this.velocity)
         }
 
         

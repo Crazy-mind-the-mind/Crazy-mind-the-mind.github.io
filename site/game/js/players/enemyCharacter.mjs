@@ -1,10 +1,10 @@
 
 import { RectCollider } from "../utils/collision/rectCollision.mjs";
 import { rect2 } from "../utils/dataTypes.mjs";
-import { Boundary } from "../utils/helper.mjs";
+import { Boundary, deleteEntity } from "../utils/helper.mjs";
 import { Character } from "./character.mjs";
-
-
+import { ColliderAbstract } from "../utils/collision/collisionAbstract.mjs";
+import { Projectile } from "./projectile.mjs";
 class EnemyCharacter extends Character{
     constructor(scope, x, y) {
         super(scope, x, y);
@@ -16,7 +16,9 @@ class EnemyCharacter extends Character{
                 this.transform.position.y,
                 16,16
             ),
-            showCollision:true
+            showCollision:scope.constants.showColliders,
+            collisionLayers:["enemies"],
+            collisionMask:["projectiles"],
         });
 	}
 
@@ -26,6 +28,10 @@ class EnemyCharacter extends Character{
 
         Boundary(this,this.boundary)
         this.aliveTime++;
+
+        if (this.statHealth <=0){
+            deleteEntity(this);
+        }
     }
     AI(){
         
@@ -34,6 +40,21 @@ class EnemyCharacter extends Character{
     render(){
 		super.render()
     }
+
+    onCollisionReceived(collider){
+        if (collider instanceof ColliderAbstract ){
+				
+				if (collider.owner && collider.owner instanceof Projectile){
+					var collidingProjectile=collider.owner
+					
+                    if (collidingProjectile.friendly){
+                        this.Hurt(collidingProjectile.damage)
+                    }
+					
+							
+				}
+			}
+	}
 }
 
 export {EnemyCharacter}

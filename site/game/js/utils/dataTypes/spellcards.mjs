@@ -1,10 +1,26 @@
-import { PlayerCharacter } from "../../players/playerCharacter.mjs"
+import { assetLoader } from "../../core/game.assetLoader.mjs";
+import { PlayerCharacter } from "../../players/playercharacter.mjs"
 
 class SpellcardDefinition{
-    constructor(){
-
+    static get SPELLCARD_TYPES(){
+        return {
+            NULL:0,
+            WEAPON:1,
+            HEALTH:2
+        }
     }
 
+    static SPELLCARD_TYPES_IMAGES={}
+    constructor(){
+        this.loadAssets()
+    }
+    async loadAssets(){
+
+        SpellcardDefinition.SPELLCARD_TYPES_IMAGES[SPELLCARD_TYPES["NULL"]] = await assetLoader.load("SpellCardNullType","textures/spellcardTypes/spellcardTypeNull.png")
+        SpellcardDefinition.SPELLCARD_TYPES_IMAGES[SPELLCARD_TYPES["WEAPON"]] = await assetLoader.load("SpellCardWeaponType","textures/spellcardTypes/spellcardTypeWeapon.png")
+        SpellcardDefinition.SPELLCARD_TYPES_IMAGES[SPELLCARD_TYPES["HEALTH"]] = await assetLoader.load("SpellCardHealthType","textures/spellcardTypes/spellcardTypeHealth.png")
+    
+    }
     spellcardAction(player){
         if (!player instanceof PlayerCharacter) return;
 

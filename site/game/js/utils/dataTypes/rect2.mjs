@@ -1,5 +1,5 @@
 import { vec2 } from "./vec2.mjs";
-
+import { isInRange } from "../helper.mjs";
 class rect2 {
 
 	constructor(x, y, w, h){
@@ -20,11 +20,55 @@ class rect2 {
 	};
 	intersects_rect(rect) {
 		let result = false;
-		result = gameUtils.helper.isInRange(rect.origin.x, rect2.origin.x, rect2.origin.x+rect2.size.x);
-		result = result || gameUtils.helper.isInRange(rect.origin.x+rect.size.x, rect2.origin.x, rect2.origin.x+rect2.size.x);
+		
+		
 
-		result = result || gameUtils.helper.isInRange(rect.origin.y, rect2.origin.y, rect2.origin.y+rect2.size.y);
-		result = result || gameUtils.helper.isInRange(rect.origin.y+rect.size.y, rect2.origin.y, rect2.origin.y+rect2.size.y);
+
+		result = isInRange(
+			rect.origin.x, 
+			this.origin.x, 
+			this.origin.x+this.size.x) 
+		&& isInRange(
+			rect.origin.y, 
+			this.origin.y, 
+			this.origin.y+this.size.y);
+		
+		result = result || 
+			isInRange(
+			rect.origin.x+rect.size.x,
+			this.origin.x,
+			this.origin.x+this.size.x) 
+		&& isInRange(
+			rect.origin.y,
+			this.origin.y,
+			this.origin.y+this.size.y
+			);
+
+
+
+		
+		result = result || 
+			isInRange(
+				rect.origin.x+rect.size.x,
+				this.origin.x,
+				this.origin.x+this.size.x) 
+		&& isInRange(
+			rect.origin.y+rect.size.y,
+			 this.origin.y,
+			  this.origin.y+this.size.y
+			);
+
+		result = result || 
+			isInRange(
+				rect.origin.x,
+				this.origin.x,
+				this.origin.x+this.size.x) 
+		&& isInRange(
+			rect.origin.y+rect.size.y,
+			 this.origin.y,
+			  this.origin.y+this.size.y
+			);
+
 
 
 

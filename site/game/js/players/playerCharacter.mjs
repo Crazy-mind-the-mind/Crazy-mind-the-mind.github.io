@@ -16,6 +16,8 @@ class PlayerCharacter extends Character{
 		
         constructor(scope, x, y) {
 			super(scope, x, y);
+			this.statHealth=3
+			this.statHealthMax=3
 			this.powerup = 0;
 			this.powerupTime = 0;
 			this.moveSpeed=2
@@ -29,8 +31,14 @@ class PlayerCharacter extends Character{
 							player.scope,
 							player.transform.position.x,
 							player.transform.position.y,
-							1
-					).velocity.x=5;
+							1,
+							{
+								initialVelocity:new vec2(5,0),
+								friendly:true,
+								hostile:false,
+								owner:this,
+							}
+					)
 					},
 					shootCooldownWaitTime:10,
 					shootCooldownTime:0,
@@ -114,15 +122,20 @@ class PlayerCharacter extends Character{
 			this.scoringTimer = 60
 			
 			this.collision = new RectCollider(this,this.transform.position,{
-				collisionRect: new rect2(this.transform.position.x,this.transform.position.x,16,16),
-				showCollision:true
+				collisionRect: new rect2(
+					this.transform.position.x,
+					this.transform.position.x,
+					8,8),
+				showCollision:scope.constants.showColliders,
+				collisionLayer:["player"],
+				collisionMask:["projectiles"],
 			})
 
 
 
 		}
 		async loadAssets(){
-			this.texture=await assetLoader.load("PlayerSprite","textures/ship.png")
+			this.texture=await assetLoader.load("PlayerSprite","textures/ships/ship.png")
 			
 		}
 		update() {
@@ -212,6 +225,10 @@ class PlayerCharacter extends Character{
 				this.scope.constants.trueHeight,
 			))
 
+
+			if (this.statHealth <=0){
+				console.log("Dead")
+			}
 			
 			// if (this.collision && this.collision instanceof ColliderAbstract){
 			// 	this.collision.update()
@@ -248,6 +265,24 @@ class PlayerCharacter extends Character{
 			super.render()
 
 			
+		}
+
+		onCollisionReceived(collider){
+			//console.log("Player collided")
+			if (collider instanceof ColliderAbstract ){
+				if (collider.owner && collider.owner instanceof Projectile){
+					var collidingProjectile=collider.owner
+					//console.log("Player collided w/ Projectile")
+
+					if (collidingProjectile.hostile){
+							this.Hurt(collidingProjectile.damage)
+
+							console.log("Player damaged")
+					}
+					
+							
+				}
+			}
 		}
 }
 

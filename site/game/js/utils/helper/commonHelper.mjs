@@ -4,7 +4,7 @@ import { ProjectileTypes } from "../../players/projectileTypes.mjs";
 import { EnemyCharacterTypes } from "../../players/enemyCharacterTypes.mjs";
 
 export function isInRange(v, min, max) {
-    return v>=min && v<=max;
+    return v>min && v<max;
 };
 
 export function Boundary(entity,limits){
@@ -38,12 +38,14 @@ export function createProjectile(scope,x,y,type,options){
     var newProj= ProjectileTypes[type](scope,x,y);
     var newProjName="Projectile"
     
+    if (options.owner){ newProj.owner = options.owner}
+
     var i=0;
     while (i<1000){
 
         if (!Object.keys(entities).includes("Projectile"+i) ){
             newProjName=newProjName+i;
-            console.log(newProjName)
+            //console.log(newProjName)
             entities[newProjName]=newProj;
             break;
         }
@@ -67,6 +69,18 @@ export function createProjectile(scope,x,y,type,options){
                     // console.log(options.initialVelocity)
                 }
                 break;
+            case "friendly":
+                if (options.friendly){
+                    newProj.friendly = options.friendly
+                    // console.log(options.initialVelocity)
+                }
+                break;
+            case "hostile":
+                if (options.hostile){
+                    newProj.hostile = options.hostile
+                    // console.log(options.initialVelocity)
+                }
+                break;
         }
         
     });
@@ -87,7 +101,7 @@ export function createEnemy(scope,x,y,type,options){
 
         if (!Object.keys(entities).includes("Enemy"+i) ){
             newEnemyName=newEnemyName+i;
-            console.log(newEnemyName)
+            //console.log(newEnemyName)
             entities[newEnemyName]=newEnemy;
             break;
         }
@@ -140,8 +154,9 @@ export function parseUiTransform(scope,transform){
     return new transform2(
         transform.position.scale.x*scope.constants.width +  transform.position.offset.x,
         transform.position.scale.y*scope.constants.height +  transform.position.offset.y,
-        transform.scale.scale.x*scope.constants.width +  transform.scale.offset.x,
-        transform.scale.scale.y*scope.constants.height +  transform.scale.offset.y,
+        transform.scale.scale.x ,
+        transform.scale.scale.y ,
+        transform.rotation
     )
 
 }

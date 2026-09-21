@@ -10,17 +10,25 @@ export class gameWaveSystem{
     
     static get enemyWavePatternPossibilities(){
         return [
-            [1,1,1,1,1]
+            [1,1,1,1,1],
+            [2,2,2,2,2],
+            [3,3,3,3,3],
+            [1,1,1,2,3],
+            [1,1,1,2,2]
+        ];
+    }
+
+    static get positions(){
+        return [
+            new vec2(1000,40),
+            new vec2(1000,180),
+            new vec2(1000,360-40),
         ];
     }
     
     constructor(scope){
         this.scope=scope
-        this.positions=[
-            new vec2(this.scope.constants.width,this.scope.constants.height/2),
-            new vec2(this.scope.constants.width,this.scope.constants.height),
-            new vec2(this.scope.constants.width,this.scope.constants.height),
-        ]
+        
         this.waveCount=0
         this.waveEnemiesLeft=0
         this.waveStarted=false
@@ -32,13 +40,16 @@ export class gameWaveSystem{
             if (this.waveStartDelay<=0){
                 this.waveStarted= true
                 this.waveCount++;
-                var wavePattern=gameWaveSystem.enemyWavePatternPossibilities[Math.max(0, Math.random()*gameWaveSystem.enemyWavePatternPossibilities.length-1)  ]
+                var wavePattern=gameWaveSystem.enemyWavePatternPossibilities[
+                    Math.round(Math.random()*gameWaveSystem.enemyWavePatternPossibilities.length-1)   ]
+                
                 this.waveEnemiesLeft=wavePattern.length
+                
                 for (let enemyIdx = 0; enemyIdx < wavePattern.length; enemyIdx++) {
 
                     var randomPos= vec2.copy(
-                        this.positions[
-                            Math.round(Math.random()*this.positions.length)
+                        gameWaveSystem.positions[
+                            Math.round( Math.random()*gameWaveSystem.positions.length-1)
                         ]
                     );
 

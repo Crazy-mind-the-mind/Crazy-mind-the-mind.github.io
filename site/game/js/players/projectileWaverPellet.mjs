@@ -17,8 +17,8 @@ export class ProjectileWaverPellet extends Projectile{
 
 	
 	async loadAssets(){
-		this.texture=await assetLoader.load("projectile","textures/projectile.png")
-		this.lightTexture=await assetLoader.load("projectile","textures/projectile.png")
+		this.texture=await assetLoader.load("projectile","textures/projectiles/projectile.png")
+		//this.lightTexture=await assetLoader.load("projectile","textures/projectile.png")
 	}
 	
 	AI(){

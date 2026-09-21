@@ -8,6 +8,8 @@ import { RectCollider } from "../utils/collision/rectCollision.mjs";
 export class EnemyCharacterSwarmer extends EnemyCharacter{
     constructor(scope, x, y){
         super(scope,x,y)
+        this.statHealth=2
+		this.statHealthMax=2
         this.shotCooldown= 240
         this.velocity = new vec2(-0.1,0)
         this.transform.rotation = Math.PI
@@ -30,14 +32,14 @@ export class EnemyCharacterSwarmer extends EnemyCharacter{
                 this.transform.position.y,
                 16,16
             ),
-            showCollision:true
+            showCollision:scope.constants.showColliders
         });
     }
 
 
 
     async loadAssets(){
-        this.texture = await assetLoader.load("EnemyShipDefault","textures/enemyShip.png")
+        this.texture = await assetLoader.load("EnemyShipSwarmer","textures/ships/enemyShipSwarmer.png")
     }
 
     AI(){
@@ -69,12 +71,16 @@ export class EnemyCharacterSwarmer extends EnemyCharacter{
                 1,
                 {
                     direction:new vec2(-1,0),
-                    initialVelocity: new vec2(-5,0)
+                    initialVelocity: new vec2(-5,0),
+                    friendly:false,
+                    hostile:true,
+                    owner:this,
+
                 }
             )
             this.shotCooldown=240
 
-            console.log("velocity",this.velocity)
+            //console.log("velocity",this.velocity)
         }
 
         if (this.timerpattern<=0){

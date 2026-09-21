@@ -26,15 +26,15 @@ class RectCollider extends ColliderAbstract{
     }
 
     collidesWith(collider){
-        if (!collider instanceof CollisionAbstract){
-            return false
-        }
-
+        if (!collider instanceof ColliderAbstract){return false}
+        if (collider == this) {return false}
         var result = false;
 
         if (collider instanceof RectCollider){
             if (collider.collisionRect){
-                result = this.collisionRect.intersects_with(collider.collisionRect);
+                result = this.collisionRect.intersects_rect(collider.collisionRect);
+                if (result== true)
+                    this.oncollisionevent(collider);
             }
         }
         else if(collider instanceof CircleCollider){

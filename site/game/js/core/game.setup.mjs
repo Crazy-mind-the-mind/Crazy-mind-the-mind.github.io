@@ -1,6 +1,6 @@
 import { EnemyCharacterDefault } from "../players/enemyCharacterDefault.mjs";
 import { ParallaxLayer } from "../players/parallaxLayer.mjs";
-import { PlayerCharacter } from "../players/playerCharacter.mjs";
+import { PlayerCharacter } from "../players/playercharacter.mjs";
 import { Projectile } from "../players/projectile.mjs";
 import { createEnemy, loadFont } from "../utils/helper.mjs";
 import { keysDown } from "../utils/input.mjs";
@@ -49,14 +49,14 @@ export function gameSetup(scope) {
 
             // Debug Start Enemies
 
-            var enemies=[
-                  createEnemy(scope,scope.constants.width,scope.constants.height/2,1),
-                  createEnemy(scope,scope.constants.width,scope.constants.height/2,2),
-                  createEnemy(scope,scope.constants.width,scope.constants.height/2,3),
-                  createEnemy(scope,scope.constants.width,scope.constants.height/2,1),
-                  createEnemy(scope,scope.constants.width,scope.constants.height/2,2),
-                  createEnemy(scope,scope.constants.width,scope.constants.height/2,3),
-            ]
+            //var enemies=[
+            //      createEnemy(scope,scope.constants.width,scope.constants.height/2,1),
+            //      createEnemy(scope,scope.constants.width,scope.constants.height/2,2),
+            //      createEnemy(scope,scope.constants.width,scope.constants.height/2,3),
+            //      createEnemy(scope,scope.constants.width,scope.constants.height/2,1),
+            //      createEnemy(scope,scope.constants.width,scope.constants.height/2,2),
+            //      createEnemy(scope,scope.constants.width,scope.constants.height/2,3),
+            //]
 
             //enemies.forEach(enemy=> {
             //      console.log(enemy);
@@ -125,29 +125,53 @@ export function gameSetup(scope) {
                         0,
                         0,
                         null,
-                        {
-                              imageName:"SpellCardBackground",
-                              ImagePath:"textures/spellCard.png"
-                        }
+                        "SpellCardBackground",
+                        "textures/spellCard.png"
                   ),
                   "Spellcard2": new UIImage(scope,
-                        0,
+                        32,
                         0,
                         null,
-                        {
-                              imageName:"SpellCardBackground",
-                              ImagePath:"textures/spellCard.png"
-                        }
+                        "SpellCardBackground",
+                        "textures/spellCard.png"
+                        
                   ),
                   "Spellcard3": new UIImage(scope,
+                        64,
+                        16,
+                        null,
+                        "SpellCardBackground",
+                        "textures/spellCard.png"
+                  ),
+                  "Spellcard1Type": new UIImage(scope,
                         0,
                         0,
                         null,
-                        {
-                              imageName:"SpellCardBackground",
-                              ImagePath:"textures/spellCard.png"
-                        }
+                        "SpellCardNullType",
+                        "textures/spellcardTypes/spellcardTypeNull.png"
                   ),
+                  "Spellcard2Type": new UIImage(scope,
+                        0,
+                        0,
+                        null,
+                        "SpellCardNullType",
+                        "textures/spellcardTypes/spellcardTypeNull.png"
+                  ),
+                  "Spellcard3Type": new UIImage(scope,
+                        0,
+                        0,
+                        null,
+                        "SpellCardNullType",
+                        "textures/spellcardTypes/spellcardTypeNull.png"
+                  ),
+                  "Spellcard1Effect": new UIImage(scope,
+                        0,
+                        0,
+                        null,
+                        "SpellCardBackground",
+                        "textures/spellCard.png"
+                  ),
+                  
             }
             
             gameHUD["rootScoreNode"].transform.position.offset.y+=10
@@ -164,16 +188,24 @@ export function gameSetup(scope) {
 
             gameHUD["rootUINode"].addChild(gameHUD["rootScoreNode"],"ScorePointsNode")
             gameHUD["rootUINode"].addChild(gameHUD["rootHighScoreNode"],"HighScorePointsNode")
-
-            gameHUD["SpellCardBundle"].addChild(gameHUD["Spellcard1"],"Spellcard1")
-            gameHUD["SpellCardBundle"].addChild(gameHUD["Spellcard2"],"Spellcard2")
+            
             gameHUD["SpellCardBundle"].addChild(gameHUD["Spellcard3"],"Spellcard3")
+            gameHUD["SpellCardBundle"].addChild(gameHUD["Spellcard2"],"Spellcard2")
+            gameHUD["SpellCardBundle"].addChild(gameHUD["Spellcard1"],"Spellcard1")
 
-            gameHUD["Spellcard1"].transform.position.offset.x=30
-            gameHUD["Spellcard2"].transform.position.offset.x=40
-            gameHUD["Spellcard3"].transform.position.offset.x=50
+            gameHUD["Spellcard1"].addChild(gameHUD["Spellcard1Type"],"SpellcardType")
+            gameHUD["Spellcard1"].addChild(gameHUD["Spellcard1Effect"],"SpellcardEffect")
+            gameHUD["Spellcard2"].addChild(gameHUD["Spellcard2Type"],"SpellcardType")
+            gameHUD["Spellcard3"].addChild(gameHUD["Spellcard3Type"],"SpellcardType")
 
-            //gameHUD["SpellCardBundle"].transform.position.scale.y=0.9
+            gameHUD["Spellcard1"].transform.scale.scale.vecMult(1.3)
+            gameHUD["Spellcard2"].transform.scale.scale.vecMult(1.2)
+            gameHUD["Spellcard3"].transform.scale.scale.vecMult(1.1)
+
+            gameHUD["Spellcard2"].transform.rotation = Math.PI*0.1
+            gameHUD["Spellcard3"].transform.rotation = Math.PI*0.2
+
+            gameHUD["SpellCardBundle"].transform.position.scale.y=0.5
             gameHUD["rootUINode"].addChild(gameHUD["SpellCardBundle"],"SpellCardBundle")
 
             scope.state.ui["GameHUD"] = gameHUD["rootUINode"]

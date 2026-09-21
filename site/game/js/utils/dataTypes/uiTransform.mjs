@@ -11,6 +11,7 @@ class uiTransform{
             offset: scof||new vec2(10,10),
             scale: scsc||new vec2(1,1)
         }
+        this.rotation=0;
     }
 }
 

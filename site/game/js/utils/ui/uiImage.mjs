@@ -6,19 +6,18 @@ import { UINode } from "./uiNode.mjs";
 
 
 export class UIImage extends UINode{
-    constructor(scope,x,y,parent,image){
+    constructor(scope,x,y,parent,imageName,imagePath){
         super(scope,x,y,parent)
-        this.imageLoad = {
-            imageName:image.imageName,
-            imagePath:image.imagePath
-        }
+        this.imageName=imageName||"" 
+        this.imagePath=imagePath||""
         this.texture;
         this.debugColor="#0000ff"
+        this.loadImage = this.loadImage.bind(this)
         this.loadImage()
     }
 
     async loadImage(){
-        this.texture=await assetLoader.load("SpellCardBackground","textures/spellCard.png")
+        this.texture=await assetLoader.load(this.imageName,this.imagePath)
     }
 
     render(){
@@ -37,7 +36,7 @@ export class UIImage extends UINode{
             this.texture,
             this.calculatedTransform,
             {
-                useCanvasTransforms:false
+                useCanvasTransforms:true
             }
         )
         super.render()
