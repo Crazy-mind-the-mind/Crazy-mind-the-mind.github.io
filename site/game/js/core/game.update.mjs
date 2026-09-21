@@ -10,6 +10,9 @@ export function gameUpdate(scope) {
 				if (scope.scoreSystem){
 					scope.scoreSystem()
 				}
+				if (scope.waveSystem){
+					scope.waveSystem.waveSystemUpdate()
+				}
 				if (state.hasOwnProperty('entities')) {
 					var entities = state.entities;
 					for (var entity in entities) {

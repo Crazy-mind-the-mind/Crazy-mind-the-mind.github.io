@@ -10,8 +10,9 @@ class UINode{
         this.childrenNodes={};
         this.transform = new uiTransform(new vec2(x,y));
         this.visible=true;
+        this.debugColor="#FFAA00"
 
-        this.loadAssets
+        this.loadAssets();
     }
     async loadAssets(){
 
@@ -37,15 +38,15 @@ class UINode{
         this.calculateTransform()
 
         
-        //drawRect(this.scope.context,
-        //    new rect2(
-        //        this.calculatedTransform.position.x,
-        //        this.calculatedTransform.position.y,
-        //        4,
-        //        4,
-        //    ),
-        //    "#FFAA00"
-        //)
+        drawRect(this.scope.context,
+            new rect2(
+                this.calculatedTransform.position.x,
+                this.calculatedTransform.position.y,
+                4,
+                4,
+            ),
+            this.debugColor
+        )
 
 
         if (Object.keys(this.childrenNodes).length>0){

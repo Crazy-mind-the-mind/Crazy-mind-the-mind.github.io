@@ -4,6 +4,7 @@ import { PlayerCharacter } from "../players/playerCharacter.mjs";
 import { Projectile } from "../players/projectile.mjs";
 import { createEnemy, loadFont } from "../utils/helper.mjs";
 import { keysDown } from "../utils/input.mjs";
+import { UIImage } from "../utils/ui/uiImage.mjs";
 import { UILabel } from "../utils/ui/uiLabel.mjs";
 import { UINode } from "../utils/ui/uiNode.mjs";
 
@@ -57,9 +58,9 @@ export function gameSetup(scope) {
                   createEnemy(scope,scope.constants.width,scope.constants.height/2,3),
             ]
 
-            enemies.forEach(enemy=> {
-                  console.log(enemy);
-            });
+            //enemies.forEach(enemy=> {
+            //      console.log(enemy);
+            //});
 
 
 
@@ -114,6 +115,39 @@ export function gameSetup(scope) {
                         0,
                         null,
                         "0"),
+                  "SpellCardBundle": new UINode(
+                        scope,
+                        0,
+                        100,
+                        null,
+                  ),
+                  "Spellcard1": new UIImage(scope,
+                        0,
+                        0,
+                        null,
+                        {
+                              imageName:"SpellCardBackground",
+                              ImagePath:"textures/spellCard.png"
+                        }
+                  ),
+                  "Spellcard2": new UIImage(scope,
+                        0,
+                        0,
+                        null,
+                        {
+                              imageName:"SpellCardBackground",
+                              ImagePath:"textures/spellCard.png"
+                        }
+                  ),
+                  "Spellcard3": new UIImage(scope,
+                        0,
+                        0,
+                        null,
+                        {
+                              imageName:"SpellCardBackground",
+                              ImagePath:"textures/spellCard.png"
+                        }
+                  ),
             }
             
             gameHUD["rootScoreNode"].transform.position.offset.y+=10
@@ -131,7 +165,16 @@ export function gameSetup(scope) {
             gameHUD["rootUINode"].addChild(gameHUD["rootScoreNode"],"ScorePointsNode")
             gameHUD["rootUINode"].addChild(gameHUD["rootHighScoreNode"],"HighScorePointsNode")
 
+            gameHUD["SpellCardBundle"].addChild(gameHUD["Spellcard1"],"Spellcard1")
+            gameHUD["SpellCardBundle"].addChild(gameHUD["Spellcard2"],"Spellcard2")
+            gameHUD["SpellCardBundle"].addChild(gameHUD["Spellcard3"],"Spellcard3")
 
+            gameHUD["Spellcard1"].transform.position.offset.x=30
+            gameHUD["Spellcard2"].transform.position.offset.x=40
+            gameHUD["Spellcard3"].transform.position.offset.x=50
+
+            //gameHUD["SpellCardBundle"].transform.position.scale.y=0.9
+            gameHUD["rootUINode"].addChild(gameHUD["SpellCardBundle"],"SpellCardBundle")
 
             scope.state.ui["GameHUD"] = gameHUD["rootUINode"]
 
