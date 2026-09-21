@@ -6,7 +6,8 @@ class ColliderAbstract{
         params = params || {}
         this.owner = owner
 	    this.transform = new transform2()
-
+	    
+	    
         this.active = params.active || true;
         this.showCollision=params.showCollision || false;
         this.collisionColor=params.color|| "#FF00FF88"
