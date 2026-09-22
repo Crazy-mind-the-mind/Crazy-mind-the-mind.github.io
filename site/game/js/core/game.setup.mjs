@@ -1,6 +1,6 @@
 import { EnemyCharacterDefault } from "../players/enemyCharacterDefault.mjs";
 import { ParallaxLayer } from "../players/parallaxLayer.mjs";
-import { PlayerCharacter } from "../players/playercharacter.mjs";
+import { PlayerCharacter } from "../players/playerCharacter.mjs";
 import { Projectile } from "../players/projectile.mjs";
 import { createEnemy, loadFont } from "../utils/helper.mjs";
 import { keysDown } from "../utils/input.mjs";
