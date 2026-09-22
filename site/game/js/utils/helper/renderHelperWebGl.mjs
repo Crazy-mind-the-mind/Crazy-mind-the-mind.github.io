@@ -215,4 +215,10 @@ export function correctDrawTransform(entity,transformName,textureName){
 
 
 
+function wipfunction(){
+	
+	const vertexBuffer=[]
+	
+}
+
 
