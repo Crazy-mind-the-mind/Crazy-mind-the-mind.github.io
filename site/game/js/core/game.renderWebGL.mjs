@@ -2,7 +2,7 @@ import { generateDrawOrderList } from "../utils/canvas.mjs";
 import { Entity } from "../players/entity.mjs";
 
 
-export function gameRender(scope) {
+export function gameRenderWebGL(scope) {
 			var w = scope.constants.width,
 			h = scope.constants.height;
 
