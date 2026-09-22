@@ -52,7 +52,33 @@ export function genImg(ctx){
 	ctx.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexData), ctx.STATIC_DRAW);
 	
 	const vertexShader=ctx.createShader(ctx.VERTEX_SHADER);
-	ctx.shaderSource(vertexShader,``);1
+	ctx.shaderSource(vertexShader,`
+	 attribute vec3 position;
+	 void main(){
+	 	gl_Position = vec4(position, 1);
+	 }
+	`);
+	ctx.compileShader(vertexShader);
+	
+	const fragmentShader=ctx.createShader(ctx.FRAGMENT_SHADER);
+	ctx.shaderSource(fragmentShader,`
+	 void main(){
+	 	gl_FragColor = vec4(1,0,0,1);
+	 }
+	`);
+	ctx.compileShader(fragmentShader);
+	
+	const program = ctx.createProgram();
+	ctx.attachShader(program, vertexShader);
+	ctx.attachShader(program, fragmentShader);
+	ctx.linkProgram(program);
+	
+	const positionLocation=ctx.getAttribLocation(program, `position`);
+	ctx.enableVertexAttribArray(positionLocation);
+	ctx.vertexAttribPointer(positionLocation,3, ctx.FLOAT, false, 0, 0;
+	
+	ctx.useProgram(program);
+	ctx.drawArrays(ctx.TRIANGLES, 0, 3);
 }
 
 
