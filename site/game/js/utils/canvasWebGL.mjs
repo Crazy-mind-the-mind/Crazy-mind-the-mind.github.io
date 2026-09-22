@@ -22,7 +22,7 @@ export function getPixelRatio(context) {
 			return deviceRatio / backingRatio;
 }
 
-export function generateCanvas(w, h) {
+export function generateCanvasWebGL(w, h) {
 			console.log('Generating canvas.');
 
 			var canvas = document.createElement('canvas'),
