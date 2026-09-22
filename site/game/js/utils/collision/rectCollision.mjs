@@ -34,7 +34,7 @@ class RectCollider extends ColliderAbstract{
             if (collider.collisionRect){
                 result = this.collisionRect.intersects_rect(collider.collisionRect);
                 if (result== true)
-                    this.oncollisionevent(collider);
+                    this.oncollisionevent(collider,this);
             }
         }
         else if(collider instanceof CircleCollider){

@@ -6,7 +6,7 @@ class ColliderAbstract{
     constructor(owner,position,params) {
         params = params || {}
         this.owner = owner
-	    this.transform = new transform2()
+	    this.transform = new transform2(position.x,position.y)
 	    
 	    
         this.active = params.active || true;
@@ -18,7 +18,7 @@ class ColliderAbstract{
         this.collisionLayer=params.collisionLayer||[];
         this.collisionMask=params.collisionMask||[];
 
-        this.oncollisionevent=owner.onCollisionReceived;
+        this.oncollisionevent=owner.onCollisionReceived.bind(owner);
         registerCollider(this);
     }
     update(){
