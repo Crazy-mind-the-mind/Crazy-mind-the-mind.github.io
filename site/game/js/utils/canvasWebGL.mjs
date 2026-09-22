@@ -40,10 +40,19 @@ function Vec2ToArray(vector){
 	return [vector.x, vector.y, 0]
 }
 
-export function generateVertexData(){
-	const vertexData=[].append()
+export function genImg(ctx){
+	const vertexData=[
+		.0,  1, 0,
+		 1, -1, 0,
+		-1, -1, 0
+	];
 	
+	const buffer = ctx.createBuffer();
+	ctx.bindBuffer(gl.ARRAY_BUFFER, buffer);
+	ctx.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexData), ctx.STATIC_DRAW);
 	
+	const vertexShader=ctx.createShader(ctx.VERTEX_SHADER);
+	ctx.shaderSource(vertexShader,``);1
 }
 
 
