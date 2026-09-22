@@ -1,4 +1,4 @@
-import { vec2, rect2, transform2} from "../utils/dataTypes.mjs";
+import { vec2, rect2} from "../utils/dataTypes.mjs";
 import { Boundary, correctDrawTransform, createProjectile, drawRect, drawText, drawTexture, loadTexture } from "../utils/helper.mjs";
 import { Character } from "./character.mjs";
 import { keysDown, isPressed, isJustPressed } from "../utils/input.mjs";
@@ -116,7 +116,7 @@ class PlayerCharacter extends Character{
 			this.currentSpellCardUsed=false;
 
 			this.currentWeapon=PlayerCharacter.weapons.DefaultShot;
-			this.currentWeapon2=null;
+			this.currentWeapon2=PlayerCharacter.weapons.SlugShot;
 			
 
 			this.scoringTimer = 60
@@ -237,7 +237,7 @@ class PlayerCharacter extends Character{
 		}
 
 		render() {
-			
+			if (this.isDead) return;
 			if (!this.texture) return;
 			
 			var drawCorrectedTransform= correctDrawTransform(this)
@@ -267,22 +267,27 @@ class PlayerCharacter extends Character{
 			
 		}
 
-		onCollisionReceived(collider){
+		onCollisionReceived(collider,sourceCollider){
 			//console.log("Player collided")
 			if (collider instanceof ColliderAbstract ){
 				if (collider.owner && collider.owner instanceof Projectile){
 					var collidingProjectile=collider.owner
 					//console.log("Player collided w/ Projectile")
+					if (this.isDead){return}
 
 					if (collidingProjectile.hostile){
 							this.Hurt(collidingProjectile.damage)
 
-							console.log("Player damaged")
+							//console.log("Player damaged")
 					}
 					
 							
 				}
 			}
+		}
+
+		Dead(){
+			
 		}
 }
 

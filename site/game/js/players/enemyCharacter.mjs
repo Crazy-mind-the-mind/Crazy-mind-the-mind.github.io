@@ -46,15 +46,20 @@ class EnemyCharacter extends Character{
 				
 				if (collider.owner && collider.owner instanceof Projectile){
 					var collidingProjectile=collider.owner
-					
+					if (this.isDead){return}
                     if (collidingProjectile.friendly){
-                        this.Hurt(collidingProjectile.damage)
+							this.Hurt(collidingProjectile.damage)
                     }
 					
 							
 				}
 			}
 	}
+
+    Dead(){
+        this.scope.state.score+=10
+        deleteEntity(this.scope,this)
+    }
 }
 
 export {EnemyCharacter}

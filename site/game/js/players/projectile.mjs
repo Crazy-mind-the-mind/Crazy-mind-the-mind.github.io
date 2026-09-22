@@ -7,7 +7,7 @@ import { correctDrawTransform, deleteEntity, drawRect, drawTexture } from "../ut
 import { Character } from "./character.mjs";
 import { EnemyCharacter } from "./enemyCharacter.mjs";
 import { Entity } from "./entity.mjs";
-import { PlayerCharacter } from "./playercharacter.mjs";
+import { PlayerCharacter } from "./playerCharacter.mjs";
 
 
 export class Projectile extends Entity{

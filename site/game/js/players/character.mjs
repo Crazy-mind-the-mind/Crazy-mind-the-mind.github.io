@@ -12,7 +12,7 @@ export class Character extends Entity{
 
 			this.statHealthMax = 0;
 			this.statHealth = 0;
-
+			this.isDead = false;
 			this.immunityFramesWaitTime = 30
 			this.immunityFramesTime = 0
 	}
@@ -24,6 +24,7 @@ export class Character extends Entity{
 			this.collision.transform=this.transform
 			this.collision.update()
 		}
+		this.immunityFramesTime--;
 		this.transform.position.vecAdd(this.velocity)
 	}
 
@@ -34,15 +35,23 @@ export class Character extends Entity{
 		}
 	}
 
-	onCollisionReceived(collider){
+	onCollisionReceived(collider,sourceCollider){
 		console.log("Collision")
 	}
 
 	Hurt(damageAmount){
 		if (this.immunityFramesTime>0) return;
-
+		
+		console.log(this)
 		this.statHealth-=damageAmount;
+		if (this.statHealth<=0){
+			this.Dead()
+		}
 		this.immunityFramesTime=this.immunityFramesWaitTime;
 
+	}
+	
+	Dead(){
+		
 	}
 }
