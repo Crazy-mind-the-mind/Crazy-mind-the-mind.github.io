@@ -28,17 +28,24 @@ export function generateCanvasWebGL(w, h) {
 			var canvas = document.createElement('canvas'),
 			context = canvas.getContext('webgl');
 
-			var ratio = getPixelRatio(context);
-
-			//var gameSzMul=Math.max(document.body.clientWidth,document.body.clientHeight) / Math.max(w,h)
-			canvas.width = Math.round(w * ratio);
-			canvas.height = Math.round(h * ratio);
-			//canvas.style.width = w +'px';
-			//canvas.style.height = h +'px';
-			context.setTransform(ratio, 0, 0, ratio, 0, 0);
-			context.imageSmoothingEnabled=false
+			if (!context)
+				throw new Error('WebGL is not supported');
+			
+			
+			
 			return canvas;
 }
+
+function Vec2ToArray(vector){
+	return [vector.x, vector.y, 0]
+}
+
+export function generateVertexData(){
+	const vertexData=[].append()
+	
+	
+}
+
 
 export function generateDrawOrderList(objects){
 
