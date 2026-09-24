@@ -12,7 +12,7 @@ export async function loadFont() {
     if (fontLoadingState) return fontLoadingState;
 
     fontLoadingState = (async () => {
-        const image = await assetLoader.load("GameFont", "textures/font.png");
+        const image = await assetLoader.loadImage("GameFont", "textures/font.png");
 
         
         const textureMap = {
@@ -80,13 +80,14 @@ export function drawRect(ctx,rect,color){
 }
 
 
-export function drawTexture(ctx,texture,transform,options){
+export function drawTexture(/**@type{ CanvasRenderingContext2D } */ ctx,texture,transform,options){
 	options = options || {}
 
 
 	if (texture instanceof Texture){
 		
 		ctx.drawImage(
+
 			texture.image,
 			transform.position.x,
 			transform.position.y,
@@ -99,9 +100,10 @@ export function drawTexture(ctx,texture,transform,options){
 		ctx.fillRect(
 			transform.position.x,
 			transform.position.y,
-			texture.width*transform.scale.x,
-			texture.height*transform.scale.y
+			texture.image.width*transform.scale.x,
+			texture.image.height*transform.scale.y
 		)
+		
 
 		ctx.globalCompositeOperation="source-over";
 

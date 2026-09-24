@@ -2,7 +2,7 @@
 import { assetLoader } from "../core/game.assetLoader.mjs";
 import { EnemyCharacter } from "./enemyCharacter.mjs";
 import { vec2, rect2} from "../utils/dataTypes.mjs";
-import { correctDrawTransform , drawTexture, createProjectile, degToRad} from "../utils/helper.mjs";
+import { correctDrawTransform , drawTexture, createProjectile, degToRad, playAudio} from "../utils/helper.mjs";
 import { RectCollider } from "../utils/collision/rectCollision.mjs";
 
 export class EnemyCharacterDefault extends EnemyCharacter{
@@ -10,7 +10,7 @@ export class EnemyCharacterDefault extends EnemyCharacter{
         super(scope,x,y)
         this.statHealth=3
 		this.statHealthMax=3
-        this.shotCooldown= 180
+        this.shotCooldown= 180+parseInt(Math.random*40)
         this.velocity = new vec2(-0.1,0)
         this.transform.rotation = Math.PI
         this.moveSpeed = new vec2( 2 , 2 )
@@ -21,14 +21,16 @@ export class EnemyCharacterDefault extends EnemyCharacter{
                 this.transform.position.y,
                 16,16
             ),
-            showCollision: scope.constants.showColliders
+            showCollision: scope.constants.showColliders,
+            collisionLayers:["enemies"],
+            collisionMask:["projectiles"],
         });
     }
 
 
 
     async loadAssets(){
-        this.texture = await assetLoader.load("EnemyShipDefault","textures/ships/enemyShip.png")
+        this.texture = await assetLoader.loadImage("EnemyDefaultSprite","textures/ships/enemyShip.png")
     }
 
 
@@ -79,8 +81,9 @@ export class EnemyCharacterDefault extends EnemyCharacter{
                     owner:this,
                 }
             )
-            this.shotCooldown=180
-
+            this.shotCooldown=180+parseInt(Math.random*40)
+            playAudio(this.scope.audio,"LaserShotSound")
+            
             //console.log("velocity",this.velocity)
         }
 

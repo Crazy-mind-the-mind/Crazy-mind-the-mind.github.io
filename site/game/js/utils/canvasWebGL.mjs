@@ -25,12 +25,12 @@ export function getPixelRatio(context) {
 export function generateCanvasWebGL(w, h) {
 			console.log('Generating canvas.');
 
+			
 			var canvas = document.createElement('canvas'),
 			context = canvas.getContext('webgl');
 
 			if (!context)
 				throw new Error('WebGL is not supported');
-			
 			
 			
 			return canvas;
@@ -75,7 +75,7 @@ export function genImg(ctx){
 	
 	const positionLocation=ctx.getAttribLocation(program, `position`);
 	ctx.enableVertexAttribArray(positionLocation);
-	ctx.vertexAttribPointer(positionLocation,3, ctx.FLOAT, false, 0, 0;
+	ctx.vertexAttribPointer(positionLocation,3, ctx.FLOAT, false, 0, 0);
 	
 	ctx.useProgram(program);
 	ctx.drawArrays(ctx.TRIANGLES, 0, 3);

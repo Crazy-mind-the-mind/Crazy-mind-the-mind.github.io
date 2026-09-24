@@ -10,13 +10,14 @@ export class ProjectilePellet extends Projectile{
     constructor(scope, x, y) {
 			super(scope, x, y);
 			this.timeLeft=240;
+			this.damage=1;
 			
 	}
 
 	
 	async loadAssets(){
-		this.texture=await assetLoader.load("projectile","textures/projectiles/projectile.png")
-		this.lightTexture=await assetLoader.load("texture","textures/light.png")
+		this.texture=await assetLoader.loadImage("projectile","textures/projectiles/projectile.png")
+		this.lightTexture=await assetLoader.loadImage("texture","textures/light.png")
 	}
 	AI(){
 		this.velocity.x*=0.99;

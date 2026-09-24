@@ -7,10 +7,26 @@ import { keysDown } from "../utils/input.mjs";
 import { UIImage } from "../utils/ui/uiImage.mjs";
 import { UILabel } from "../utils/ui/uiLabel.mjs";
 import { UINode } from "../utils/ui/uiNode.mjs";
+import { assetLoader } from "./game.assetLoader.mjs";
 
 export function gameSetup(scope) {
 
-            loadFont()
+            loadFont();
+            
+            fetch("preload.json")
+            .then((response)=>{
+                  if (!response.ok){
+                        throw new Error('Fetch Error');
+                  }
+                  return response.json();
+            }).then((json)=>{
+                  assetLoader.loadAll(json);
+
+            })
+            .catch()
+
+            
+
 		return function setup() {
             scope.state.entities={};
             
@@ -48,7 +64,7 @@ export function gameSetup(scope) {
             
 
             // Debug Start Enemies
-
+            
             //var enemies=[
             //      createEnemy(scope,scope.constants.width,scope.constants.height/2,1),
             //      createEnemy(scope,scope.constants.width,scope.constants.height/2,2),
@@ -68,13 +84,14 @@ export function gameSetup(scope) {
 
 
 
-
+                            
 
 
             // UI elements
 
             scope.state.ui = {}
             
+            if (scope.configurations.renderer == "canvas"){
             var gameHUD={
                   "rootUINode":new UINode(
                         scope,
@@ -232,9 +249,9 @@ export function gameSetup(scope) {
 
 
             scope.state.ui["DeadScreen"] = DeadScreen[0]
+            
 
-
-
+            }
 
 
 

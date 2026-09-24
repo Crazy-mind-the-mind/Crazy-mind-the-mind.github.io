@@ -17,7 +17,7 @@ export class UIImage extends UINode{
     }
 
     async loadImage(){
-        this.texture=await assetLoader.load(this.imageName,this.imagePath)
+        this.texture=await assetLoader.loadImage(this.imageName,this.imagePath)
     }
 
     render(){

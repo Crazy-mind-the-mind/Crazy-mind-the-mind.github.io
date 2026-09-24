@@ -11,6 +11,7 @@ export class Entity{
 			this.texture;
 			this.renderable;
 			this.loadAssets()
+			this.active=true;
 		}
 
 	async loadAssets(){

@@ -4,9 +4,10 @@ import { transform2 } from "../dataTypes.mjs";
 
 
 class UINode{
-    constructor(scope, x,y , parentUInode){
+    constructor(scope, x,y , /**@type{UINode}*/parentUInode){
         this.scope=scope
-        this.parentNode=parentUInode;
+        this.parentNode=null
+        if (parentUInode) parentUInode.addChild(this);
         this.childrenNodes={};
         this.transform = new uiTransform(new vec2(x,y));
         this.visible=true;
@@ -61,7 +62,7 @@ class UINode{
     addChild(uiNodeChild,nodeName){
         if (uiNodeChild==this) return;
         if (uiNodeChild.hasChild(this)) return;
-
+        nodeName = nodeName || "UINode"+this.childrenNodes.length;
         this.childrenNodes[nodeName]=uiNodeChild;
         uiNodeChild.parentNode=this
     }
@@ -77,6 +78,15 @@ class UINode{
 
     findChildByName(childName){
         return this.childrenNodes[childName]
+    }
+
+    findChildByInstance(childRef){
+        for (const child in this.childrenNodes) {
+            if (this.childrenNodes[child] == childRef){
+                return Object.keys(this.childrenNodes).indexOf(child);
+            }
+        }
+        return -1;
     }
 
     hasChild(childRef){

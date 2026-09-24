@@ -3,6 +3,8 @@ import { transform2, uiTransform } from "../dataTypes.mjs";
 import { ProjectileTypes } from "../../players/projectileTypes.mjs";
 import { EnemyCharacterTypes } from "../../players/enemyCharacterTypes.mjs";
 
+
+
 export function isInRange(v, min, max) {
     return v>min && v<max;
 };
@@ -130,7 +132,7 @@ export function deleteEntity(scope,entity){
             entityName=thisEntity;
         }
     }
-    entity.destroySelf();
+    entity.active=false;
     delete entities[entityName];
 } 
 

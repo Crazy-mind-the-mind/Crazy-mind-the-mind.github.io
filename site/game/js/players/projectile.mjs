@@ -45,7 +45,7 @@ export class Projectile extends Entity{
 
 	
 	async loadAssets(){
-		this.texture=await assetLoader.load("projectile","textures/projectiles/projectile.png")
+		this.texture=await assetLoader.loadImage("projectile","textures/projectiles/projectile.png")
 	}
 	update(){
 		this.AI()
@@ -92,6 +92,7 @@ export class Projectile extends Entity{
 					}
 					if (collidingCharacter instanceof EnemyCharacter && this.friendly){
 						this.pierces--;
+						console.log("AAA")
 					}
 
 					//this.characterExcludes.push(collider.owner);

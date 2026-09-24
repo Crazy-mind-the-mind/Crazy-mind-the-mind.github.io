@@ -1,5 +1,6 @@
 import { assetLoader } from "../core/game.assetLoader.mjs";
 import { transform2, vec2 } from "../utils/dataTypes.mjs";
+import { playAudio } from "../utils/helper.mjs";
 import { Entity } from "./entity.mjs";
 
 
@@ -17,9 +18,11 @@ export class Character extends Entity{
 			this.immunityFramesTime = 0
 	}
 	loadAssets(){
-		//this.texture = await assetLoader.load("WaverEnemyShip","textures/ships/ship.png");
+		//this.texture = await assetLoader.loadImage("WaverEnemyShip","textures/ships/ship.png");
 	}
 	update(){
+        if (!this.active) return;
+
 		if (this.collision){
 			this.collision.transform=this.transform
 			this.collision.update()
@@ -29,6 +32,8 @@ export class Character extends Entity{
 	}
 
 	render(){
+        if (!this.active) return;
+
 		super.render()
 		if (this.collision){
 			this.collision.render()
@@ -40,13 +45,14 @@ export class Character extends Entity{
 	}
 
 	Hurt(damageAmount){
-		if (this.immunityFramesTime>0) return;
-		
-		console.log(this)
-		this.statHealth-=damageAmount;
 		if (this.statHealth<=0){
 			this.Dead()
 		}
+		if (this.immunityFramesTime>0) return;
+		playAudio(this.scope.audio,"DamageHitSoundEffect");
+		console.log(this)	
+		this.statHealth-=damageAmount;
+		
 		this.immunityFramesTime=this.immunityFramesWaitTime;
 
 	}
@@ -54,4 +60,5 @@ export class Character extends Entity{
 	Dead(){
 		
 	}
+	
 }

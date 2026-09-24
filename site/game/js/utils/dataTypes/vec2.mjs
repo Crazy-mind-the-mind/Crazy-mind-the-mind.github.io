@@ -33,7 +33,7 @@ class vec2{
     }
 
     distanceTo(vector){
-        return vec.copy(this).vecSub(vec2.copy(vector)).magnitude
+        return vec2.copy(this).vecSub(vec2.copy(vector)).magnitude
     }
     vecMult(factor){
         this.x*=factor
@@ -63,6 +63,13 @@ class vec2{
         this.x-=vector.x;
         this.y-=vector.y;
         return this;
+    }
+
+    vecToArray(){
+        return [this.x,this.y];
+    }
+    rotated(rotation){
+        return vec2.copy(this).vecMultVec(new vec2(Math.sin(rotation),Math.cos(rotation)) );
     }
     [Symbol.toPrimitive](hint){
 

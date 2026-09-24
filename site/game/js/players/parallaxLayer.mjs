@@ -2,6 +2,7 @@ import {vec2, rect2, Texture, transform2} from "../utils/dataTypes.mjs";
 import { Entity } from "./entity.mjs";
 import { correctDrawTransform, drawRect , drawTexture, loadTexture } from "../utils/helper.mjs";
 import { assetLoader } from "../core/game.assetLoader.mjs";
+import { TextureWebGL } from "../utils/dataTypes/texture.mjs";
 export class ParallaxLayer extends Entity {
     constructor(scope, x, y) {
         super(scope, x, y);
@@ -20,10 +21,10 @@ export class ParallaxLayer extends Entity {
     }
 
     async loadAssets() {
-        this.texture = await assetLoader.load(
+        this.texture = this.scope.configurations.renderer=="canvas"?await assetLoader.loadImage(
             "StarBackgroundTexture",
             "textures/starsBackground.png"
-        );
+        ): new TextureWebGL("StarBackgroundTexture","textures/starsBackground.png") ;
     }
 
     update() {
@@ -38,9 +39,9 @@ export class ParallaxLayer extends Entity {
             this.transform.position.y;
     }
 
-    // Passo do tiling = tamanho CRU da textura (não escalado)
-    get _passoX() { return this.texture.width;  }
-    get _passoY() { return this.texture.height; }
+    
+    get _stepX() { return this.texture.width;  }
+    get _stepY() { return this.texture.height; }
 
     render() {
         if (!this.texture) return;
@@ -54,8 +55,8 @@ export class ParallaxLayer extends Entity {
     }
 
     #offsets() {
-        const px = this._passoX;
-        const py = this._passoY;
+        const px = this._stepX;
+        const py = this._stepY;
         const x = this.virtualTransform.position.x;
         const y = this.virtualTransform.position.y;
         return {
@@ -65,12 +66,18 @@ export class ParallaxLayer extends Entity {
     }
 
     #draw(x, y) {
-        const t = correctDrawTransform(this, "virtualTransform");
-        t.position.x = x*this.transform.scale.x;
-        t.position.y = y*this.transform.scale.x;
-		t.scale.x = this.transform.scale.x
-		t.scale.y = this.transform.scale.y
-        drawTexture(this.scope.context, this.texture, t);
+        if (this.scope.configurations.renderer == "canvas"){
+            const t = correctDrawTransform(this, "virtualTransform");
+            t.position.x = x*this.transform.scale.x;
+            t.position.y = y*this.transform.scale.x;
+            t.scale.x = this.transform.scale.x
+            t.scale.y = this.transform.scale.y
+            drawTexture(this.scope.context, this.texture, t);
+        } 
+        else{
+
+        }
+        
     }
 
     #renderSingle() {
@@ -82,44 +89,45 @@ export class ParallaxLayer extends Entity {
 
     #renderX() {
         const { ox } = this.#offsets();
-        const passo = this._passoX;
+        const step = this._stepX;
         const y = this.virtualTransform.position.y;
 
-        const copias = this.parallaxScale.repeat.x ||
-            Math.ceil(this.scope.viewport.width / passo) + 1;
+        const copies = this.parallaxScale.repeat.x ||
+            Math.ceil(this.scope.viewport.width / step) + 1;
 
-        for (let i = 0; i < copias; i++) {
-            this.#draw(-ox + i * passo, y);
+        for (let i = 0; i < copies; i++) {
+            this.#draw(-ox + i * step, y);
         }
     }
 
     #renderY() {
         const { oy } = this.#offsets();
-        const passo = this._passoY;
+        const step = this._stepY;
         const x = this.virtualTransform.position.x;
 
-        const copias = this.parallaxScale.repeat.y ||
-            Math.ceil(this.scope.viewport.height / passo) + 1;
+        const copies = this.parallaxScale.repeat.y ||
+            Math.ceil(this.scope.viewport.height / step) + 1;
 
-        for (let i = 0; i < copias; i++) {
-            this.#draw(x, -oy + i * passo);
+        for (let i = 0; i < copies; i++) {
+            this.#draw(x, -oy + i * step);
         }
     }
 
     #renderXY() {
         const { ox, oy } = this.#offsets();
-        const px = this._passoX;
-        const py = this._passoY;
+        const stpx = this._stepX;
+        const stpy = this._stepY;
 
         const cx = this.parallaxScale.repeat.x ||
-            Math.ceil(this.scope.viewport.width  / px) + 1;
+            Math.ceil(this.scope.viewport.width  / stpx) + 1;
         const cy = this.parallaxScale.repeat.y ||
-            Math.ceil(this.scope.viewport.height / py) + 1;
+            Math.ceil(this.scope.viewport.height / stpy) + 1;
 
         for (let j = 0; j < cy; j++) {
             for (let i = 0; i < cx; i++) {
-                this.#draw(-ox + i * px, -oy + j * py);
+                this.#draw(-ox + i * stpx, -oy + j * stpy);
             }
         }
     }
 }
+

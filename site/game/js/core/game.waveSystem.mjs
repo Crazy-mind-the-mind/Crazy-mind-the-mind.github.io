@@ -14,15 +14,19 @@ export class gameWaveSystem{
             [2,2,2,2,2],
             [3,3,3,3,3],
             [1,1,1,2,3],
-            [1,1,1,2,2]
+            [1,1,1,2,2],
+            [4,4],
+            [4,4,1,1,1,1,1],
+            [4,3,3,1,1,1,1],
+            [4,2,2,2,1,1,1],
         ];
     }
 
     static get positions(){
         return [
-            new vec2(1000,40),
-            new vec2(1000,180),
-            new vec2(1000,360-40),
+            new vec2(800,40),
+            new vec2(800,180),
+            new vec2(800,320)
         ];
     }
     
@@ -32,7 +36,14 @@ export class gameWaveSystem{
         this.waveCount=0
         this.waveEnemiesLeft=0
         this.waveStarted=false
-        this.waveStartDelay = 240
+        this.waveStartDelay = 20
+        this.scope.eventSystem.connectToEvent("enemyKilled",function(){
+            this.waveEnemiesLeft--;
+            if(this.waveEnemiesLeft<=0){
+                this.scope.state.playerStatus.ScorePoints+=100*(this.waveCount>1);
+            }
+
+        },this);
     }
     waveSystemUpdate(){
 
@@ -41,16 +52,16 @@ export class gameWaveSystem{
                 this.waveStarted= true
                 this.waveCount++;
                 var wavePattern=gameWaveSystem.enemyWavePatternPossibilities[
-                    Math.round(Math.random()*gameWaveSystem.enemyWavePatternPossibilities.length-1)   ]
+                    parseInt(Math.random()*gameWaveSystem.enemyWavePatternPossibilities.length)
+                ]
+                console.log(wavePattern)
                 
                 this.waveEnemiesLeft=wavePattern.length
                 
                 for (let enemyIdx = 0; enemyIdx < wavePattern.length; enemyIdx++) {
-
+                    //console.log(parseInt( Math.random()*gameWaveSystem.positions.length))
                     var randomPos= vec2.copy(
-                        gameWaveSystem.positions[
-                            Math.round( Math.random()*gameWaveSystem.positions.length-1)
-                        ]
+                        gameWaveSystem.positions[parseInt( Math.random()*gameWaveSystem.positions.length)]
                     );
 
                     createEnemy(this.scope,randomPos.x,randomPos.y, wavePattern[enemyIdx])
@@ -66,7 +77,7 @@ export class gameWaveSystem{
         }
         else{
             if (this.waveEnemiesLeft==0){
-                this.waveStarted=false
+                this.waveStarted=false;
             }
         }       
     }

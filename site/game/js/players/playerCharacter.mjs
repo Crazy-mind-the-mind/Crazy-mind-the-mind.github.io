@@ -1,11 +1,13 @@
 import { vec2, rect2} from "../utils/dataTypes.mjs";
-import { Boundary, correctDrawTransform, createProjectile, drawRect, drawText, drawTexture, loadTexture } from "../utils/helper.mjs";
+import { Boundary, correctDrawTransform, createProjectile, drawRect, drawText, drawTexture, loadTexture, playAudio } from "../utils/helper.mjs";
 import { Character } from "./character.mjs";
 import { keysDown, isPressed, isJustPressed } from "../utils/input.mjs";
 import { Projectile } from "./projectile.mjs";
 import { assetLoader } from "../core/game.assetLoader.mjs";
 import { RectCollider } from "../utils/collision/rectCollision.mjs";
 import { ColliderAbstract } from "../utils/collision/collisionAbstract.mjs";
+import { TextureWebGL } from "../utils/dataTypes/texture.mjs";
+
 
 
 
@@ -49,25 +51,36 @@ class PlayerCharacter extends Character{
 							player.scope,
 							player.transform.position.x,
 							player.transform.position.y,
-							1
+							1,{
+								initialVelocity:new vec2(5,-5).normalized().vecMult(5),
+								friendly:true,
+								hostile:false,
+								owner:this,
+							}
 						),
 						p2=createProjectile(
 							player.scope,
 							player.transform.position.x,
 							player.transform.position.y,
-							1
+							1,{
+								initialVelocity:new vec2(5,0),
+								friendly:true,
+								hostile:false,
+								owner:this,
+							}
 						),
 						p3=createProjectile(
 							player.scope,
 							player.transform.position.x,
 							player.transform.position.y,
-							1
+							1,{
+								initialVelocity:new vec2(5,-5).normalized().vecMult(5),
+								friendly:true,
+								hostile:false,
+								owner:this,
+							}
 						);
-						p1.velocity=new vec2(5,-5).normalized();
-						p2.velocity.x=5;
-						p3.velocity=new vec2(5,5).normalized();
-						p1.velocity.vecMult(5)
-						p3.velocity.vecMult(5)
+						
 
 						try {
 							console.log( (new vec2(1,5)+ new vec(5,1)).x  )
@@ -88,8 +101,12 @@ class PlayerCharacter extends Character{
 							2,
 							{
 								direction:new vec2(1,0),
-								initialVelocity: new vec2(2,0)
+								initialVelocity: new vec2(2,0),
+								friendly:true,
+								hostile:false,
+								owner:this,
 							}
+							
 						)
 						//p.velocity.x=2
 					},
@@ -102,7 +119,14 @@ class PlayerCharacter extends Character{
 							player.scope,
 							player.transform.position.x,
 							player.transform.position.y,
-							3
+							3,
+							{
+								direction:new vec2(1,0),
+								initialVelocity: new vec2(2,0),
+								friendly:true,
+								hostile:false,
+								owner:this,
+							}
 					).velocity.x=5;
 					},
 					shootCooldownWaitTime:30,
@@ -135,7 +159,12 @@ class PlayerCharacter extends Character{
 
 		}
 		async loadAssets(){
-			this.texture=await assetLoader.load("PlayerSprite","textures/ships/ship.png")
+			this.texture= this.scope.configurations.renderer=="canvas"?
+			await assetLoader.loadImage("PlayerSprite","textures/ships/ship.png"):
+			new TextureWebGL("PlayerSprite","textures/ships/ship.png", {
+				"scope":this.scope
+			});
+			if (this.texture && this.texture instanceof TextureWebGL) this.texture.loadTexture();
 			
 		}
 		update() {
@@ -165,6 +194,8 @@ class PlayerCharacter extends Character{
 				if (this.currentWeapon.shootCooldownTime<=0){
 					this.currentWeapon.shootBehavior()
 					this.currentWeapon.shootCooldownTime=this.currentWeapon.shootCooldownWaitTime;
+					playAudio(this.scope.audio,"LaserShotSound")
+					
 				}
 				
 			}
@@ -173,6 +204,8 @@ class PlayerCharacter extends Character{
 					if (this.currentWeapon2.shootCooldownTime<=0){
 						this.currentWeapon2.shootBehavior()
 						this.currentWeapon2.shootCooldownTime=this.currentWeapon2.shootCooldownWaitTime;
+						playAudio(this.scope.audio,"LaserShotSound")
+
 					}
 				}
 				
@@ -239,28 +272,33 @@ class PlayerCharacter extends Character{
 		render() {
 			if (this.isDead) return;
 			if (!this.texture) return;
-			
-			var drawCorrectedTransform= correctDrawTransform(this)
+			if (this.scope.configurations.renderer=="canvas"){
+				var drawCorrectedTransform= correctDrawTransform(this)
 
-			drawCorrectedTransform.rotation
-			//console.log(plrrect.origin.x,plrrect.origin.y ,plrrect.size.x ,plrrect.size.y );
-			
-			let renderer=this.scope.context;
-			//drawRect(renderer,plrrect,'#40d870');
-			drawCorrectedTransform.scale.x=1.0
+				drawCorrectedTransform.rotation
+				//console.log(plrrect.origin.x,plrrect.origin.y ,plrrect.size.x ,plrrect.size.y );
+				
+				let renderer=this.scope.context;
+				//drawRect(renderer,plrrect,'#40d870');
+				drawCorrectedTransform.scale.x=1.0
 
-			
+				
 
 
-			drawTexture(
-				renderer,
-				this.texture,
-				this.transform,
-				{
-					useCanvasTransforms:true,
-					offsets: vec2.copy(this.transform.position).vecSub(drawCorrectedTransform.position)
-				}
-			)
+				drawTexture(
+					renderer,
+					this.texture,
+					this.transform,
+					{
+						useCanvasTransforms:true,
+						offsets: vec2.copy(this.transform.position).vecSub(drawCorrectedTransform.position)
+					}
+				)
+			}
+			else {
+
+			}
+
 
 			super.render()
 

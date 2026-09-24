@@ -1,5 +1,258 @@
 import { assetLoader } from "../../core/game.assetLoader.mjs";
-import { Texture, transform2 } from "../dataTypes.mjs";
+import { Texture, transform2, vec2 } from "../dataTypes.mjs";
+
+
+
+const QuadVerticesArray=[
+      -0.500, -0.500,
+      +0.500, +0.000,
+      +0.500, +0.500,
+
+      -0.000, -0.000,
+      +0.500, +0.500,
+      +0.000, +0.500,
+]
+
+
+const QuadVerticesArrayVec2=[
+      new vec2(-0.500, -0.500),
+      new vec2(+0.500, +0.000),
+      new vec2(+0.500, +0.500),
+      new vec2(-0.000, -0.000),
+      new vec2(+0.500, +0.500),
+      new vec2(+0.000, +0.500),
+]
+
+export function testDrawTriangle(/**@type {WebGLRenderingContext} */gl){
+    var program = createProgram(gl,
+      `precision mediump float;
+
+      attribute vec2 vertPosition;
+      attribute vec3 vertColor;
+
+      varying vec3 fragColor;
+
+      uniform vec2 canvasSize;
+      uniform vec2 shapeLocation;
+      uniform float shapeSize;
+
+      void main(){
+          fragColor=vertColor;
+
+          vec2 finalVertexPosition = vertPosition * shapeSize + shapeLocation;
+          vec2 clipPosition = (vertPosition / canvasSize) * 2.0 - 1.0;
+
+          gl_Position = vec4(vertPosition, 0.0, 1.0);
+      }
+      `,
+      `precision mediump float;
+
+      varying vec3 fragColor;
+
+      void main(){
+          gl_FragColor=vec4(fragColor, 1);
+      }
+      `
+    )
+
+
+      var triang_verts=
+      [// x	y			r	g	b
+        0.0,0.5,		1.0, 1.0, 1.0,
+        -0.5,-0.5,		1.0, 1.0, 1.0,
+        0.5,-0.5,		1.0, 1.0, 1.0,
+      ];
+      var triangVertexBufferObject=gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, triangVertexBufferObject);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(triang_verts),gl.STATIC_DRAW);
+
+      var positionAttribLocation = gl.getAttribLocation(program,'vertPosition')
+      var colorAttribLocation = gl.getAttribLocation(program,'vertColor')
+      gl.vertexAttribPointer(
+        positionAttribLocation,
+        2,
+        gl.FLOAT,
+        false,
+        5 * Float32Array.BYTES_PER_ELEMENT,
+        0
+      )
+      gl.vertexAttribPointer(
+        colorAttribLocation,
+        3,
+        gl.FLOAT,
+        false,
+        5 * Float32Array.BYTES_PER_ELEMENT,
+        2 * Float32Array.BYTES_PER_ELEMENT
+      )
+
+      gl.enableVertexAttribArray(positionAttribLocation);
+      gl.enableVertexAttribArray(colorAttribLocation);
+
+
+      gl.useProgram(program);
+      gl.drawArrays(gl.TRIANGLES, 0, 3)
+
+}
+
+
+export function testDrawQuad(/**@type {WebGLRenderingContext} */gl){
+    
+    const quadvertices = 
+    [
+      -0.50,-0.50 , 
+      0.50,-0.50 , 
+      0.50,0.50 ,
+
+      -0.50,-0.50 , 
+      0.50,0.50 , 
+      -0.50,0.50 , 
+      
+    ];
+
+    const quadcolor=[
+        +1.000 , +0.000 , +0.000,
+        +0.000 , +1.000 , +0.000,
+        +0.000 , +0.000 , +1.000,
+
+        +1.000 , +0.000 , +0.000,
+        +0.000 , +1.000 , +0.000,
+        +0.000 , +0.000 , +1.000,
+    ]
+    var program = createProgram(gl,
+      `precision mediump float;
+
+      attribute vec2 vertPosition;
+      attribute vec3 vertColor;
+
+      varying vec3 fragColor;
+
+      uniform vec2 canvasSize;
+      uniform vec2 shapeLocation;
+      uniform float shapeSize;
+
+      void main(){
+          fragColor=vertColor;
+
+          vec2 finalVertexPosition = vertPosition * shapeSize + shapeLocation;
+          vec2 clipPosition = (vertPosition / canvasSize) * 2.0 - 1.0;
+
+          gl_Position = vec4(vertPosition, 0.0, 1.0);
+      }
+      `,
+      `precision mediump float;
+
+      varying vec3 fragColor;
+
+      void main(){
+          gl_FragColor=vec4(fragColor, 1);
+      }
+      `
+    );
+
+
+      
+      var quadVertexBufferObject=gl.createBuffer();
+
+      gl.bindBuffer(gl.ARRAY_BUFFER, quadVertexBufferObject);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(quadvertices),gl.STATIC_DRAW);
+
+      var quadColorBuffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, quadColorBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(quadcolor),gl.STATIC_DRAW)
+
+      //createBuffer(
+      //  gl,
+      //  new Float32Array(quadvertices),
+      //  gl.DYNAMIC_DRAW
+      //)
+
+
+      attributeSet(
+        gl,
+        program,
+        'vertPosition',
+        {
+          size:2,
+          type:gl.FLOAT,
+          normalized:false,
+          stride:2 * Float32Array.BYTES_PER_ELEMENT,
+          offset:0
+        }
+      )
+
+
+       attributeSet(
+        gl,
+        program,
+        'vertColor',
+        {
+          size:3,
+          type:gl.FLOAT,
+          normalized:false,
+          stride:3 * Float32Array.BYTES_PER_ELEMENT,
+          offset:0
+        }
+      )
+      
+      
+
+
+      gl.useProgram(program);
+      gl.drawArrays(gl.TRIANGLES, 0, 6)
+
+}
+
+function attributeSet(/**@type {WebGLRenderingContext} */gl,program,attributeName,parameters){
+    var attributeLocation=gl.getAttribLocation(program,attributeName)
+    gl.vertexAttribPointer(
+        attributeLocation,
+        parameters.size,
+        parameters.type,
+        parameters.normalized,
+        parameters.stride,
+        parameters.offset
+    );
+    gl.enableVertexAttribArray(attributeLocation);
+
+}
+
+
+
+
+
+export function createShader(/**@type {WebGLRenderingContext} */ gl, shaderSource, shaderType){
+      var shader = gl.createShader(shaderType);
+      gl.shaderSource(shader,shaderSource);
+    
+      gl.compileShader(shader)
+      if (!gl.getShaderParameter(shader,gl.COMPILE_STATUS))
+        console.error("Error shader:",gl.getShaderInfoLog(shader));
+      
+      return shader;
+}
+export function createProgram(/**@type {WebGLRenderingContext} */ gl ,vertexShaderSrc,fragmentShaderSrc){
+      var vertexShader= createShader(gl,vertexShaderSrc,gl.VERTEX_SHADER);
+      var fragmentShader= createShader(gl,fragmentShaderSrc,gl.FRAGMENT_SHADER);
+
+      var program = gl.createProgram()
+      gl.attachShader(program,vertexShader);
+      gl.attachShader(program,fragmentShader);
+      gl.linkProgram(program);
+      if (!gl.getProgramParameter(program,gl.LINK_STATUS)){
+        console.error("Error linking",gl.getProgramInfoLog(program));
+      }
+      gl.validateProgram(program);
+      
+      return program
+
+}
+
+export function createBuffer(/**@type {WebGLRenderingContext} */ gl, data, usage ){
+      var buffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.bufferData(gl.ARRAY_BUFFER, data ,usage)
+      return buffer
+}
 
 let customFontBitmaps = null;
 let fontLoadingState = null;
@@ -12,7 +265,7 @@ export async function loadFont() {
     if (fontLoadingState) return fontLoadingState;
 
     fontLoadingState = (async () => {
-        const image = await assetLoader.load("GameFont", "textures/font.png");
+        const image = await assetLoader.loadImage("GameFont", "textures/font.png");
 
         
         const textureMap = {
@@ -137,56 +390,6 @@ export function drawTexture(ctx,texture,transform,options){
 }
 
 
-
-export function drawLightTexture(ctx,texture,transform){
-	if (texture instanceof Texture){
-		ctx.drawImage(
-			texture.image,
-			transform.position.x,
-			transform.position.y,
-			texture.image.width*transform.scale.x,
-			texture.image.height*transform.scale.y
-		)
-
-		ctx.globalCompositeOperation="source-atop";
-		ctx.fillStyle=texture.imageModulate;
-		ctx.fillRect(
-			transform.position.x,
-			transform.position.y,
-			texture.width*transform.scale.x,
-			texture.height*transform.scale.y
-		)
-
-		ctx.globalCompositeOperation="source-over";
-
-	}
-	else{
-		ctx.globalCompositeOperation = "lighter"
-
-		ctx.drawImage(
-			texture,
-			transform.position.x,
-			transform.position.y,
-			texture.width*transform.scale.x,
-			texture.height*transform.scale.y
-		)
-		ctx.globalCompositeOperation="source-over";
-
-	}
-
-}
-
-export function loadTexture(path){
-	const image = new Image();
-	image.src=path;
-	image.onload = ()=>{
-		return image;
-	}
-	
-	
-}
-
-
 export function correctDrawTransform(entity,transformName,textureName){
 	transformName = transformName || "transform"
 	textureName = textureName || "texture"
@@ -215,10 +418,5 @@ export function correctDrawTransform(entity,transformName,textureName){
 
 
 
-function wipfunction(){
-	
-	const vertexBuffer=[]
-	
-}
 
 

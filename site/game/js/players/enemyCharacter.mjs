@@ -57,8 +57,12 @@ class EnemyCharacter extends Character{
 	}
 
     Dead(){
-        this.scope.state.score+=10
-        deleteEntity(this.scope,this)
+        if (this.active){
+            this.scope.state.playerStatus.ScorePoints+=10
+            this.scope.eventSystem.emitEvent("enemyKilled")
+            deleteEntity(this.scope,this);
+
+        }
     }
 }
 

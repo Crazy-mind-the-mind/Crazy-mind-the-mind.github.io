@@ -20,9 +20,9 @@ class RectCollider extends ColliderAbstract{
             this.collisionRect.origin = vec2.copy(this.transform.position).vecSub(vec2.copy(this.collisionRect.size).vecDiv(2) ); 
         }
 
-        if (this.owner){
-            drawRect(this.owner.scope.context,this.collisionRect,"green")
-        }
+        //if (this.owner){
+        //    drawRect(this.owner.scope.context,this.collisionRect,"green")
+        //}
     }
 
     collidesWith(collider){
@@ -48,7 +48,12 @@ class RectCollider extends ColliderAbstract{
     render(){
         if (!this.showCollision) return;
         if (this.owner){
-            drawRect(this.owner.scope.context,this.collisionRect,this.collisionColor)
+            if (this.owner.scope.configurations.renderer=="canvas"){
+                drawRect(this.owner.scope.context,this.collisionRect,this.collisionColor)
+            }
+            else{
+
+            }
         }
     }
 }
