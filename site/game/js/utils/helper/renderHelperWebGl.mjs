@@ -329,11 +329,11 @@ export function createTexture(/**@type {WebGLRenderingContext} */ gl, image ){
 		gl.UNSIGNED_BYTE,
 	)
 	
-	texParameteri(gl.MAG_FILTER,gl.NEAREST);
-	texParameteri(gl.MIN_FILTER,gl.NEAREST);
-	texParameteri(gl.WRAP_W,gl.CLAMP_TO_EDGE);
-	texParameteri(gl.WRAP_T,gl.CLAMP_TO_EDGE);
 	
+	texParameteri(gl.TEXTURE_2D,gl.WRAP_W,gl.CLAMP_TO_EDGE);
+	texParameteri(gl.TEXTURE_2D,gl.WRAP_T,gl.CLAMP_TO_EDGE);
+	texParameteri(gl.TEXTURE_2D,gl.MAG_FILTER,gl.NEAREST);
+	texParameteri(gl.TEXTURE_2D,MIN_FILTER,gl.NEAREST);
 	return texture;
 }
 
