@@ -287,8 +287,22 @@ export function createBuffer(/**@type {WebGLRenderingContext} */ gl, data, usage
       gl.bufferData(gl.ARRAY_BUFFER, data ,usage)
       return buffer
 }
-
-
+export function createTexture(/**@type {WebGLRenderingContext} */ gl, image ){
+	
+	var texture = gl.texImage2D(
+		gl.TEXTURE_2D,
+		0,
+		gl.RGBA,
+		image.width,
+		image.height,
+		0,
+		gl.RGBA,
+		
+		
+	)
+	
+	return texture;
+}
 
 
 
