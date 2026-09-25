@@ -32,16 +32,17 @@ void main() {
 `;
 
 
-const QuadVerticesData=[
+const QuadVerticesData=new Float32Array([
 	//x			y		u		v
       -0.500, -0.500, +0.000, +0.000,
       +0.500, -0.500, +1.000, +0.000,
       +0.500, +0.500, +1.000, +1.000,
       -0.500, +0.500, +0.000, +1.000,
-]
-const QuadIndicesData=[
-
-]
+])
+const QuadIndicesData=new Float32Array([
+	0, 1, 2,
+	0, 2, 3
+])
 
 const QuadVerticesArrayVec2=[
       new vec2(-0.500, -0.500),
@@ -233,7 +234,39 @@ export function testDrawQuad(/**@type {WebGLRenderingContext} */gl){
 
 
 export function drawQuad(gl){
+	var shaderProgram=createProgram(gl,defaultVertexShader,defaultFragmentShader)
 	
+	var verticesBuffer=createBuffer(gl,gl.ARRAY_BUFFER,QuadVerticesData,gl.STATIC_DRAW)
+	var indicesBuffer=createBuffer(gl,gl.ELEMENT_BUFFER,QuadIndicesData,gl.STATIC_DRAW)
+	
+	attributeSet(
+		gl,
+		shaderProgram,
+		'vertexPosition',{
+			size:2,
+			type:gl.FLOAT,
+			normalized:false,
+			stride:3*Float32Array.BYTES_PER_ELEMENT,
+			offset:90
+		}
+	)
+	
+	attributeSet(
+		gl,
+		shaderProgram,
+		'',{
+			size:3,
+			type:gl.FLOAT,
+			normalized:false,
+			stride:3*Float32Array.BYTES_PER_ELEMENT,
+			offset:0
+		}
+	)
+	gl.useProgram(shaderProgram)
+	gl.drawArrays(gl.TRIANGLES)
+}
+
+export function drawMultipleQuads(gl){
 	
 }
 
@@ -251,9 +284,6 @@ function attributeSet(/**@type {WebGLRenderingContext} */gl,program,attributeNam
     gl.enableVertexAttribArray(attributeLocation);
 
 }
-
-
-
 
 export function createShader(/**@type {WebGLRenderingContext} */ gl, shaderSource, shaderType){
       var shader = gl.createShader(shaderType);
@@ -281,10 +311,10 @@ export function createProgram(/**@type {WebGLRenderingContext} */ gl ,vertexShad
       return program
 
 }
-export function createBuffer(/**@type {WebGLRenderingContext} */ gl, data, usage ){
+export function createBuffer(/**@type {WebGLRenderingContext} */ gl, buffertype, data, usage ){
       var buffer = gl.createBuffer();
-      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-      gl.bufferData(gl.ARRAY_BUFFER, data ,usage)
+      gl.bindBuffer(buffertype, buffer);
+      gl.bufferData(buffertype, data ,usage)
       return buffer
 }
 export function createTexture(/**@type {WebGLRenderingContext} */ gl, image ){
