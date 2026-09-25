@@ -11,6 +11,18 @@ class SpellcardDefinition{
     }
 
     static SPELLCARD_TYPES_IMAGES={}
+    
+    static get SpellcardActions={
+    	SpellcardSlugShotPower:{null},
+    	SpellcardTrishotPower:{null},
+    	SpellcardWaverShotPower:{null},
+    	SpellcardOmnishotPower:{null},
+    	SpellcardHealPower:{null},
+    	SpellcardOverhealPower:{null},
+    	SpellcardTeleportPower:{null},
+    	SpellcardDashPower:{null},
+    	SpellcardDoubleDamage:{null}
+    };
     constructor(){
         this.loadAssets()
     }
