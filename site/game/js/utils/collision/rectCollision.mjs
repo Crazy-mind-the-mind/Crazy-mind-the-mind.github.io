@@ -32,7 +32,14 @@ class RectCollider extends ColliderAbstract{
 
         if (collider instanceof RectCollider){
             if (collider.collisionRect){
-                result = this.collisionRect.intersects_rect(collider.collisionRect);
+                result = CheckIfRectCanCollide(collider.collisionRect) && this.collisionRect.intersects_rect(collider.collisionRect);
+                if (result== true)
+                    this.oncollisionevent(collider,this);
+            }
+        }
+        else if (collider instanceof RectGroupCollider){
+        	if (collider.collisionRect){
+                result = C&& this.collisionRect.intersects_rect(collider.collisionRect);
                 if (result== true)
                     this.oncollisionevent(collider,this);
             }
@@ -53,6 +60,14 @@ class RectCollider extends ColliderAbstract{
 
             }
         }
+    }
+    /*
+    There is no point in checking rects (complex algorithm) 
+    when the distance of the center of rects is greater than
+    the sum of half of their diagonals, because that is the max distance there might have collision
+    */
+    CheckIfRectCanCollide(crect){
+    	 return this.collisionRect.centerPoint.distanceTo(crect.centerPoint) <= (this.collisionRect.diagonalSize+crect.diagonalSize)/2 
     }
 }
 
