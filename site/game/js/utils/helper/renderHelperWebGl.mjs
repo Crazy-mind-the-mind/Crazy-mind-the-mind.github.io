@@ -32,17 +32,16 @@ void main() {
 `;
 
 
-const QuadVerticesArrayData=[
+const QuadVerticesData=[
 	//x			y		u		v
       -0.500, -0.500, +0.000, +0.000,
-      +0.500, +0.000, +0.000, +0.000,
-      +0.500, +0.500, +0.000, +0.000,
-
-      -0.000, -0.000, +0.000, +0.000,
-      +0.500, +0.500, +0.000, +0.000,
-      +0.000, +0.500, +0.000, +0.000,
+      +0.500, -0.500, +1.000, +0.000,
+      +0.500, +0.500, +1.000, +1.000,
+      -0.500, +0.500, +0.000, +1.000,
 ]
+const QuadIndicesData=[
 
+]
 
 const QuadVerticesArrayVec2=[
       new vec2(-0.500, -0.500),
@@ -235,6 +234,7 @@ export function testDrawQuad(/**@type {WebGLRenderingContext} */gl){
 
 export function drawQuad(gl){
 	
+	
 }
 
 
@@ -296,10 +296,13 @@ export function createTexture(/**@type {WebGLRenderingContext} */ gl, image ){
 		image.width,
 		image.height,
 		0,
-		gl.RGBA,
-		
-		
+		gl.UNSIGNED_BYTE,
 	)
+	
+	texParameteri(gl.MAG_FILTER,gl.NEAREST);
+	texParameteri(gl.MIN_FILTER,gl.NEAREST);
+	texParameteri(gl.WRAP_W,gl.CLAMP_TO_EDGE);
+	texParameteri(gl.WRAP_T,gl.CLAMP_TO_EDGE);
 	
 	return texture;
 }
