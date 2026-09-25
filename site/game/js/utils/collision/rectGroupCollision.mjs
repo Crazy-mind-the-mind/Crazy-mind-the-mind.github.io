@@ -82,6 +82,11 @@ class RectGroupCollider extends ColliderAbstract{
     		if (result) colliderOwners[onwer].oncollisionevent();
     	})
     }
+    RectCheckColliderAllNoEvent(owner,crect){
+    	Object.keys(this.colliderOwners).forEach((owner)=>{
+    		var result = CheckIfRectCanCollide(this.colliderOwners[owner].position) && RectCheckColliderForOwner(owner,crect);
+    	})
+    }
 }
 
 export {RectGroupCollider}
