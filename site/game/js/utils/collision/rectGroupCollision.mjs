@@ -58,10 +58,10 @@ class RectGroupCollider extends ColliderAbstract{
     	this.colliderOwners
     }
     
-    RectcheckColliderForOwner(owner,rect){
+    RectCheckColliderForOwner(owner,crect){
     	const oPosition=this.colliderOwners[owner].position;
     	this.collisionRect.origin=oPosition;
-    	this.
+    	this.collisionRect.instersects_rect(crect)
     }
 }
 
