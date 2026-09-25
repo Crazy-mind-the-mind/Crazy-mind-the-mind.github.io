@@ -39,7 +39,7 @@ const QuadVerticesData=new Float32Array([
       +0.500, +0.500, +1.000, +1.000,
       -0.500, +0.500, +0.000, +1.000,
 ])
-const QuadIndicesData=new Float32Array([
+const QuadIndicesData=new Uint16Array([
 	0, 1, 2,
 	0, 2, 3
 ])
@@ -237,7 +237,7 @@ export function drawQuad(gl){
 	var shaderProgram=createProgram(gl,defaultVertexShader,defaultFragmentShader)
 	
 	var verticesBuffer=createBuffer(gl,gl.ARRAY_BUFFER,QuadVerticesData,gl.STATIC_DRAW)
-	var indicesBuffer=createBuffer(gl,gl.ELEMENT_BUFFER,QuadIndicesData,gl.STATIC_DRAW)
+	var indicesBuffer=createBuffer(gl,gl.ELEMENT_ARRAY_BUFFER,QuadIndicesData,gl.STATIC_DRAW)
 	
 	attributeSet(
 		gl,
