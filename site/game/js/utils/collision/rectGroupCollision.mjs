@@ -36,7 +36,7 @@ class RectGroupCollider extends ColliderAbstract{
 
         if (collider instanceof RectCollider){
             if (collider.collisionRect){
-                
+                RectCheckColliderAll(collisionRect.)
             }
         }
         else if(collider instanceof RectGroupCollider){
@@ -52,16 +52,30 @@ class RectGroupCollider extends ColliderAbstract{
     }
     
     addColliderOwnerQueue(owner,position){
-    	this.colliderOwners[owner]=position
+    	this.colliderOwners[owner]=
+    	{
+    		"position": position,
+    		"oncollisionevent": owner.onCollisionReceived.bind(owner)
+    	}
     }
     updateColliderOwnerPosition(owner,position){
     	this.colliderOwners
     }
     
+    CheckIfRectCanCollide(position,crect){
+    	return ;
+    }
     RectCheckColliderForOwner(owner,crect){
+		CheckIfRectCanCollide(this.colliderOwners[owner].position)
     	const oPosition=this.colliderOwners[owner].position;
     	this.collisionRect.origin=oPosition;
-    	this.collisionRect.instersects_rect(crect)
+    	return this.collisionRect.instersects_rect(crect)
+    }
+    RectCheckColliderAll(owner,crect){
+    	Object.keys(this.colliderOwners).forEach((owner)=>{
+    		var result = RectCheckColliderForOwner(owner,crect);
+    		if (result) colliderOwners[onwer].oncollisionevent();
+    	})
     }
 }
 
