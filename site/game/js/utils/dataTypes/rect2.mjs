@@ -10,6 +10,10 @@ class rect2 {
 	get centerPoint(){
 		return vec2.copy(this.origin).vecAdd(vec2.copy(this.size).vecDiv(2));
 	}
+	
+	get diagonalSize(){
+		return this.origin.distanceTo(this.origin);
+	}
 
 	intersects_point(point) {
 		return ((point.x <= rect2.origin.x+rect2.size.x &&
