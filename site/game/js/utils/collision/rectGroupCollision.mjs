@@ -62,18 +62,23 @@ class RectGroupCollider extends ColliderAbstract{
     	this.colliderOwners
     }
     
+    /*
+    There is no point in checking rects (complex algorithm) 
+    when the distance of the center of rects is greater than
+    the sum of half of their diagonals, because that is the max distance there might have collision
+    */
     CheckIfRectCanCollide(position,crect){
-    	return ;
+    	 this.collisionRect.origin=position;
+    	 return this.collisionRect.centerPoint.distanceTo(crect.centerPoint) <= (this.collisionRect.diagonalSize+crect.diagonalSize)/2 
     }
     RectCheckColliderForOwner(owner,crect){
-		CheckIfRectCanCollide(this.colliderOwners[owner].position)
     	const oPosition=this.colliderOwners[owner].position;
     	this.collisionRect.origin=oPosition;
     	return this.collisionRect.instersects_rect(crect)
     }
     RectCheckColliderAll(owner,crect){
     	Object.keys(this.colliderOwners).forEach((owner)=>{
-    		var result = RectCheckColliderForOwner(owner,crect);
+    		var result = CheckIfRectCanCollide(this.colliderOwners[owner].position) && RectCheckColliderForOwner(owner,crect);
     		if (result) colliderOwners[onwer].oncollisionevent();
     	})
     }
