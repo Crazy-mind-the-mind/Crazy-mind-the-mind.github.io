@@ -64,6 +64,32 @@ class AssetLoader {
         this.loadingAudios[audioName] = promise;
         return promise;
     }
+    
+    async loadStageData(stageName,stagePath){
+    	
+    	const promise = new Promise(async (resolve,reject) =>{
+            fetch(stagePath)
+            .then((response)=>{
+                return response.json();
+            })
+            .then(async (stageData)=>{
+                await Promise.all(
+                	stageData.textures.map(imageData=>this.loadImage(imageData.name,imageData.path))
+                	stageData.audios.map(imageData=>this.loadImage(imageData.name,imageData.path))
+                	)
+                stage.waveSettings
+                stage.spelcards
+            })
+            .catch(
+                (e)=>{
+                    delete this.loadingAudios[audioName];
+                    return new Error(`Failed: ${audioPath}`);
+                }
+            );
+            
+        })
+    	
+    }
 
     async loadAll(preloadPreset){
         console.log(preloadPreset)
