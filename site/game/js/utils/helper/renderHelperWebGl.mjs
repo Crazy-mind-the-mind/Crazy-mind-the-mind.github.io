@@ -1,16 +1,46 @@
 import { assetLoader } from "../../core/game.assetLoader.mjs";
 import { Texture, transform2, vec2 } from "../dataTypes.mjs";
 
+const defaultVertexShader=
+`
+precision mediump float;
+attribute vec2 worldPosition;
+attribute vec2 vertexPosition;
+
+uniform vec2 canvasResolution;
+varying vec2 texturePosition;
+
+void main() {
+    vec2 zeroToOne = worldPosition / canvasResolution;
+    vec2 zeroToTwo = zeroToOne * 2.0;
+    vec2 clipSpace = zeroToTwo - 1.0;
+
+    gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
+    texturePosition = vertexPosition;
+}
+`;
+
+const defaultFragmentShader=
+`
+precision mediump float;
+uniform sampler2D image;
+varying vec2 texturePosition;
+
+void main() {
+    gl_FragColor = texture2D(image, texturePosition);
+}
+`;
 
 
-const QuadVerticesArray=[
-      -0.500, -0.500,
-      +0.500, +0.000,
-      +0.500, +0.500,
+const QuadVerticesArrayData=[
+	//x			y		u		v
+      -0.500, -0.500, +0.000, +0.000,
+      +0.500, +0.000, +0.000, +0.000,
+      +0.500, +0.500, +0.000, +0.000,
 
-      -0.000, -0.000,
-      +0.500, +0.500,
-      +0.000, +0.500,
+      -0.000, -0.000, +0.000, +0.000,
+      +0.500, +0.500, +0.000, +0.000,
+      +0.000, +0.500, +0.000, +0.000,
 ]
 
 
@@ -202,6 +232,12 @@ export function testDrawQuad(/**@type {WebGLRenderingContext} */gl){
 
 }
 
+
+export function drawQuad(gl){
+	
+}
+
+
 function attributeSet(/**@type {WebGLRenderingContext} */gl,program,attributeName,parameters){
     var attributeLocation=gl.getAttribLocation(program,attributeName)
     gl.vertexAttribPointer(
@@ -215,7 +251,6 @@ function attributeSet(/**@type {WebGLRenderingContext} */gl,program,attributeNam
     gl.enableVertexAttribArray(attributeLocation);
 
 }
-
 
 
 
@@ -246,13 +281,18 @@ export function createProgram(/**@type {WebGLRenderingContext} */ gl ,vertexShad
       return program
 
 }
-
 export function createBuffer(/**@type {WebGLRenderingContext} */ gl, data, usage ){
       var buffer = gl.createBuffer();
       gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
       gl.bufferData(gl.ARRAY_BUFFER, data ,usage)
       return buffer
 }
+
+
+
+
+
+
 
 let customFontBitmaps = null;
 let fontLoadingState = null;
