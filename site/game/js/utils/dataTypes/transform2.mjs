@@ -1,6 +1,9 @@
 import { vec2 } from "./vec2.mjs"
 
 class transform2{
+	
+	get position()
+	set position(x)
     constructor(px,py,sx,sy,rot){
        this.position=new vec2(px||0,py||0);
        this.scale=new vec2(sx || 1, sy || 1);
