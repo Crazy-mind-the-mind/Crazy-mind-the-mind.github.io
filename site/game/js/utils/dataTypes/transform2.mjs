@@ -7,18 +7,25 @@ class transform2{
 	
 	set position(v){
 		this.data[0]=v.x
-		h
+		this.data[1]=v.y
 	}
 	get scale(){
 		return new vec2(this.data[2],this.data[3])
 	}
-	
+	set scale(v){
+		this.data[2]=v.x
+		this.data[3]=v.y
+	}
 	get rotation(){
 		return this.data[4]
 	}
+	set rotation(v){
+		this.data[4]=v
+		
+	}
     constructor(px,py,sx,sy,rot){
     	this.data=Float32Array.of(px,py,sx,sy,rot)
-    	
+    	this.package
   
     }
     
