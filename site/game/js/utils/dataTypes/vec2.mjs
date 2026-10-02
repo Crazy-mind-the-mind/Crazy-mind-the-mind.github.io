@@ -2,16 +2,19 @@
 
 
 class vec2{
-    x; y;
+	data;
+    get x(){return this.data[0]}
+    get y(){return this.data[1]}
+    set x(v){this.data[0]=v}
+    set y(v){this.data[1]=v}
+    
     constructor(x,y){
-        this.x=x||0
-        this.y=y||0
+    	this.data=new Float32Array(2)
+        this.x=x
+        this.y=y
     }
 
-    get x(){return this.x}
-    set x(v){this.x=v}
-    get y(){return this.y}
-    set y(v){this.y=v}
+    
 
     get magnitude(){return Math.hypot(this.x, this.y);}
     isNearZero(){
