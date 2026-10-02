@@ -25,6 +25,10 @@ class RectGroupCollider extends ColliderAbstract{
 		this.colliderOwners=[]
 
         this.collisionGroupName = params.collisionGroup || ""
+        
+        
+        this.collisionSizes=new Float32Array(params.collisionRects)
+        this.collisionPositions= new Float32Array(2000)
     }
 
     update(){
