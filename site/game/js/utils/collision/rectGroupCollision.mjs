@@ -21,7 +21,7 @@ class RectGroupCollider extends ColliderAbstract{
         this.collisionLayer = params.collisionLayer
         this.collisionMask = params.collisionMask
 
-        this.collisionRect = params.collisionRect || new rect2();
+        this.collisionRect = params.collisionRect || new rect2(0,0,0,0);
 		this.colliderOwners=[]
 
         this.collisionGroupName = params.collisionGroup || ""
@@ -31,13 +31,7 @@ class RectGroupCollider extends ColliderAbstract{
         this.collisionOwnersArray= new Array(1000)
         
     }
-	
-    update(){
-        
-        if (this.collisionRect){
-            this.collisionRect.origin = vec2.copy(this.transform.position).vecSub(vec2.copy(this.collisionRect.size).vecDiv(2) ); 
-        }
-    }
+
 
     collidesWith(collider){
         if (!collider instanceof ColliderAbstract){return false}
@@ -64,9 +58,7 @@ class RectGroupCollider extends ColliderAbstract{
         return result
     }
 
-    render(){
-        
-    }
+    
     
     getCollisionCheckIdx(owner){
     	return collisionOwnersArray.indexOf(owner)
@@ -97,6 +89,17 @@ class RectGroupCollider extends ColliderAbstract{
     	collisionPositionsArray[idx+2]=0.0
     	collisionPositionsArray[idx+3]=0.0
     	colliderOwners[idx]=null
+    }
+    
+    setCollisionRect(data){
+    	this.collisionRect.origin.x=data[0];this.collisionRect.origin.y=data[1];
+    	this.collisionRect.size.x=data[2]; this.collisionRect.size.y=data[3];
+    }
+    
+    checkCollision(ownerIdx, rect){
+    	setCollisionRect(getCollisionCheck(ownerIdx))
+    	
+    	return result
     }
     
     
