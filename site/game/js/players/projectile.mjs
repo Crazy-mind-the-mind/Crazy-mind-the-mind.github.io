@@ -12,8 +12,22 @@ import { Entity } from "./entity.mjs";
 import { PlayerCharacter } from "./playerCharacter.mjs";
 
 
-export class Projectile extends Entity{
 
+
+
+
+
+
+export class Projectile extends Entity{
+	
+	static projectiles=[];
+	static projectileTypes=[]
+	
+	static newProjectile(position){}
+	
+	
+	
+	
 	static createCollisionGroup(scope){
 		Projectile.collisionGroup=new RectGroupCollider(null,new vec2(),{
 			"collisionRect":new rect2(0,0,8,8),
