@@ -1,10 +1,11 @@
 import { vec2 } from "./vec2.mjs";
 import { isInRange } from "../helper.mjs";
 class rect2 {
-
+	
+	
 	constructor(x, y, w, h){
-		this.origin = new vec2(x||0,y||0);
-		this.size = new vec2(w||0,h||0);
+		this.origin = new vec2(x,y);
+		this.size = new vec2(w,h);
 	}
 	
 	get centerPoint(){
