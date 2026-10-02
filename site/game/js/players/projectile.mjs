@@ -22,8 +22,7 @@ export class Projectile extends Entity{
 	
 	static projectiles=[];
 	static projectileTypes=[]
-	
-	static newProjectile(position){}
+
 	
 	
 	
@@ -56,15 +55,6 @@ export class Projectile extends Entity{
 		if (!collisionGroup) return;
 		collisionGroup.removeColliderOwnerQueue(entity);
 	}
-	//static newCollisionGroupCollider(){
-	//	return new RectColliderGroup(null,new vec2(),{
-	//		"collisionRect":new rect2(0,0,8,8),
-	//		"collisionLayer":["projectiles"],
-	//		"collisionMask":["player","enemies"],
-
-	//	})
-
-	//}
 	
     constructor(scope, x, y) {
 			super(scope, x, y);
