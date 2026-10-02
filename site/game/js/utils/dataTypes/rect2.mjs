@@ -13,10 +13,12 @@ class rect2 {
 		return vec2.copy(this.origin).vecAdd(vec2.copy(this.size).vecDiv(2.0));
 	}
 	
-	get diagonalSize(){
-		return this.origin.distanceTo(this.origin);
-	}
+	get diagonalSize(){return this.origin.distanceTo(this.origin);}
 
+	get data(){
+		result= Float32Array(4)
+		result
+		return }
 	intersects_point(point) {
 		return ((point.x <= rect2.origin.x+rect2.size.x &&
 			point.x >= rect2.origin.x) &&
