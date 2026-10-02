@@ -2,20 +2,21 @@ import { vec2 } from "./vec2.mjs"
 
 class transform2{
 	
-	get position()
-	set position(x)
+	get position(){return }
+	get scale(){}
+	get rotation(){}
     constructor(px,py,sx,sy,rot){
-       this.position=new vec2(px||0,py||0);
-       this.scale=new vec2(sx || 1, sy || 1);
-       this.rotation=rot || 0;
+    	this.data=Float32Array.of(px,py,sx,sy,rot)
+    	
+        this.position=new vec2(px||0,py||0);
+        this.scale=new vec2(sx || 1, sy || 1);
+        this.rotation=rot || 0;
 
     }
     
     static copy(src){
         var result = new transform2();
-        result.position=vec2.copy(src.position);
-        result.scale=vec2.copy(src.scale);
-        result.rotation = src.rotation
+        result.data=Float32Array.from(this.data)
         return result;
         
     }
