@@ -18,8 +18,11 @@ class ColliderAbstract{
         this.collisionLayer=params.collisionLayer||[];
         this.collisionMask=params.collisionMask||[];
 
-        this.oncollisionevent=owner.onCollisionReceived.bind(owner);
-        registerCollider(this);
+        if (owner){
+            this.oncollisionevent=owner.onCollisionReceived.bind(owner) || null;
+            registerCollider(this);            
+        }
+
     }
     update(){
 

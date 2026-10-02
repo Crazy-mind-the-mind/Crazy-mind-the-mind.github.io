@@ -1,5 +1,5 @@
 import { assetLoader } from "../core/game.assetLoader.mjs";
-import { transform2, vec2 } from "../utils/dataTypes.mjs";
+import { rect2, transform2, vec2 } from "../utils/dataTypes.mjs";
 import { playAudio } from "../utils/helper.mjs";
 import { Entity } from "./entity.mjs";
 
@@ -61,4 +61,12 @@ export class Character extends Entity{
 		
 	}
 	
+	get visibilityRect(){
+		return new rect2(
+			this.transform.x - (this.texture.image.width || this.texture.width)/2,
+			this.transform.y - (this.texture.image.height || this.texture.height)/2,
+			this.texture.image.width || this.texture.width,
+			this.texture.image.height || this.texture.height
+		);
+	}
 }

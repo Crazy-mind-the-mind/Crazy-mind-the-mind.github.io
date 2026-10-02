@@ -8,7 +8,8 @@ class rect2 {
 	}
 	
 	get centerPoint(){
-		return vec2.copy(this.origin).vecAdd(vec2.copy(this.size).vecDiv(2));
+		//console.log(vec2.copy(this.origin).vecAdd(vec2.copy(this.size).vecDiv(2.0)))
+		return vec2.copy(this.origin).vecAdd(vec2.copy(this.size).vecDiv(2.0));
 	}
 	
 	get diagonalSize(){

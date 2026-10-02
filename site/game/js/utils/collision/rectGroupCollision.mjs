@@ -2,7 +2,7 @@ import { rect2, vec2 } from "../dataTypes.mjs";
 import { drawRect } from "../helper.mjs";
 import { CircleCollider } from "./circleCollision.mjs";
 import { ColliderAbstract } from "./collisionAbstract.mjs";
-
+import { RectCollider } from "./rectCollision.mjs";
 
 /*
 	RectGroupCollider is a small optimization solution to a problem: 
@@ -17,9 +17,14 @@ class RectGroupCollider extends ColliderAbstract{
     constructor(owner,position,params){
     	// Due to the fact it is a batch collider, it makes no sense to have an owner.
         super(null,position,params)
-        
+
+        this.collisionLayer = params.collisionLayer
+        this.collisionMask = params.collisionMask
+
         this.collisionRect = params.collisionRect || new rect2();
 		this.colliderOwners=[]
+
+        this.collisionGroupName = params.collisionGroup || ""
     }
 
     update(){
@@ -36,11 +41,18 @@ class RectGroupCollider extends ColliderAbstract{
 
         if (collider instanceof RectCollider){
             if (collider.collisionRect){
-                RectCheckColliderAll(collisionRect.)
+                this.RectCheckColliderAll(collider.collisionRect)
             }
         }
         else if(collider instanceof RectGroupCollider){
-        	
+            console.log(collider)
+
+            collider.colliderOwners.forEach((rCollider)=>{
+    	        var cColliderRect= collider.collisionRect
+                cColliderRect.origin=rCollider.position;
+                this.RectCheckColliderAll(cColliderRect)
+                
+            })
         }
 
 
@@ -58,10 +70,16 @@ class RectGroupCollider extends ColliderAbstract{
     		"oncollisionevent": owner.onCollisionReceived.bind(owner)
     	}
     }
+    removeColliderOwnerQueue(owner){
+        delete this.colliderOwners[owner];
+    }
     updateColliderOwnerPosition(owner,position){
     	this.colliderOwners
     }
     
+    getRects(){
+        
+    }
     /*
     There is no point in checking rects (complex algorithm) 
     when the distance of the center of rects is greater than
@@ -69,6 +87,7 @@ class RectGroupCollider extends ColliderAbstract{
     */
     CheckIfRectCanCollide(position,crect){
     	 this.collisionRect.origin=position;
+         
     	 return this.collisionRect.centerPoint.distanceTo(crect.centerPoint) <= (this.collisionRect.diagonalSize+crect.diagonalSize)/2 
     }
     RectCheckColliderForOwner(owner,crect){
@@ -76,16 +95,20 @@ class RectGroupCollider extends ColliderAbstract{
     	this.collisionRect.origin=oPosition;
     	return this.collisionRect.instersects_rect(crect)
     }
-    RectCheckColliderAll(owner,crect){
+    RectCheckColliderAll(crect){
     	Object.keys(this.colliderOwners).forEach((owner)=>{
-    		var result = CheckIfRectCanCollide(this.colliderOwners[owner].position) && RectCheckColliderForOwner(owner,crect);
+    		var result = this.CheckIfRectCanCollide(this.colliderOwners[owner].position,crect) && RectCheckColliderForOwner(owner,crect);
     		if (result) colliderOwners[onwer].oncollisionevent();
     	})
     }
-    RectCheckColliderAllNoEvent(owner,crect){
+    RectCheckColliderAllNoEvent(crect){
+        var resultArray = []
     	Object.keys(this.colliderOwners).forEach((owner)=>{
-    		var result = CheckIfRectCanCollide(this.colliderOwners[owner].position) && RectCheckColliderForOwner(owner,crect);
+            var result = this.CheckIfRectCanCollide(this.colliderOwners[owner].position,crect) && RectCheckColliderForOwner(owner,crect);
+            resultArray.push(owner);
     	})
+
+        return resultArray;
     }
 }
 

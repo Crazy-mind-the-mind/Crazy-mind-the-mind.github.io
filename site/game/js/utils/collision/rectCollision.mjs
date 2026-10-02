@@ -1,8 +1,7 @@
 import { rect2, vec2 } from "../dataTypes.mjs";
 import { drawRect } from "../helper.mjs";
-import { CircleCollider } from "./circleCollision.mjs";
 import { ColliderAbstract } from "./collisionAbstract.mjs";
-
+import { RectGroupCollider } from "./rectGroupCollision.mjs";
 
 
 
@@ -32,16 +31,20 @@ class RectCollider extends ColliderAbstract{
 
         if (collider instanceof RectCollider){
             if (collider.collisionRect){
-                result = CheckIfRectCanCollide(collider.collisionRect) && this.collisionRect.intersects_rect(collider.collisionRect);
+                result = this.CheckIfRectCanCollide(collider.collisionRect) && this.collisionRect.intersects_rect(collider.collisionRect);
                 if (result== true)
                     this.oncollisionevent(collider,this);
             }
         }
         else if (collider instanceof RectGroupCollider){
         	if (collider.collisionRect){
-                result = C&& this.collisionRect.intersects_rect(collider.collisionRect);
-                if (result== true)
-                    this.oncollisionevent(collider,this);
+                let resultArray = collider.RectCheckColliderAllNoEvent(this.collisionRect);
+                if (resultArray.length!=0){
+                    resultArray.forEach((rCollider)=>{
+                        //console.log(this.owner)
+                        this.oncollisionevent(collider,this);
+                    })
+                } 
             }
         }
         

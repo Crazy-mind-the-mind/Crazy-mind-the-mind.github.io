@@ -74,8 +74,8 @@ class AssetLoader {
             })
             .then(async (stageData)=>{
                 await Promise.all(
-                	stageData.textures.map(imageData=>this.loadImage(imageData.name,imageData.path))
-                	stageData.audios.map(imageData=>this.loadImage(imageData.name,imageData.path))
+                	stageData.textures.map(imageData=>this.loadImage(imageData.name,imageData.path)),
+                	stageData.audios.map(audioData=>this.loadImage(audioData.name,audioData.path))
                 	)
                 stage.waveSettings
                 stage.spelcards

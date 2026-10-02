@@ -7,6 +7,36 @@ import { Projectile } from "./projectile.mjs";
 import { RectCollider } from "../utils/collision/rectCollision.mjs";
 
 export class ProjectileSlugShot extends Projectile{
+
+	static createCollisionGroup(scope){
+		ProjectileSlugShot.collisionGroup=new RectGroupCollider(null,new vec2(),{
+			"collisionRect":new rect2(0,0,16,16),
+			"collisionLayer":["projectiles"],
+			"collisionMask":["player","enemies"],
+			"collisionGroupName":""
+		})
+		registerCollider(ProjectileSlugShot.getCollisionGroup());
+		
+	}
+	static getCollisionGroup(){
+		return ProjectileSlugShot.collisionGroup
+	}
+	static addToCollisionGroup(entity,scope){
+		/**@type{RectGroupCollider} */
+		var collisionGroup = ProjectileSlugShot.getCollisionGroup();
+		if (!collisionGroup){
+			ProjectileSlugShot.createCollisionGroup(scope)
+			collisionGroup = ProjectileSlugShot.getCollisionGroup();
+		}
+		collisionGroup.addColliderOwnerQueue(entity,entity.transform.position);
+	}
+	static removeFromCollisionGroup(){
+		/**@type{RectGroupCollider} */
+		var collisionGroup = ProjectileSlugShot.getCollisionGroup();
+		if (!collisionGroup) return;
+		collisionGroup.removeColliderOwnerQueue(entity);
+	}
+
     constructor(scope, x, y) {
 			super(scope, x, y);
 			this.timeLeft=20;
