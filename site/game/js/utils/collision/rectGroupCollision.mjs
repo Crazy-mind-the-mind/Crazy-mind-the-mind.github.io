@@ -27,10 +27,11 @@ class RectGroupCollider extends ColliderAbstract{
         this.collisionGroupName = params.collisionGroup || ""
         
         
-        this.collisionSizes=new Float32Array(params.collisionRects)
-        this.collisionPositions= new Float32Array(2000)
+        this.collisionQueuesArray= new Float32Array(4000)
+        this.collisionOwnersArray= new Array(1000)
+        
     }
-
+	
     update(){
         
         if (this.collisionRect){
@@ -66,6 +67,38 @@ class RectGroupCollider extends ColliderAbstract{
     render(){
         
     }
+    
+    getCollisionCheckIdx(owner){
+    	return collisionOwnersArray.indexOf(owner)
+    }
+    
+    getCollisionCheck(idx){
+    	return [
+    			collisionQueuesArray[idx],
+    			collisionQueuesArray[idx+1],
+    			collisionQueuesArray[idx+2],
+    			collisionQueuesArray[idx+3],
+    			]
+    }
+    
+    addCollisionCheck(owner,origin,size){
+    	var idx=collisionOwnersArray.indexOf(owner)
+    	collisionQueuesArray[idx]=origin.x
+    	collisionQueuesArray[idx+1]=origin.y
+    	collisionQueuesArray[idx+2]=size.x
+    	collisionQueuesArray[idx+3]=size.y
+    	colliderOwners[idx]=null
+    }
+    
+    removeCollisionCheck(owner){
+    	var idx=collisionOwnersArray.indexOf(owner)
+    	collisionPositionsArray[idx]=0.0
+    	collisionPositionsArray[idx+1]=0.0
+    	collisionPositionsArray[idx+2]=0.0
+    	collisionPositionsArray[idx+3]=0.0
+    	colliderOwners[idx]=null
+    }
+    
     
     addColliderOwnerQueue(owner,position){
     	this.colliderOwners[owner]=
