@@ -140,9 +140,17 @@ export function drawTexture(/**@type{ CanvasRenderingContext2D } */ ctx,texture,
 
 
 
-export function drawLightTexture(ctx,texture,transform){
+
+
+
+export function drawBatchTexture(ctx,texture,transforms,options){
+	options = options || {}
+
+
 	if (texture instanceof Texture){
+		
 		ctx.drawImage(
+
 			texture.image,
 			transform.position.x,
 			transform.position.y,
@@ -155,38 +163,45 @@ export function drawLightTexture(ctx,texture,transform){
 		ctx.fillRect(
 			transform.position.x,
 			transform.position.y,
-			texture.width*transform.scale.x,
-			texture.height*transform.scale.y
+			texture.image.width*transform.scale.x,
+			texture.image.height*transform.scale.y
 		)
+		
 
 		ctx.globalCompositeOperation="source-over";
 
 	}
 	else{
-		ctx.globalCompositeOperation = "lighter"
+		ctx.save()
 
-		ctx.drawImage(
-			texture,
-			transform.position.x,
-			transform.position.y,
-			texture.width*transform.scale.x,
-			texture.height*transform.scale.y
-		)
-		ctx.globalCompositeOperation="source-over";
-
+		if (!options.useCanvasTransforms){
+			ctx.drawImage(
+				texture,
+				transform.position.x,
+				transform.position.y,
+				texture.width*transform.scale.x,
+				texture.height*transform.scale.y
+			)
+		}
+		else {
+			ctx.translate(transform.position.x,transform.position.y)
+			ctx.rotate(transform.rotation)
+			ctx.scale(transform.scale.x,transform.scale.y)
+			ctx.drawImage(
+				texture,
+				options.offsets?-options.offsets.x: 0,
+				options.offsets?-options.offsets.y: 0,
+				texture.width*transform.scale.x,
+				texture.height*transform.scale.y
+			)
+		}
+		
+		ctx.restore()
 	}
 
 }
 
-export function loadTexture(path){
-	const image = new Image();
-	image.src=path;
-	image.onload = ()=>{
-		return image;
-	}
-	
-	
-}
+
 
 
 export function correctDrawTransform(entity,transformName,textureName){
@@ -213,6 +228,19 @@ export function correctDrawTransform(entity,transformName,textureName){
 		}
 	}
 	else return entity[transformName]
+}
+
+
+export class RenderHelper{
+	
+	constructor(scope){
+		this.scope=scope
+	}
+	loadFont(){}
+	drawText(){}
+	drawTexture(){}
+	drawBatchTexture(){}
+	correctDrawTransform(){}
 }
 
 
