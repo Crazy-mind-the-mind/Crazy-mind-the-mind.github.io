@@ -2,9 +2,14 @@ import { vec2 } from "./vec2.mjs"
 
 class transform2{
 	
-	get position(){return }
-	get scale(){}
-	get rotation(){}
+	get position(){
+		return new vec2()
+	get scale(){
+		return new vec2(this.data[2])
+	}
+	get rotation(){
+		return this.data[4]
+	}
     constructor(px,py,sx,sy,rot){
     	this.data=Float32Array.of(px,py,sx,sy,rot)
     	
