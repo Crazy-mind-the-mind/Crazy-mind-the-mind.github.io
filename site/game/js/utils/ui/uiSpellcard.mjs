@@ -32,6 +32,7 @@ export class UISpellcard extends UINode{
     	super.update()
     	
     	var player = window.game.state.entities.player
+        if (!player) {return}
         /**@type{SpellcardDefinition} */
     	var currentSpellcard = player.currentSpellcards[ (player.currentSpellcard+this.spellCardTargetIdx)%3 ]
         this.spellCardHasSpell=currentSpellcard != null
