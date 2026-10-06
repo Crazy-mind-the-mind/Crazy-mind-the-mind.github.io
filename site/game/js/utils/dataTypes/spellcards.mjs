@@ -76,10 +76,7 @@ export class SpellcardDefinition{
     }
     static async loadAssets(){
 
-        SpellcardDefinition.SPELLCARD_TYPES_IMAGES[SPELLCARD_TYPES["NULL"]] = await assetLoader.loadImage("SpellCardNullType","textures/spellcardTypes/spellcardTypeNull.png")
-        SpellcardDefinition.SPELLCARD_TYPES_IMAGES[SPELLCARD_TYPES["WEAPON"]] = await assetLoader.loadImage("SpellCardWeaponType","textures/spellcardTypes/spellcardTypeWeapon.png")
-        SpellcardDefinition.SPELLCARD_TYPES_IMAGES[SPELLCARD_TYPES["HEALTH"]] = await assetLoader.loadImage("SpellCardHealthType","textures/spellcardTypes/spellcardTypeHealth.png")
-    
+        
     }
     spellcardAction(player){
         if (!player instanceof PlayerCharacter) return;
@@ -99,7 +96,12 @@ SpellcardDefinition.SPELLCARD_IMAGES["SpellcardWaverShotPower"]=await assetLoade
 
 SpellcardDefinition.SPELLCARD_IMAGES["SpellcardHealPower"]= await assetLoader.loadImage("HealSpell","textures/spells/spellHeal.png")
 SpellcardDefinition.SPELLCARD_IMAGES["SpellcardOverhealPower"]=await assetLoader.loadImage("OverhealSpell","textures/spells/spellOverheal.png")
-	
+
+SpellcardDefinition.SPELLCARD_TYPES_IMAGES[SPELLCARD_TYPES["NULL"]] = await assetLoader.loadImage("SpellCardNullType","textures/spellcardTypes/spellcardTypeNull.png")
+SpellcardDefinition.SPELLCARD_TYPES_IMAGES[SPELLCARD_TYPES["WEAPON"]] = await assetLoader.loadImage("SpellCardWeaponType","textures/spellcardTypes/spellcardTypeWeapon.png")
+SpellcardDefinition.SPELLCARD_TYPES_IMAGES[SPELLCARD_TYPES["HEALTH"]] = await assetLoader.loadImage("SpellCardHealthType","textures/spellcardTypes/spellcardTypeHealth.png")
+    
+
 }
 
 loadOtherSpellcardAssets()
