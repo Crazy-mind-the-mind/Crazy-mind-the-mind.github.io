@@ -285,6 +285,35 @@ export function gameSetup(scope) {
             
 
             }
+            
+            
+            
+            var mainMenu={
+            	"rootMenu":new UINode(scope,0,0,null)
+            	"TitleImage":new UIImage(scope,0,0,null,"GameTitle","textures/title.png")
+            	"StartButton":new UIbutton(scope,0,0,null)
+            	
+            }
+            
+            
+            mainMenu["StartButton"]
+            
+            
+            
+            
+            mainMenu["rootMenu"].addChild(
+            	mainMenu["TitleImage"],
+            	"StartButton"
+            )
+			mainMenu["rootMenu"].addChild(
+				mainMenu["StartButton"],
+				"StartButton"
+            )
+            
+            
+            
+            scope.state.ui["MainMenu"] = mainMenu["rootMenu"]
+            
 
 
 
