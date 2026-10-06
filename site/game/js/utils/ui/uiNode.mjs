@@ -23,7 +23,11 @@ class UINode{
     calculateTransform(){
         this.calculatedTransform=parseUiTransform(this.scope,this.transform);
         if (this.parentNode!==null){
-            this.calculatedTransform.position.vecAdd(this.parentNode.calculatedTransform.position)
+        	
+        	var positionCorrect= vec2.copy(this.parentNode.calculatedTransform.position)
+        	positionCorrect.vecAdd(this.calculatedTransform.position.rotated(this.parentNode.calculatedTransform.rotation))
+            this.calculatedTransform.position=positionCorrect
+            
             this.calculatedTransform.rotation += this.parentNode.calculatedTransform.rotation
 
         
