@@ -41,6 +41,8 @@ export var isJustPressed = {}
 export var isJustReleased = {}
 
 
+export var mousePressed
+export var mousePosition
 
 
 
@@ -113,4 +115,21 @@ export function keysDown() {
 
 
     return this;
+}
+
+
+
+export function mouseDown(){
+	
+	document.onmousedown=function(ev){
+		mousePressed=true
+	}
+	
+	document.onmouseup=function(ev){
+		mousePressed=false
+	}
+	
+	
+	
+	return this;
 }
