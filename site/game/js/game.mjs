@@ -43,6 +43,7 @@ function Game(w, h, targetFps, showFps,gameOptions) {
 	}
 
 	this.state = {
+		'paused':false,
 		'cameraScroll':new vec2(0,0),
 		'cameraTransform': new transform2(0,0,1,1),
 		'entities':[],
