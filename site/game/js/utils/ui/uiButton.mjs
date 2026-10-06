@@ -9,7 +9,10 @@ export class UIPutton extends UINode{
         this.text=text;
         this.buttonSize=Bsize
     }
-
+	
+	update(){
+		super.update()
+	}
 
     render(){
         this.visible=this.parentNode?this.parentNode.visible:this.visible;
