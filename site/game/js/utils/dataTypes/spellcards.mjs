@@ -11,6 +11,9 @@ export class SpellcardDefinition{
     }
 
     static SPELLCARD_TYPES_IMAGES={}
+   
+	static SPELLCARD_IMAGES={}
+   
     
     static get SpellcardActions(){
         return {
@@ -45,9 +48,9 @@ export class SpellcardDefinition{
 
         console.log("This spellcard has ",Math.round( Math.random()*Object.keys(SpellcardDefinition.SpellcardActions).length))
 
-        this.loadAssets()
+        SpellcardDefinition.loadAssets()
     }
-    async loadAssets(){
+    static async loadAssets(){
 
         SpellcardDefinition.SPELLCARD_TYPES_IMAGES[SPELLCARD_TYPES["NULL"]] = await assetLoader.loadImage("SpellCardNullType","textures/spellcardTypes/spellcardTypeNull.png")
         SpellcardDefinition.SPELLCARD_TYPES_IMAGES[SPELLCARD_TYPES["WEAPON"]] = await assetLoader.loadImage("SpellCardWeaponType","textures/spellcardTypes/spellcardTypeWeapon.png")
@@ -63,3 +66,16 @@ export class SpellcardDefinition{
         }
     }
 }
+
+async function loadOtherSpellcardAssets(){
+
+SpellcardDefinition.SPELLCARD_IMAGES["SlugshotPower"]=await assetLoader.loadImage("SlugshotSpell","textures/spells/spellSlugshot.png" )
+SpellcardDefinition.SPELLCARD_IMAGES["TrishotPower"]= await assetLoader.loadImage("TrishotSpell","textures/spells/spellTrishot.png")
+SpellcardDefinition.SPELLCARD_IMAGES["WavershotPower"]=await assetLoader.loadImage("WavershotSpell","textures/spells/spellWavershot.png" )
+
+SpellcardDefinition.SPELLCARD_IMAGES["HealPower"]= await assetLoader.loadImage("HealSpell","textures/spells/spellHeal.png")
+SpellcardDefinition.SPELLCARD_IMAGES["OverhealPower"]=await assetLoader.loadImage("OverhealSpell","textures/spells/spellOverheal.png")
+	
+}
+
+loadOtherSpellcardAssets()
