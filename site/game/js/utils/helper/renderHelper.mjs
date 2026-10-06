@@ -83,7 +83,7 @@ export function drawRect(ctx,rect,color){
 export function drawTexture(/**@type{ CanvasRenderingContext2D } */ ctx,texture,transform,options){
 	options = options || {}
 
-
+	ctx.globalAlpha = 1.0
 	if (texture instanceof Texture){
 		
 		ctx.drawImage(
@@ -110,7 +110,16 @@ export function drawTexture(/**@type{ CanvasRenderingContext2D } */ ctx,texture,
 	}
 	else{
 		ctx.save()
+		ctx.globalAlpha=1.0
 
+		if (options.colorOverride){
+			ctx.fillStyle=options.colorOverride
+		}
+
+		
+		if (options.transparency != null){
+			ctx.globalAlpha=options.transparency || 1.0
+		}
 		if (!options.useCanvasTransforms){
 			ctx.drawImage(
 				texture,
@@ -132,8 +141,9 @@ export function drawTexture(/**@type{ CanvasRenderingContext2D } */ ctx,texture,
 				texture.height*transform.scale.y
 			)
 		}
-		
+		ctx.globalAlpha=1.0
 		ctx.restore()
+
 	}
 
 }
@@ -242,7 +252,6 @@ export class RenderHelper{
 	drawBatchTexture(){}
 	correctDrawTransform(){}
 }
-
 
 
 

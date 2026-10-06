@@ -23,7 +23,14 @@ export var InputAction={
     },
     "changeSpellcard":{
         code:"KeyV"
-    }
+    },
+    "volumeUp":{
+        code:"Equal"
+    },
+    "volumeDown":{
+        code:"Minus"
+
+    },
 }
 
 export var isPressedLastFrame = {}

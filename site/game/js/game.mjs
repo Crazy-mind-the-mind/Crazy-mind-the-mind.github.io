@@ -34,6 +34,7 @@ function Game(w, h, targetFps, showFps,gameOptions) {
 		trueWidth:640,
 		trueHeight:360,
 		showColliders: gameOptions.showColliders || false,
+		showUIanchors: gameOptions.showColliders || false,
 		forceCanvasAPI:true,
 	}
 
@@ -46,6 +47,10 @@ function Game(w, h, targetFps, showFps,gameOptions) {
 		'cameraTransform': new transform2(0,0,1,1),
 		'entities':[],
 	};
+
+	this.extrasFncs = {
+		renderFncs:[]
+	}
 
 
 	if (!this.constants.forceCanvasAPI){
@@ -74,8 +79,7 @@ function Game(w, h, targetFps, showFps,gameOptions) {
 	$container.insertBefore(this.viewport, $container.firstChild);
 
 	
-
-
+		
 	
 	console.log('Starting Game');
 
@@ -88,6 +92,7 @@ function Game(w, h, targetFps, showFps,gameOptions) {
 
 	console.log('Starting Engine');
 	console.log('Selected Renderer = ',this.configurations.renderer)
+	
 	this.setup = gameSetup(this);
 	this.setup()
 	this.eventSystem = new gameEvents(this);

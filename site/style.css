@@ -3,18 +3,87 @@
 
 
 
-html{
-    background-color: black;
+html,body {
+
+
+    height: 100vh;
+    width: 100%;
+    background-color: midnightblue;
+
+    
 }
 
+
+#pagina {
+
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    min-width: 60%;
+    width: max-content;
+    height: 100%;
+
+    padding-left: 20px;
+    padding-right: 20px;
+    grid-column: 2 3;
+
+    background-color: cadetblue;
+    grid-template-columns: auto ;
+    grid-template-rows: 10% auto max-content;
+
+    
+    
+}
+
+#Titulo-jogo{
+/*    
+    grid-column-start: 2;
+    grid-column-end: 3;*/
+    
+    grid-row-start: 1 ;
+    grid-row-end: 2;
+	color: #000000;
+    margin: auto;
+}
 #game-viewport{
-    min-height: 300px;
-    min-width: 300px;
+    
+
+    grid-row-start: 2 ;
+    grid-row-end: 3;
+    
+    box-sizing: content-box;
+
+
+    background: #00000000;
+    box-sizing: content-box;
+    
+    
+    width: calc(  
+        calc(var(--true-h-size)/var(--true-max-size) ) * 100%  );
+        
+    height: calc(  
+        calc(var(--true-v-size)/var(--true-max-size)) * 100%  );
+/*    
+    margin-left: calc(var(--true-v-size)/2);
+    margin-right: calc(var(--true-v-size)/2);*/
+
+    margin-top:4px ;
+    margin-bottom:4px ;
+    
+    
+
 }
 
-#foco-pagina{
-	background-color: blue;
+#descricao-pagina{
+	background-color: lightblue;
+/*    
+    grid-column-start: 2;
+    grid-column-end: 3;*/
+    
+    grid-row-start: 3;
+    grid-row-end: 4;
+    
+    margin: 8px;   
+    padding: 16px;
 }
-#foco-pagina div h2{
-	text-color : yellow;
-}
+

@@ -1,6 +1,6 @@
 
 import { vec2,rect2,transform2, Texture } from "../utils/dataTypes.mjs";
-import { loadTexture } from "../utils/helper.mjs";
+
 
 
 export class Entity{

@@ -1,29 +1,11 @@
 import { vec2 } from "./vec2.mjs"
 
 class transform2{
-	
-	get position(){
-		return new vec2(this.data[0],this.data[1])
-	
-	set position(v){
-		this.data[0]=v.x
-		this.data[1]=v.y
-	}
-	get scale(){
-		return new vec2(this.data[2],this.data[3])
-	}
-	set scale(v){
-		this.data[2]=v.x
-		this.data[3]=v.y
-	}
-	get rotation(){
-		return this.data[4]
-	}
-	set rotation(v){
-		this.data[4]=v
-		
-	}
+
     constructor(px,py,sx,sy,rot){
+		this.position=new vec2(px, py) 
+		this.scale=new vec2(sx, sy)
+		this.rotation = rot || 0
     	this.data=Float32Array.of(px,py,sx,sy,rot)
     	this.package
   
@@ -31,7 +13,9 @@ class transform2{
     
     static copy(src){
         var result = new transform2();
-        result.data=Float32Array.from(this.data)
+        result.position= vec2.copy(src.position ); 
+        result.scale = vec2.copy(src.scale  )
+        result.rotation=src.rotation
         return result;
         
     }

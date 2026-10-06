@@ -19,14 +19,17 @@ export class gameWaveSystem{
             [4,4,1,1,1,1,1],
             [4,3,3,1,1,1,1],
             [4,2,2,2,1,1,1],
+            [4,2,2,2,2,1,1,1,1,1],
+            [4,3,3,2,2,1,1,1,1,1],
+            [4,3,3,3,3,2,2,1,1,1,1,1],
         ];
     }
 
     static get positions(){
         return [
-            new vec2(800,40),
-            new vec2(800,180),
-            new vec2(800,320)
+            new vec2(680,40),
+            new vec2(680,180),
+            new vec2(680,320)
         ];
     }
     
@@ -36,7 +39,7 @@ export class gameWaveSystem{
         this.waveCount=0
         this.waveEnemiesLeft=0
         this.waveStarted=false
-        this.waveStartDelay = 20
+        this.waveStartDelay = 240
         this.scope.eventSystem.connectToEvent("enemyKilled",function(){
             this.waveEnemiesLeft--;
             if(this.waveEnemiesLeft<=0){
@@ -44,6 +47,12 @@ export class gameWaveSystem{
             }
 
         },this);
+
+        this.scope.eventSystem.connectToEvent("playerDied",function(){
+            this.waveCount=0
+            this.waveStarted=false
+            this.waveStartDelay = 240
+        },this)
     }
     waveSystemUpdate(){
 

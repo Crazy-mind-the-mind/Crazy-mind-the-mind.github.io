@@ -21,14 +21,14 @@ import { PlayerCharacter } from "./playerCharacter.mjs";
 export class Projectile extends Entity{
 	
 	static projectiles=[];
-	static projectileTypes=[]
+	static projectileTypes=[];
 
-	
+	static collisionGroup;
 	
 	
 	
 	static createCollisionGroup(scope){
-		Projectile.collisionGroup=new RectGroupCollider(null,new vec2(),{
+		Projectile.collisionGroup=new RectGroupCollider(Projectile,new vec2(),{
 			"collisionRect":new rect2(0,0,8,8),
 			"collisionLayer":["projectiles"],
 			"collisionMask":["player","enemies"],
@@ -37,9 +37,13 @@ export class Projectile extends Entity{
 		registerCollider(Projectile.getCollisionGroup());
 		
 	}
+
+
 	static getCollisionGroup(){
 		return Projectile.collisionGroup
 	}
+
+
 	static addToCollisionGroup(entity,scope){
 		/**@type{RectGroupCollider} */
 		var collisionGroup = Projectile.getCollisionGroup();
@@ -47,14 +51,18 @@ export class Projectile extends Entity{
 			Projectile.createCollisionGroup(scope )
 			collisionGroup = Projectile.getCollisionGroup();
 		}
-		collisionGroup.addColliderOwnerQueue(entity,entity.transform.position);
+		collisionGroup.addCollisionCheck(entity,entity.transform.position,entity.collisionSize);
 	}
+
+
 	static removeFromCollisionGroup(){
 		/**@type{RectGroupCollider} */
 		var collisionGroup = Projectile.getCollisionGroup();
 		if (!collisionGroup) return;
 		collisionGroup.removeColliderOwnerQueue(entity);
 	}
+
+
 	
     constructor(scope, x, y) {
 			super(scope, x, y);
@@ -67,22 +75,11 @@ export class Projectile extends Entity{
 			this.hostile=false;
 			this.pierces=1;
 			this.direction = new vec2(0,0)
-			Projectile.addToCollisionGroup(this)
-			//this.collision=new RectCollider(
-			//	this,
-			//	this.transform.position,
-			//	{
-			//		collisionRect: new rect2(
-			//			this.transform.position.x,
-			//			this.transform.position.y,
-			//			8,8
-			//		),
-			//		showCollision:scope.constants.showColliders,
-			//		color:"#ff000088",
-			//		collisionLayer:["projectiles"],
-			//		collisionMask:["player","enemies"],
-			//	}
-			//)
+			this.collisionSize=new vec2(8,8)
+			Projectile.addToCollisionGroup(this,scope)
+			Projectile.projectiles.push(this)
+			
+
 
 	}
 
@@ -97,6 +94,7 @@ export class Projectile extends Entity{
 		this.transform.position.y+=this.velocity.y;
 		this.characterExcludes=[];
 		if (this.timeLeft<=0 || this.pierces == 0){
+			Projectile.getCollisionGroup().removeCollisionCheck(this)
 			deleteEntity(this.scope,this)
 		}
 
@@ -104,6 +102,8 @@ export class Projectile extends Entity{
 			this.collision.transform=this.transform
 			this.collision.update()
 		}
+
+		Projectile.getCollisionGroup().updateCheck(this,this.transform.position)
 	}
 	AI(){
 		
@@ -116,7 +116,10 @@ export class Projectile extends Entity{
 		drawTexture(
 			renderer,
 			this.texture,
-			correctDrawTransform(this)
+			correctDrawTransform(this),
+			{
+				transparency:this.friendly?0.2:1.0
+			}
 		)
 
 		if (this.collision){
@@ -125,13 +128,19 @@ export class Projectile extends Entity{
 	}
 
 	onCollisionReceived(collider){
-		console.log("col")
+
 		if (collider instanceof ColliderAbstract ){
 				if (collider.owner && collider.owner instanceof Character ){
 					var collidingCharacter=collider.owner
 					
+						//console.log("AAA")
+					
+					
+					
 
-					if (collidingCharacter instanceof PlayerCharacter && this.hostile){
+					if (collidingCharacter instanceof PlayerCharacter && this.hostile ){
+						console.log("AAA")
+
 						this.pierces--;
 					}
 					if (collidingCharacter instanceof EnemyCharacter && this.friendly){
@@ -155,4 +164,7 @@ export class Projectile extends Entity{
 	}
 }
 
+
+
+Projectile.projectiles.length=1000;
 

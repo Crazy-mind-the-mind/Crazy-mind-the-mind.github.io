@@ -11,7 +11,8 @@ export function gameRender(scope) {
 				
 				scope.context.imageSmoothingEnabled = false;
 				scope.context.clearRect(0, 0, w, h);
-
+				scope.context.fillStyle="#00002f";
+				scope.context.fillRect(0, 0, w, h);
 
 				scope.context.font = '8px Arial';
 				scope.context.font
@@ -62,21 +63,24 @@ export function gameRender(scope) {
 					}
 				}
 
-				//if (scope.state.hasOwnProperty('projectiles')) {
-				//	let entities = scope.state.projectiles;
-				//	//let entitiesDrawQueue = generateDrawOrderList(entities);
 
+				if (scope.hasOwnProperty('extrasFncs')){
+					if (scope.extrasFncs.hasOwnProperty('renderFncs')){
+						var FNCS = scope.extrasFncs.renderFncs
 
-
-				//	for (let entity in entities) {
-				//		//console.log(entity)
-				//		entities[entity].render();
-				//	}
-				//}
-
-				if (scope.state.hasOwnProperty('ui')){
-
+						for (let FNC in FNCS) {
+						try{
+						FNCS[FNC]();
+						}
+						catch (error){
+							console.error("Error rendering FNC :",FNC,error);
+							continue
+						}
+						}
+					}
 				}
+
+				
 
 				scope.context.restore()
 				

@@ -1,5 +1,6 @@
 
-import { isJustPressed,isJustReleased } from "../utils/input.mjs"
+import { changeAudioVolume } from "../utils/helper.mjs";
+import { isJustPressed,isJustReleased, isPressed } from "../utils/input.mjs"
 
 
 export function gameUpdate(scope) {
@@ -29,7 +30,15 @@ export function gameUpdate(scope) {
 
 				
 				
-				
+				if (isPressed.volumeUp){
+					changeAudioVolume(0.1)
+					console.log("V_UP")
+				}
+				if (isPressed.volumeDown){
+					changeAudioVolume(-0.1)
+					console.log("V_DOWN")
+
+				}
 				return state;
 	};
 }

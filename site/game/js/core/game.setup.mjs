@@ -2,11 +2,15 @@ import { EnemyCharacterDefault } from "../players/enemyCharacterDefault.mjs";
 import { ParallaxLayer } from "../players/parallaxLayer.mjs";
 import { PlayerCharacter } from "../players/playerCharacter.mjs";
 import { Projectile } from "../players/projectile.mjs";
+import { rect2 } from "../utils/dataTypes.mjs";
 import { createEnemy, loadFont } from "../utils/helper.mjs";
 import { keysDown } from "../utils/input.mjs";
+import { UIHUDLabel } from "../utils/ui/uiHUDLabel.mjs";
 import { UIImage } from "../utils/ui/uiImage.mjs";
 import { UILabel } from "../utils/ui/uiLabel.mjs";
 import { UINode } from "../utils/ui/uiNode.mjs";
+import { UIPanel } from "../utils/ui/uiPanel.mjs";
+import { UIProgressBar } from "../utils/ui/uiProgressBar.mjs";
 import { assetLoader } from "./game.assetLoader.mjs";
 
 export function gameSetup(scope) {
@@ -60,25 +64,8 @@ export function gameSetup(scope) {
             scope.state.entities.background2=pbl[1]
             scope.state.entities.background3=pbl[2]
             
-            scope.state.entities.player=new PlayerCharacter(scope,100,100);
+            scope.state.entities.player=new PlayerCharacter(scope,50,180);
             
-
-            // Debug Start Enemies
-            
-            //var enemies=[
-            //      createEnemy(scope,scope.constants.width,scope.constants.height/2,1),
-            //      createEnemy(scope,scope.constants.width,scope.constants.height/2,2),
-            //      createEnemy(scope,scope.constants.width,scope.constants.height/2,3),
-            //      createEnemy(scope,scope.constants.width,scope.constants.height/2,1),
-            //      createEnemy(scope,scope.constants.width,scope.constants.height/2,2),
-            //      createEnemy(scope,scope.constants.width,scope.constants.height/2,3),
-            //]
-
-            //enemies.forEach(enemy=> {
-            //      console.log(enemy);
-            //});
-
-
 
 
 
@@ -188,6 +175,26 @@ export function gameSetup(scope) {
                         "SpellCardBackground",
                         "textures/spellCard.png"
                   ),
+
+                  "HealthBar": new UIProgressBar(scope,
+                        10,
+                        340,
+                        null,
+                        "HealthTexture",
+                        "textures/healthTex.png",
+                        "HealthEmptyTexture",
+                        "textures/healthTexEmpty.png"
+                  ),
+                  "waveScore": new UIHUDLabel(
+                        scope,
+                        "wave : ".length*5 +5,
+                        16,
+                        null,
+                        null,
+                        "waveCount",
+                        "wave : ",
+                        "0"
+                  )
                   
             }
             
@@ -210,11 +217,6 @@ export function gameSetup(scope) {
             gameHUD["SpellCardBundle"].addChild(gameHUD["Spellcard2"],"Spellcard2")
             gameHUD["SpellCardBundle"].addChild(gameHUD["Spellcard1"],"Spellcard1")
 
-            gameHUD["Spellcard1"].addChild(gameHUD["Spellcard1Type"],"SpellcardType")
-            gameHUD["Spellcard1"].addChild(gameHUD["Spellcard1Effect"],"SpellcardEffect")
-            gameHUD["Spellcard2"].addChild(gameHUD["Spellcard2Type"],"SpellcardType")
-            gameHUD["Spellcard3"].addChild(gameHUD["Spellcard3Type"],"SpellcardType")
-
             gameHUD["Spellcard1"].transform.scale.scale.vecMult(1.3)
             gameHUD["Spellcard2"].transform.scale.scale.vecMult(1.2)
             gameHUD["Spellcard3"].transform.scale.scale.vecMult(1.1)
@@ -225,6 +227,32 @@ export function gameSetup(scope) {
             gameHUD["SpellCardBundle"].transform.position.scale.y=0.5
             gameHUD["rootUINode"].addChild(gameHUD["SpellCardBundle"],"SpellCardBundle")
 
+
+            gameHUD["HealthBar"].updateAction = function(){
+                        
+                  if (this.scope.state.entities){
+                        
+                        this.maxValue=this.scope.state.entities.player.statHealthMax;
+                        this.value=this.scope.state.entities.player.statHealth;
+                  }
+            }
+            gameHUD["HealthBar"].updateAction.bind(gameHUD["HealthBar"])
+            gameHUD["rootUINode"].addChild(gameHUD["HealthBar"],"HealthBar")
+
+
+
+
+            gameHUD["waveScore"].updateAction=function(){
+                  this.hudValueText=window.game.waveSystem.waveCount
+            }
+            gameHUD["waveScore"].hudLabelUpdate.bind(gameHUD["waveScore"])
+
+            gameHUD["rootUINode"].addChild(gameHUD["waveScore"],"WaveScore")
+
+
+            //gameHUD["rootUINode"].addChild(gameHUD["HUDPanel"],"HUDPanel")
+
+            
             scope.state.ui["GameHUD"] = gameHUD["rootUINode"]
 
 
@@ -246,6 +274,11 @@ export function gameSetup(scope) {
             DeadScreen[0].addChild(DeadScreen[2],"ScoreAmount")
             DeadScreen[0].visible=false
 
+            
+            DeadScreen[0].updateAction=function(){
+                  this.visible= scope.state.entities.player.isDead
+            }
+            DeadScreen[0].updateAction.bind(DeadScreen[0])
 
 
             scope.state.ui["DeadScreen"] = DeadScreen[0]

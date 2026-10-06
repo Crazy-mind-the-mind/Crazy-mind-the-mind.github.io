@@ -8,20 +8,46 @@
 	<title>Jogo</title>
 </head>
 <body>
-	<div id="foco-pagina">
+	<div id="pagina">
+		<h1 id="Titulo-jogo">Jogo</h1>
 
-		<h1>Jogo</h1>
-		<!--<embed src="game/game.html" type="" height="1000" width="1000">-->
+		<embed src="game/game.html" type="" width="640" height="360" id="game-viewport" --true-max-size="200px" --true-h-size="" --true-v-size="">
 
-		<h2> Controles do jogo</h2>
-		<p>
-			Esquerda, Direita, Cima, Baixo : Movimento <br>
-			Z : Atirar Tiro 1 <br>
-			X : Atirar Tiro 2 <br>
-			C : Usar Carta de poder <br>
-			V : Trocar Carta de Poder <br>
-		</p>
+		<div id="descricao-pagina">
+			
+			<h2> Descrição</h2>
+			<p>
+				 
+			</p>
+
+			<h2> Controles do jogo</h2>
+			<p>
+				Esquerda, Direita, Cima, Baixo : Movimento <br>
+				Z : Atirar Tiro 1 <br>
+				X : Atirar Tiro 2 <br>
+				C : Usar Carta de poder <br>
+				V : Trocar Carta de Poder <br>
+			</p>
+		</div>
+
 	</div>
 
+
+	<script>
+		var gameviewport = document.getElementById("game-viewport");
+		var pageelem = document.getElementById("pagina");
+		var sizeAttr = gameviewport.style.getPropertyValue("--max-size");
+		var hsizeAttr = pageelem.offsetWidth;
+		var vsizeAttr = pageelem.offsetHeight;
+
+
+		function applyFixedSize() {
+			gameviewport.style.setProperty("--true-h-size", hsizeAttr+"px" );
+			gameviewport.style.setProperty("--true-v-size", vsizeAttr+"px" );
+			gameviewport.style.setProperty("--true-max-size", Math.max(hsizeAttr,vsizeAttr)+"px" );
+		}
+		const resizeObs = new ResizeObserver(applyFixedSize)
+		resizeObs.observe(pageelem)
+	</script>
 </body>
 </html>

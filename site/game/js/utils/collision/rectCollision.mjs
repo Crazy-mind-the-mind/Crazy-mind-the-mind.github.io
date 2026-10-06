@@ -38,11 +38,14 @@ class RectCollider extends ColliderAbstract{
         }
         else if (collider instanceof RectGroupCollider){
         	if (collider.collisionRect){
-                let resultArray = collider.RectCheckColliderAllNoEvent(this.collisionRect);
+
+                let resultArray = collider.checkCollisions(this.collisionRect)
+                
+
                 if (resultArray.length!=0){
                     resultArray.forEach((rCollider)=>{
-                        //console.log(this.owner)
-                        this.oncollisionevent(collider,this);
+
+                        this.oncollisionevent(rCollider);
                     })
                 } 
             }

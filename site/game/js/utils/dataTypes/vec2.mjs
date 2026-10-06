@@ -2,19 +2,19 @@
 
 
 class vec2{
-	data;
-    get x(){return this.data[0]}
-    get y(){return this.data[1]}
-    set x(v){this.data[0]=v}
-    set y(v){this.data[1]=v}
-    
+	x;
+    y;
+
     constructor(x,y){
-    	this.data=new Float32Array(2)
-        this.x=x
-        this.y=y
+    	
+        this.x=x || 0
+        this.y=y || 0
     }
 
-    
+    get x(){return x}
+    set x(v){x=v}
+    get y(){return y}
+    set y(v){y=v}
 
     get magnitude(){return Math.hypot(this.x, this.y);}
     isNearZero(){
@@ -72,7 +72,12 @@ class vec2{
         return [this.x,this.y];
     }
     rotated(rotation){
-        return vec2.copy(this).vecMultVec(new vec2(Math.sin(rotation),Math.cos(rotation)) );
+        return new vec2(
+                this.x*Math.cos(rotation)-this.y*Math.sin(rotation),
+                this.x*Math.sin(rotation)+this.y*Math.cos(rotation)
+            
+        )
+        
     }
     [Symbol.toPrimitive](hint){
 

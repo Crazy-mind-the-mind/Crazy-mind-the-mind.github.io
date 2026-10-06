@@ -10,7 +10,7 @@ export class EnemyCharacterSwarmer extends EnemyCharacter{
         super(scope,x,y)
         this.statHealth=2
 		this.statHealthMax=2
-        this.shotCooldown= 240+parseInt(Math.random*40)
+        this.shotCooldown= 240+Math.random()*40
         this.velocity = new vec2(-0.1,0)
         this.transform.rotation = Math.PI
         this.moveSpeed = new vec2( 2 , 5 )

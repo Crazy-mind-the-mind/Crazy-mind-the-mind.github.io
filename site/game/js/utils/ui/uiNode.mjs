@@ -7,11 +7,13 @@ class UINode{
     constructor(scope, x,y , /**@type{UINode}*/parentUInode){
         this.scope=scope
         this.parentNode=null
-        if (parentUInode) parentUInode.addChild(this);
+        if (parentUInode!=null) parentUInode.addChild(this);
         this.childrenNodes={};
         this.transform = new uiTransform(new vec2(x,y));
         this.visible=true;
         this.debugColor="#FFAA00"
+
+        this.updateAction = null;
 
         this.loadAssets();
     }
@@ -33,14 +35,16 @@ class UINode{
                 this.childrenNodes[child].update()
             }
         }
+
+        if (this.updateAction instanceof Function){this.updateAction()}
     }
     render(){
 
         this.visible=this.parentNode?this.parentNode.visible:this.visible;
         this.calculateTransform()
 
-        
-        drawRect(this.scope.context,
+        if (this.scope.constants.showUIanchors){
+            drawRect(this.scope.context,
             new rect2(
                 this.calculatedTransform.position.x,
                 this.calculatedTransform.position.y,
@@ -48,7 +52,9 @@ class UINode{
                 4,
             ),
             this.debugColor
-        )
+            )
+        }        
+        
 
 
         if (Object.keys(this.childrenNodes).length>0){

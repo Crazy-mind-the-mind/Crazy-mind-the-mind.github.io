@@ -5,6 +5,9 @@ import { uiTransform } from "../utils/dataTypes.mjs"
 export function gameScore(scope){
     scope.state.playerStatus.ScorePoints=0
     scope.state.playerStatus.HighScorePoints=0
+
+    
+
     return function scoreUpdate(){
         scope.state.playerStatus.HighScorePoints = Math.max(scope.state.playerStatus.HighScorePoints , scope.state.playerStatus.ScorePoints)
         if (scope.state.ui){

@@ -8,88 +8,32 @@ import { RectCollider } from "../utils/collision/rectCollision.mjs";
 
 export class ProjectileSlugShot extends Projectile{
 
-	static createCollisionGroup(scope){
-		ProjectileSlugShot.collisionGroup=new RectGroupCollider(null,new vec2(),{
-			"collisionRect":new rect2(0,0,16,16),
-			"collisionLayer":["projectiles"],
-			"collisionMask":["player","enemies"],
-			"collisionGroupName":""
-		})
-		registerCollider(ProjectileSlugShot.getCollisionGroup());
-		
-	}
-	static getCollisionGroup(){
-		return ProjectileSlugShot.collisionGroup
-	}
-	static addToCollisionGroup(entity,scope){
-		/**@type{RectGroupCollider} */
-		var collisionGroup = ProjectileSlugShot.getCollisionGroup();
-		if (!collisionGroup){
-			ProjectileSlugShot.createCollisionGroup(scope)
-			collisionGroup = ProjectileSlugShot.getCollisionGroup();
-		}
-		collisionGroup.addColliderOwnerQueue(entity,entity.transform.position);
-	}
-	static removeFromCollisionGroup(){
-		/**@type{RectGroupCollider} */
-		var collisionGroup = ProjectileSlugShot.getCollisionGroup();
-		if (!collisionGroup) return;
-		collisionGroup.removeColliderOwnerQueue(entity);
-	}
 
     constructor(scope, x, y) {
 			super(scope, x, y);
 			this.timeLeft=20;
 			this.damage=10
-			this.collision=new RectCollider(
-				this,
-				this.transform.position,
-				{
-					collisionRect: new rect2(
-						this.transform.position.x,
-						this.transform.position.y,
-						8,8
-					),
-					showCollision:scope.constants.showColliders,
-					color:"#ff000088",
-					collisionLayer:["projectiles"],
-					collisionMask:["player","enemies"],
-				}
-			)
+			
+			this.collisionSize=new vec2(16,16)
+
+
+			
 			
 	}
 
 	
 	async loadAssets(){
-		assetLoader.loadImage("projectileSlug","textures/projectiles/projectileSlug.png").then(
-			(imageTex)=>{
-				this.texture = new Texture(imageTex)
-			}
-		)
-		
+		this.texture = await assetLoader.loadImage("projectileSlug","textures/projectiles/projectileSlug.png")
 	}
 	
 	AI(){
 		this.velocity.x*=0.99;
 		this.velocity.y*=0.99;
 		
-		if (this.texture && this.texture instanceof Texture){
-			if (this.friendly){
-				this.texture.imageModulate = "#008FFF88";
-			}
-			else if (this.hostile){
-				this.texture.imageModulate = "#FF000088";
-
-			}
-			else{
-				this.texture.imageModulate = "#00880088";
-			}
-		}
+		
 
 
 	}
 	
 	
 }
-
-//ProjectileTypes[3] = function (scope,x,y) {return new ProjectileSlugShot(scope,x,y)};

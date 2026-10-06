@@ -1,6 +1,6 @@
 import {vec2, rect2, Texture, transform2} from "../utils/dataTypes.mjs";
 import { Entity } from "./entity.mjs";
-import { correctDrawTransform, drawRect , drawTexture, loadTexture } from "../utils/helper.mjs";
+import { correctDrawTransform, drawRect , drawTexture } from "../utils/helper.mjs";
 import { assetLoader } from "../core/game.assetLoader.mjs";
 import { TextureWebGL } from "../utils/dataTypes/texture.mjs";
 export class ParallaxLayer extends Entity {

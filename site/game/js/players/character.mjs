@@ -50,6 +50,7 @@ export class Character extends Entity{
 		}
 		if (this.immunityFramesTime>0) return;
 		playAudio(this.scope.audio,"DamageHitSoundEffect");
+		
 		console.log(this)	
 		this.statHealth-=damageAmount;
 		

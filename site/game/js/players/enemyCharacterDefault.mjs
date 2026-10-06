@@ -10,11 +10,13 @@ export class EnemyCharacterDefault extends EnemyCharacter{
         super(scope,x,y)
         this.statHealth=3
 		this.statHealthMax=3
-        this.shotCooldown= 180+parseInt(Math.random*40)
+        this.shotCooldown= 180+Math.random()*40
         this.velocity = new vec2(-0.1,0)
         this.transform.rotation = Math.PI
-        this.moveSpeed = new vec2( 2 , 2 )
+        this.moveSpeed = new vec2( 0.1 , 2 )
         this.moveAccel = new vec2( Math.random()*1.5 ,Math.random()*1.5 )
+
+        this.moveDirection=new vec2(0,1)
         this.collision = new RectCollider(this,this.transform.position,{
             collisionRect: new rect2(
                 this.transform.position.x,
@@ -41,22 +43,9 @@ export class EnemyCharacterDefault extends EnemyCharacter{
 
         var movdir = this.transform.position.directionTo(
             vec2.copy(player.transform.position)
-            .vecAdd(
-                new vec2(300,Math.random()*50-25 )
-             )
-            
-            
-            )
-            .vecMultVec(
-                new vec2(
-                    parseInt(
-                        Math.abs(player.transform.position.x-this.transform.position.x)-300 >8 || 
-                        this.transform.position.x-player.transform.position.x < 0
-                    ),
-                    1
-                )
-            );
+        )
 
+        movdir.y = this.moveDirection.y
         
         
         
@@ -90,7 +79,13 @@ export class EnemyCharacterDefault extends EnemyCharacter{
         
         this.shotCooldown--
         
-        
+        if (this.transform.position.y > window.game.constants.height-40){
+            this.moveDirection.y=-1
+            
+        }
+        if (this.transform.position.y < 40){
+            this.moveDirection.y=-1
+        }
     }
 
     render(){

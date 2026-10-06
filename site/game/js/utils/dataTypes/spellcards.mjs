@@ -1,7 +1,7 @@
 import { assetLoader } from "../../core/game.assetLoader.mjs";
-import { PlayerCharacter } from "../../players/playercharacter.mjs"
+import { PlayerCharacter } from "../../players/playerCharacter.mjs"
 
-class SpellcardDefinition{
+export class SpellcardDefinition{
     static get SPELLCARD_TYPES(){
         return {
             NULL:0,
@@ -12,18 +12,39 @@ class SpellcardDefinition{
 
     static SPELLCARD_TYPES_IMAGES={}
     
-    static get SpellcardActions={
-    	SpellcardSlugShotPower:{null},
-    	SpellcardTrishotPower:{null},
-    	SpellcardWaverShotPower:{null},
-    	SpellcardOmnishotPower:{null},
-    	SpellcardHealPower:{null},
-    	SpellcardOverhealPower:{null},
-    	SpellcardTeleportPower:{null},
-    	SpellcardDashPower:{null},
-    	SpellcardDoubleDamage:{null}
+    static get SpellcardActions(){
+        return {
+    	SpellcardSlugShotPower:function(player){
+            player.currentWeapon2=PlayerCharacter.weapons.SlugShot;
+        },
+    	SpellcardTrishotPower:function(player){
+            player.currentWeapon2=PlayerCharacter.weapons.TripleShot;
+
+        },
+    	SpellcardWaverShotPower:function(player){
+            player.currentWeapon2=PlayerCharacter.weapons.WaverShot;
+        },
+    	
+    	SpellcardHealPower:function(player){
+            player.statHealth=player.statHealthMax
+        },
+    	SpellcardOverhealPower:function(player){
+            player.statHealthMax++
+            player.statHealth=player.statHealthMax
+
+        },
+        
     };
+}
     constructor(){
+        this.spellcardAct=SpellcardDefinition.SpellcardActions[
+            Object.keys(SpellcardDefinition.SpellcardActions)[
+                Math.round( Math.random()*Object.keys(SpellcardDefinition.SpellcardActions).length)
+            ]
+        ]
+
+        console.log("This spellcard has ",Math.round( Math.random()*Object.keys(SpellcardDefinition.SpellcardActions).length))
+
         this.loadAssets()
     }
     async loadAssets(){
@@ -36,46 +57,9 @@ class SpellcardDefinition{
     spellcardAction(player){
         if (!player instanceof PlayerCharacter) return;
 
+        if (this.spellcardAct){
+            console.log("Yasss")
+            this.spellcardAct(player)
+        }
     }
 }
-
-
-class SpellcardDefinitionSlugShotPower extends SpellcardDefinition{
-    constructor(){
-
-    }
-
-    spellcardAction(player){
-        if (!player instanceof PlayerCharacter) return;
-
-    }
-}
-
-
-class SpellcardDefinitionTriShot extends SpellcardDefinition{
-    constructor(){
-
-    }
-
-    spellcardAction(player){
-        if (!player instanceof PlayerCharacter) return;
-        
-        player.currentWeapon = PlayerCharacter
-    }
-}
-
-
-class SpellcardDefinitionWaverShot extends SpellcardDefinition{
-    constructor(){
-
-    }
-
-    spellcardAction(player){
-        if (!player instanceof PlayerCharacter) return;
-        
-        player.currentWeapon
-    }
-}
-
-
-export {SpellcardDefinition}

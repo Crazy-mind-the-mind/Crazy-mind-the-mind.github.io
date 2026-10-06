@@ -10,10 +10,10 @@ export class EnemyCharacterSpiker extends EnemyCharacter{
         super(scope,x,y)
         this.statHealth=12
 		this.statHealthMax=12
-        this.shotCooldown= 30+parseInt(Math.random*40)
+        this.shotCooldown= 30+Math.random()*40
         this.velocity = new vec2(-0.1,0)
         this.transform.rotation = Math.PI
-        this.moveSpeed = new vec2( 4 , 4 )
+        this.moveSpeed = new vec2( 4 , 4 ).vecMult( Math.max(Math.random()*2,1))
         
         this.collision = new RectCollider(this,this.transform.position,{
             collisionRect: new rect2(
@@ -26,10 +26,14 @@ export class EnemyCharacterSpiker extends EnemyCharacter{
             collisionMask:["projectiles"],
         });
 
+        var randomYoffset = Math.random()*100
         this.patternPoints =[
             new vec2(0,scope.constants.height/2),
             new vec2(scope.constants.width,scope.constants.height/2)
         ]
+
+        this.patternPoints[0].y+=randomYoffset
+        this.patternPoints[1].y+=randomYoffset
         this.currentPatternPoint=0
     }
 
@@ -56,9 +60,11 @@ export class EnemyCharacterSpiker extends EnemyCharacter{
 
         this.velocity.x=-movdir.x*this.moveSpeed.x;
         this.velocity.y=-movdir.y *this.moveSpeed.y;
+        //console.log("Spiker coold ->",this.shotCooldown)
         
 
         if(this.shotCooldown<=0){
+
             for (let pCount = 0; pCount < 8; pCount++) {
                 
                 var p =createProjectile(
@@ -74,12 +80,14 @@ export class EnemyCharacterSpiker extends EnemyCharacter{
                     owner:this,
                 }
                 )
+
+                //console.log(p.direction)
             }
-            
-            this.shotCooldown=180+parseInt(Math.random*40)
+
+            this.shotCooldown=180+Math.random()*40
             playAudio(this.scope.audio,"LaserShotSound")
             
-            //console.log("velocity",this.velocity)
+            
         }
 
         
