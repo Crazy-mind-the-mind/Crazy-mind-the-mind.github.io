@@ -34,7 +34,9 @@ export class UISpellcard extends UINode{
     	var player = window.game.state.entities.player
         if (!player) {return}
         /**@type{SpellcardDefinition} */
-    	var currentSpellcard = player.currentSpellcards[ (player.currentSpellcard+this.spellCardTargetIdx)%3 ]
+    	var currentSpellcard = player.currentSpellCards[ (player.currentSpellCard+this.spellCardTargetIdx)%3 ]
+        if (!currentSpellcard) {return}
+
         this.spellCardHasSpell=currentSpellcard != null
     	
     	this.spellCardTypeImg.texture =  SpellcardDefinition.SPELLCARD_TYPES_IMAGES[SpellcardDefinition.SPELLCARD_TYPES["NULL"]]
