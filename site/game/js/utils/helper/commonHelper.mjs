@@ -126,7 +126,8 @@ export function createEnemy(scope,x,y,type,options){
 
 
 export function deleteEntity(scope,entity){
-    var entities = scope.state.entities;
+    var entities = scope.state.entities || window.game;
+    if (!entities) return;
     var entityName='';
     for (const thisEntity of Object.keys(entities)) {
         if (entities[thisEntity]==entity){

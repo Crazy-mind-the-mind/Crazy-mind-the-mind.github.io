@@ -71,7 +71,7 @@ class EnemyCharacter extends Character{
         this.aliveTime++;
 
         if (this.statHealth <=0){
-            deleteEntity(this);
+            deleteEntity(this.scope,this);
         }
         EnemyCharacter.getCollisionGroup().updateCheck(this)
     }
