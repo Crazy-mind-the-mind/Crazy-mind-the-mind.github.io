@@ -8,7 +8,7 @@ import { UINode } from "./uiNode.mjs";
 
 
 export class UISpellcard extends UINode{
-    constructor(scope,x,y,parent){
+    constructor(scope,x,y,parent,targetIdx){
         super(scope,x,y,parent)
        
         this.texture;
@@ -16,14 +16,29 @@ export class UISpellcard extends UINode{
         this.loadImage = this.loadImage.bind(this)
         this.loadImage()
 
-        this.spellCardTypeImg= new UIImage(scope,x,y,parent,SpellcardDefinition.SPELLCARD_TYPES_IMAGES[SpellcardDefinition.SPELLCARD_TYPES[NULL] ])
-        this.spellCardImg= new UIImage(scope,x,y,parent,SpellcardDefinition.SPELLCARD_TYPES_IMAGES[SpellcardDefinition.SPELLCARD_TYPES[NULL] ])
+		this.spellCardTargetIdx=targetIdx||0;
+		this.spellCardHasSpell=false;
+        this.spellCardTypeImg= new UIImage(scope,x,y,parent,"","")
+        this.spellCardImg= new UIImage(scope,x,y,parent,"","")
 
-
+		
     }
 
     async loadImage(){
         this.texture=await assetLoader.loadImage("SpellCardBackground","textures/spellCard.png")
+    }
+    
+    update(){
+    	super.update()
+    	
+    	var player = window.game.state.entities.player
+    	this.spellCardHasSpell=player.currentSpellcards[player.currentSpellcard] != null
+    	
+    	this.spellCardTypeImg.texture
+    	this.spellCardImg.texture
+    	
+    	this.spellCardTypeImg.visible =this.spellCardHasSpell
+    	this.spellCardImg.visible=this.spellCardHasSpell
     }
 
     render(){
@@ -42,7 +57,8 @@ export class UISpellcard extends UINode{
             this.texture,
             this.calculatedTransform,
             {
-                useCanvasTransforms:true
+                useCanvasTransforms:true,
+                transparency=this.spellCardHasSpell?1.0:0.5
             }
         )
         super.render()
