@@ -10,8 +10,10 @@ import { UIImage } from "../utils/ui/uiImage.mjs";
 import { UILabel } from "../utils/ui/uiLabel.mjs";
 import { UINode } from "../utils/ui/uiNode.mjs";
 import { UIPanel } from "../utils/ui/uiPanel.mjs";
+import { UIButton } from "../utils/ui/uiButton.mjs";
 import { UIProgressBar } from "../utils/ui/uiProgressBar.mjs";
 import { assetLoader } from "./game.assetLoader.mjs";
+import { UISpellcard } from "../utils/ui/uiSpellcard.mjs";
 
 export function gameSetup(scope) {
 
@@ -125,27 +127,26 @@ export function gameSetup(scope) {
                         100,
                         null,
                   ),
-                  "Spellcard1": new UIImage(scope,
+                  "Spellcard1": new UISpellcard(scope,
                         0,
                         0,
                         null,
                         "SpellCardBackground",
                         "textures/spellCard.png"
                   ),
-                  "Spellcard2": new UIImage(scope,
+                  "Spellcard2": new UISpellcard(scope,
                         32,
-                        0,
+                        1,
                         null,
                         "SpellCardBackground",
                         "textures/spellCard.png"
                         
                   ),
-                  "Spellcard3": new UIImage(scope,
+                  "Spellcard3": new UISpellcard(scope,
                         64,
                         16,
                         null,
-                        "SpellCardBackground",
-                        "textures/spellCard.png"
+                        2
                   ),
                   "Spellcard1Type": new UIImage(scope,
                         0,
@@ -291,7 +292,7 @@ export function gameSetup(scope) {
             var mainMenu={
             	"rootMenu":new UINode(scope,0,0,null),
             	"TitleImage":new UIImage(scope,0,0,null,"GameTitle","textures/title.png"),
-            	"StartButton":new UIbutton(scope,0,0,null)
+            	"StartButton":new UIButton(scope,0,0,null)
             }
             
             

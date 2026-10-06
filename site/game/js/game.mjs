@@ -11,6 +11,7 @@ import { collisionSystemUpdate } from "./utils/collision/collisionsystem.mjs";
 import { gameRenderWebGL } from "./core/game.renderWebGL.mjs";
 import { generateCanvasWebGL } from "./utils/canvasWebGL.mjs";
 import { gameEvents } from "./core/game.events.mjs";
+import { playAudio } from "./utils/helper.mjs";
 
 
 
@@ -102,6 +103,12 @@ function Game(w, h, targetFps, showFps,gameOptions) {
 	
 	this.scoreSystem = gameScore(this);
 	this.waveSystem = new gameWaveSystem(this);
+
+	// playAudio(this.audio,"BGM1",{
+	// 	loop:true,
+	// 	loopEnd:1000000,
+	// })
+
 	this.update = gameUpdate(this);
 	this.render = this.configurations.renderer == "webgl" ? gameRenderWebGL(this) : gameRender(this);
 	this.loop = new gameLoop(this);

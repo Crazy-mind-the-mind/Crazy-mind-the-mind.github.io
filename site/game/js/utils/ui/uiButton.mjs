@@ -3,7 +3,7 @@ import { UINode } from "./uiNode.mjs";
 
 
 
-export class UIPutton extends UINode{
+export class UIButton extends UINode{
     constructor(scope,x,y,parent,text,Bsize){
         super(scope,x,y,parent)
         this.text=text;
@@ -27,7 +27,7 @@ export class UIPutton extends UINode{
         	renderer,
         	new rect2(
         		this.calculatedTransform.position.x,
-        		this.calculatedTransform.position.y
+        		this.calculatedTransform.position.y,
         		this.Bsize.x,
         		this.Bsize.y
         	),

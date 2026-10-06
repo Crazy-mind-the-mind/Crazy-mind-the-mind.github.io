@@ -41,6 +41,10 @@
         {
             "name":"DamageHitSoundEffect",
             "path":"audio/hit.wav"
+        },
+        {
+            "name":"BGM1",
+            "path":"audio/ProjMusic.wav"
         }
     ]
 }
