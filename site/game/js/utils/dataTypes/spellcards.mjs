@@ -37,8 +37,20 @@ export class SpellcardDefinition{
 
         },
         
-    };
-}
+        };
+    }
+    static get SpellcardActionTypes(){
+        return {
+            SpellcardSlugShotPower:SpellcardDefinition.SPELLCARD_TYPES["WEAPON"] ,
+            SpellcardTrishotPower:SpellcardDefinition.SPELLCARD_TYPES["WEAPON"],
+            SpellcardWaverShotPower:SpellcardDefinition.SPELLCARD_TYPES["WEAPON"],
+            
+            SpellcardHealPower:SpellcardDefinition.SPELLCARD_TYPES["HEALTH"],
+            SpellcardOverhealPower:SpellcardDefinition.SPELLCARD_TYPES["HEALTH"],
+            
+        }
+    }
+
     static get SpellcardActionImages(){
         return {
     	SpellcardSlugShotPower:function(player){
@@ -69,7 +81,9 @@ export class SpellcardDefinition{
         this.spellcardAct=SpellcardDefinition.SpellcardActions[
             this.spellcardActName
         ]
-
+        this.spellcardActType = SpellcardDefinition.SpellcardActionTypes[
+            this.spellcardActName
+        ] 
         console.log("This spellcard has ",Math.round( Math.random()*Object.keys(SpellcardDefinition.SpellcardActions).length))
 
         SpellcardDefinition.loadAssets()

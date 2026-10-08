@@ -13,7 +13,7 @@ export class EnemyCharacterSpiker extends EnemyCharacter{
         this.shotCooldown= 30+Math.random()*40
         this.velocity = new vec2(-0.1,0)
         this.transform.rotation = Math.PI
-        this.moveSpeed = new vec2( 4 , 4 ).vecMult( Math.max(Math.random()*2,1))
+        this.moveSpeed = new vec2( 4 , 4 ).vecMult( Math.max(Math.max( Math.random()*2,0.1),1))
         
         this.collision = new RectCollider(this,this.transform.position,{
             collisionRect: new rect2(
@@ -35,6 +35,8 @@ export class EnemyCharacterSpiker extends EnemyCharacter{
         this.patternPoints[0].y+=randomYoffset
         this.patternPoints[1].y+=randomYoffset
         this.currentPatternPoint=0
+
+        this.aggressive = Math.random()*100 > 95;
     }
 
 
@@ -84,7 +86,7 @@ export class EnemyCharacterSpiker extends EnemyCharacter{
                 //console.log(p.direction)
             }
 
-            this.shotCooldown=180+Math.random()*40
+            this.shotCooldown= this.aggressive? 30 : 180+Math.random()*40;
             playAudio(this.scope.audio,"LaserShotSound")
             
             

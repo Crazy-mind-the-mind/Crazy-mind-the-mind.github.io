@@ -131,20 +131,17 @@ export function gameSetup(scope) {
                         0,
                         0,
                         null,
-                        "SpellCardBackground",
-                        "textures/spellCard.png"
+                        0
                   ),
                   "Spellcard2": new UISpellcard(scope,
                         32,
-                        1,
+                        0,
                         null,
-                        "SpellCardBackground",
-                        "textures/spellCard.png"
-                        
+                        1
                   ),
                   "Spellcard3": new UISpellcard(scope,
                         64,
-                        16,
+                        0,
                         null,
                         2
                   ),
@@ -153,7 +150,7 @@ export function gameSetup(scope) {
                         0,
                         null,
                         "SpellCardNullType",
-                        "textures/spellcardTypes/spellcardTypeNull.png"
+                        "textures/spellcardTypes/spellcardTypeNull"
                   ),
                   "Spellcard2Type": new UIImage(scope,
                         0,
@@ -222,8 +219,8 @@ export function gameSetup(scope) {
             gameHUD["Spellcard2"].transform.scale.scale.vecMult(1.2)
             gameHUD["Spellcard3"].transform.scale.scale.vecMult(1.1)
 
-            gameHUD["Spellcard2"].transform.rotation = Math.PI*0.1
-            gameHUD["Spellcard3"].transform.rotation = Math.PI*0.2
+            gameHUD["Spellcard2"].transform.rotation
+            gameHUD["Spellcard3"].transform.rotation
 
             gameHUD["SpellCardBundle"].transform.position.scale.y=0.5
             gameHUD["rootUINode"].addChild(gameHUD["SpellCardBundle"],"SpellCardBundle")
@@ -251,9 +248,7 @@ export function gameSetup(scope) {
             gameHUD["rootUINode"].addChild(gameHUD["waveScore"],"WaveScore")
 
 
-            //gameHUD["rootUINode"].addChild(gameHUD["HUDPanel"],"HUDPanel")
 
-            
             scope.state.ui["GameHUD"] = gameHUD["rootUINode"]
 
 
@@ -270,6 +265,11 @@ export function gameSetup(scope) {
             DeadScreen[2].text="SCORE : 00000000"
             DeadScreen[2].transform.position.scale.x=0.5
             DeadScreen[2].transform.position.scale.y=0.5
+
+            DeadScreen[2].updateAction = function(){
+                  this.text="SCORE : "+scope.state.playerStatus.ScorePoints
+            }
+            DeadScreen[2].updateAction.bind(DeadScreen[2])
             
             DeadScreen[0].addChild(DeadScreen[1],"DeadText")
             DeadScreen[0].addChild(DeadScreen[2],"ScoreAmount")

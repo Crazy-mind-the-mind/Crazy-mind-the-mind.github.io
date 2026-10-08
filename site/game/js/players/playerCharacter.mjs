@@ -89,7 +89,7 @@ class PlayerCharacter extends Character{
 						
 
 						try {
-							console.log( (new vec2(1,5)+ new vec(5,1)).x  )
+							
 						}
 						catch(e){
 							console.log("oops",e)
@@ -258,7 +258,7 @@ class PlayerCharacter extends Character{
 				else if (isPressed.changeSpellcard==true && this.currentSpellCardChanged){
 					this.currentSpellCardChanged=true
 				}
-				else if (isPressed.changeSpellcard==false && this.currentSpellCardUsed){
+				else if (isPressed.changeSpellcard==false && this.currentSpellCardChanged){
 					this.currentSpellCardChanged=false
 				}
 			}
@@ -270,7 +270,7 @@ class PlayerCharacter extends Character{
 				this.currentWeapon2.shootCooldownTime--;
 
 			this.scoringTimer--;
-			if (this.scoringTimer==0){
+			if (this.scoringTimer==0 && !this.isDead){
 				this.scope.state.playerStatus.ScorePoints++
 				this.scoringTimer=60;
 			}
@@ -296,17 +296,23 @@ class PlayerCharacter extends Character{
 				this.transform.position.y=window.game.constants.height/2
 				this.transform.position.x=50
 				this.scope.state.playerStatus.ScorePoints=0
+
+				for (let idx=0;idx<this.currentSpellCards.length;idx++){
+					this.currentSpellCards[idx]=new SpellcardDefinition()
+				}
 			}
 			
 			
-			this.pointsNeededForNewSpellcard=this.scope.state.playerStatus.ScorePoints-this.lastSpellcardPoints
+			this.pointsNeededForNewSpellcard=this.lastSpellcardPoints-this.scope.state.playerStatus.ScorePoints
 			
-			if (this.pointsNeededForNewSpellcard <=0){
-				this.lastSpellcardPoints = this.scope.state.playerStatus.ScorePoints
+			if (this.pointsNeededForNewSpellcard >100){
+
 				for (let idx=0;idx<this.currentSpellCards.length;idx++){
 					if (this.currentSpellCards[idx]==null){this.currentSpellCards[idx]=new SpellcardDefinition()}
 				}
-				this.pointsNeededForNewSpellcard = 100
+				console.log("NEW SPELLCARD ACQUIRED");
+				this.lastSpellcardPoints = this.scope.state.playerStatus.ScorePoints
+
 			}
 			
 		}

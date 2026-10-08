@@ -164,3 +164,8 @@ export function parseUiTransform(scope,transform){
     )
 
 }
+
+
+export function clampValue(value,min,max){
+    return Math.max(min,Math.min(value,max))
+}

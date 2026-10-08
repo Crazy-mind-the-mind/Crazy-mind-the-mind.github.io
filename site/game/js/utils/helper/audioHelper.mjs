@@ -6,6 +6,9 @@ export var loadedAudios={
 }
 
 var audioVolume = 0;
+
+var globalAudioGain;
+
 export function changeAudioVolume(v){
     audioVolume = Math.min(audioVolume+v,10)
     audioVolume = Math.max(audioVolume,-10)
@@ -37,14 +40,20 @@ export function playAudioLoop(ctx,audioname){
 export function apllyAudioEffects(/**@type{AudioContext} */ctx, /**@type{AudioBufferSourceNode} */ audiobuffer,options){
     options = options || {};
 
-    var gainNode=ctx.createGain()
-    gainNode.connect(ctx.destination)
-    gainNode.gain.setValueAtTime(-10+audioVolume, ctx.currentTime);
+    var delay = options.delay?ctx.createDelay(0.1) : null 
+    if (delay){
+        delay.connect(ctx)
+    }
 
     audiobuffer.loop = options.loop;
     audiobuffer.loopEnd = options.loopEnd;
 
 }
+
+export function initAudio(/**@type{AudioContext} */ctx){
+    
+}
+
 
 
 

@@ -2,7 +2,7 @@
 import { assetLoader } from "../core/game.assetLoader.mjs";
 import { EnemyCharacter } from "./enemyCharacter.mjs";
 import { vec2, rect2} from "../utils/dataTypes.mjs";
-import { correctDrawTransform , drawTexture, createProjectile, degToRad, playAudio} from "../utils/helper.mjs";
+import { correctDrawTransform , drawTexture, createProjectile, degToRad, playAudio, clampValue} from "../utils/helper.mjs";
 import { RectCollider } from "../utils/collision/rectCollision.mjs";
 
 export class EnemyCharacterDefault extends EnemyCharacter{
@@ -13,8 +13,10 @@ export class EnemyCharacterDefault extends EnemyCharacter{
         this.shotCooldown= 180+Math.random()*40
         this.velocity = new vec2(-0.1,0)
         this.transform.rotation = Math.PI
-        this.moveSpeed = new vec2( 0.1 , 2 )
-        this.moveAccel = new vec2( Math.random()*1.5 ,Math.random()*1.5 )
+        this.moveSpeed = new vec2( 0.5 , 2 )
+        this.moveAccel = new vec2(
+            Math.max( Math.random()*1.5, 0.1) , 
+            Math.random()*1.5 )
 
         this.moveDirection=new vec2(0,1)
         this.collision = new RectCollider(this,this.transform.position,{
@@ -44,6 +46,7 @@ export class EnemyCharacterDefault extends EnemyCharacter{
         var movdir = this.transform.position.directionTo(
             vec2.copy(player.transform.position)
         )
+        
 
         movdir.y = this.moveDirection.y
         
@@ -53,8 +56,8 @@ export class EnemyCharacterDefault extends EnemyCharacter{
         this.velocity.x+=-movdir.x*this.moveAccel.x;
         this.velocity.y+=-movdir.y *this.moveAccel.y;
         
-        this.velocity.x = Math.max(this.velocity.x, -this.moveSpeed.x)
-        this.velocity.y = Math.max(this.velocity.y, -this.moveSpeed.y)
+        this.velocity.x = clampValue(this.velocity.x,-this.moveSpeed.x,this.moveSpeed.x)
+        this.velocity.y = clampValue(this.velocity.y,-this.moveSpeed.y,this.moveSpeed.y)
 
         if(this.shotCooldown<=0){
             var p =createProjectile(
@@ -70,7 +73,7 @@ export class EnemyCharacterDefault extends EnemyCharacter{
                     owner:this,
                 }
             )
-            this.shotCooldown=180+parseInt(Math.random*40)
+            this.shotCooldown=180+Math.random()*40;
             playAudio(this.scope.audio,"LaserShotSound")
             
             //console.log("velocity",this.velocity)
@@ -80,7 +83,7 @@ export class EnemyCharacterDefault extends EnemyCharacter{
         this.shotCooldown--
         
         if (this.transform.position.y > window.game.constants.height-40){
-            this.moveDirection.y=-1
+            this.moveDirection.y=1;
             
         }
         if (this.transform.position.y < 40){

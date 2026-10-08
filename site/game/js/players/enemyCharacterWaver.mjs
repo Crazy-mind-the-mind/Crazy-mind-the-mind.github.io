@@ -2,7 +2,7 @@
 import { assetLoader } from "../core/game.assetLoader.mjs";
 import { EnemyCharacter } from "./enemyCharacter.mjs";
 import { vec2, rect2} from "../utils/dataTypes.mjs";
-import { correctDrawTransform , drawTexture, createProjectile, degToRad, playAudio} from "../utils/helper.mjs";
+import { correctDrawTransform , drawTexture, createProjectile, degToRad, playAudio, clampValue} from "../utils/helper.mjs";
 import { RectCollider } from "../utils/collision/rectCollision.mjs";
 
 export class EnemyCharacterWaver extends EnemyCharacter{
@@ -14,20 +14,13 @@ export class EnemyCharacterWaver extends EnemyCharacter{
         this.velocity = new vec2(-0.1,0)
         this.transform.rotation = Math.PI
         this.moveSpeed = new vec2( 10 , 5 )
-        this.moveAccel = new vec2( Math.random()*0.2,Math.random()*0.2 )
+        this.moveAccel = new vec2( Math.random()*0.2,Math.random()*0.75 )
         this.HDirection=-1
 
 
-        this.collision = new RectCollider(this,this.transform.position,{
-            collisionRect: new rect2(
-                this.transform.position.x,
-                this.transform.position.y,
-                16,16
-            ),
-            showCollision:scope.constants.showColliders,
-            collisionLayers:["enemies"],
-            collisionMask:["projectiles"],
-        });
+        
+
+        this.aggressive=Math.random()*100 > 80;
     }
 
 
@@ -62,9 +55,10 @@ export class EnemyCharacterWaver extends EnemyCharacter{
         this.velocity.x+=-movdir.x*this.moveAccel.x;
         this.velocity.y+=-movdir.y *this.moveAccel.y;
         
-        this.velocity.x = Math.max(this.velocity.x, -this.moveSpeed.x)
-        this.velocity.y = Math.max(this.velocity.y, -this.moveSpeed.y)
-
+        this.velocity.x = clampValue(this.velocity.x,-this.moveSpeed.x,this.moveSpeed.x)
+        this.velocity.y = clampValue(this.velocity.y,-this.moveSpeed.y,this.moveSpeed.y)
+        
+        
         if(this.shotCooldown<=0){
             var p =createProjectile(
                 this.scope,
@@ -79,7 +73,9 @@ export class EnemyCharacterWaver extends EnemyCharacter{
                     owner:this,
                 }
             )
-            this.shotCooldown=180+parseInt(Math.random*40)
+            this.shotCooldown=this.aggressive? 45 : 180+Math.random()*40;
+
+            
             playAudio(this.scope.audio,"LaserShotSound")
 
             // console.log("velocity",this.velocity)

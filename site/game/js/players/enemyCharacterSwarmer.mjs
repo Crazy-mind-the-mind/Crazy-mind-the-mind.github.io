@@ -2,10 +2,13 @@
 import { assetLoader } from "../core/game.assetLoader.mjs";
 import { EnemyCharacter } from "./enemyCharacter.mjs";
 import { vec2, rect2} from "../utils/dataTypes.mjs";
-import { correctDrawTransform , drawTexture, createProjectile, degToRad, playAudio} from "../utils/helper.mjs";
+import { correctDrawTransform , drawTexture, createProjectile, degToRad, playAudio, clampValue} from "../utils/helper.mjs";
 import { RectCollider } from "../utils/collision/rectCollision.mjs";
 
 export class EnemyCharacterSwarmer extends EnemyCharacter{
+
+    static swarmers = [];
+
     constructor(scope, x, y){
         super(scope,x,y)
         this.statHealth=2
@@ -26,16 +29,19 @@ export class EnemyCharacterSwarmer extends EnemyCharacter{
         this.timerpattern=240
 
 
-         this.collision = new RectCollider(this,this.transform.position,{
-            collisionRect: new rect2(
-                this.transform.position.x,
-                this.transform.position.y,
-                16,16
-            ),
-            showCollision:scope.constants.showColliders,
-            collisionLayers:["enemies"],
-            collisionMask:["projectiles"],
-        });
+        // this.collision = new RectCollider(this,this.transform.position,{
+        //    collisionRect: new rect2(
+        //        this.transform.position.x,
+        //        this.transform.position.y,
+        //        16,16
+        //    ),
+        //    showCollision:scope.constants.showColliders,
+        //    collisionLayers:["enemies"],
+        //    collisionMask:["projectiles"],
+        //});
+
+
+        EnemyCharacterSwarmer.swarmers.push(this); 
     }
 
 
@@ -49,6 +55,18 @@ export class EnemyCharacterSwarmer extends EnemyCharacter{
         
         var player=this.scope.state.entities.player
 
+        var moveawayto=new vec2(0,0);
+        EnemyCharacterSwarmer.swarmers.forEach(
+            (swarmer)=>{
+                if (swarmer!=this){
+                    moveawayto.vecAdd(
+                    vec2.copy(moveawayto).vecSub(swarmer.transform.position)
+                )
+                }
+                
+            }
+        );
+        moveawayto.vecDiv(EnemyCharacterSwarmer.swarmers.length);
         var movdir = this.transform.position.directionTo(
             vec2.copy(player.transform.position)
             .vecAdd(
@@ -57,13 +75,14 @@ export class EnemyCharacterSwarmer extends EnemyCharacter{
                     this.movementPattern[this.currentMovementInPattern]
                 )
              ) 
+             .vecSub(moveawayto.vecMult(0.1))
             )
 
         this.velocity.x+=-movdir.x*this.moveAccel.x;
         this.velocity.y+=-movdir.y *this.moveAccel.y;
         
-        this.velocity.x = Math.max(this.velocity.x, -this.moveSpeed.x)
-        this.velocity.y = Math.max(this.velocity.y, -this.moveSpeed.y)
+        this.velocity.x = clampValue(this.velocity.x,-this.moveSpeed.x,this.moveSpeed.x)
+        this.velocity.y = clampValue(this.velocity.y,-this.moveSpeed.y,this.moveSpeed.y)
 
         if(this.shotCooldown<=0){
             var p =createProjectile(
@@ -80,7 +99,7 @@ export class EnemyCharacterSwarmer extends EnemyCharacter{
 
                 }
             )
-            this.shotCooldown=240+parseInt(Math.random*40)
+            this.shotCooldown=240/ window.game.configurations.difficulty || 1 +Math.random()*40
             playAudio(this.scope.audio,"LaserShotSound")
             
             //console.log("velocity",this.velocity)
@@ -130,6 +149,10 @@ export class EnemyCharacterSwarmer extends EnemyCharacter{
         
     }
     
+    Dead(){
+        delete EnemyCharacterSwarmer.swarmers[this];
+        super.Dead()
+    }
 
     
 }

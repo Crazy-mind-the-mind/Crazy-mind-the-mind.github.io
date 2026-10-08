@@ -45,9 +45,7 @@ export class Character extends Entity{
 	}
 
 	Hurt(damageAmount){
-		if (this.statHealth<=0){
-			this.Dead()
-		}
+		
 		if (this.immunityFramesTime>0) return;
 		playAudio(this.scope.audio,"DamageHitSoundEffect");
 		
@@ -55,7 +53,9 @@ export class Character extends Entity{
 		this.statHealth-=damageAmount;
 		
 		this.immunityFramesTime=this.immunityFramesWaitTime;
-
+		if (this.statHealth<=0){
+			this.Dead()
+		}	
 	}
 	
 	Dead(){

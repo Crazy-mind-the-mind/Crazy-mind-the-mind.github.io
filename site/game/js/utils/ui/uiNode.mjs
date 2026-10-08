@@ -25,9 +25,9 @@ class UINode{
         if (this.parentNode!==null){
         	
         	var positionCorrect= vec2.copy(this.parentNode.calculatedTransform.position)
-        	positionCorrect.vecAdd(this.calculatedTransform.position.rotated(this.parentNode.calculatedTransform.rotation))
-            this.calculatedTransform.position=positionCorrect
-            
+            this.calculatedTransform.position =vec2.copy(this.parentNode.calculatedTransform.position).vecAdd(this.calculatedTransform.position.vecMultVec(this.parentNode.calculatedTransform.scale))
+
+            this.calculatedTransform.scale = this.calculatedTransform.scale.vecMultVec(this.parentNode.calculatedTransform.scale) 
             this.calculatedTransform.rotation += this.parentNode.calculatedTransform.rotation
 
         

@@ -18,9 +18,11 @@ export class UISpellcard extends UINode{
 
 		this.spellCardTargetIdx=targetIdx||0;
 		this.spellCardHasSpell=false;
-        this.spellCardTypeImg= new UIImage(scope,x,y,this,"SpellCardBackground","textures/spellCard.png")
-        this.spellCardImg= new UIImage(scope,x,y,this,"SpellCardBackground","textures/spellCard.png")
+        this.spellCardTypeImg= new UIImage(scope,32,0,this,"SpellCardBackground","textures/spellCard.png")
+        this.spellCardImg= new UIImage(scope,16-4,16-4,this,"SpellCardBackground","textures/spellCard.png")
 
+
+        this.spellCardHasSpell = false
 		
     }
 
@@ -32,14 +34,25 @@ export class UISpellcard extends UINode{
     	super.update()
     	
     	var player = window.game.state.entities.player
+
         if (!player) {return}
+
         /**@type{SpellcardDefinition} */
     	var currentSpellcard = player.currentSpellCards[ (player.currentSpellCard+this.spellCardTargetIdx)%3 ]
-        if (!currentSpellcard) {return}
 
-        this.spellCardHasSpell=currentSpellcard != null
+        this.spellCardHasSpell=(currentSpellcard != null )|| false;
+
+        if (!this.spellCardHasSpell) {
+            this.spellCardTypeImg.texture =  SpellcardDefinition.SPELLCARD_TYPES_IMAGES["NULL"];
+    	    this.spellCardImg.texture = null;
+    	    this.spellCardTypeImg.visible =this.spellCardHasSpell
+            this.spellCardImg.visible=this.spellCardHasSpell
+            return
+        }
+        
+        
     	
-    	this.spellCardTypeImg.texture =  SpellcardDefinition.SPELLCARD_TYPES_IMAGES[SpellcardDefinition.SPELLCARD_TYPES["NULL"]]
+    	this.spellCardTypeImg.texture =  SpellcardDefinition.SPELLCARD_TYPES_IMAGES[currentSpellcard.spellcardActType ]
     	this.spellCardImg.texture = SpellcardDefinition.SPELLCARD_IMAGES[ currentSpellcard.spellcardActName];
     	
     	this.spellCardTypeImg.visible =this.spellCardHasSpell
