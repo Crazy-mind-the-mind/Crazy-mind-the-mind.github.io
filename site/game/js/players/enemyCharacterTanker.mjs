@@ -10,8 +10,8 @@ import { ProjectileTypesNames } from "./projectileTypes.mjs";
 export class EnemyCharacterTanker extends EnemyCharacter{
     constructor(scope, x, y){
         super(scope,x,y)
-        this.statHealth=100
-		this.statHealthMax=100
+        this.statHealth=50
+		this.statHealthMax=50
         this.shotCooldown= 180+Math.random()*40
         this.velocity = new vec2(-0.1,0)
         this.transform.rotation = Math.PI

@@ -1,9 +1,9 @@
 import { EnemyCharacterDefault } from "../players/enemyCharacterDefault.mjs";
 import { ParallaxLayer } from "../players/parallaxLayer.mjs";
 import { PlayerCharacter } from "../players/playerCharacter.mjs";
-import { Projectile } from "../players/projectile.mjs";
+
 import { rect2 } from "../utils/dataTypes.mjs";
-import { createEnemy, loadFont } from "../utils/helper.mjs";
+import { createEnemy, loadFont, playAudio } from "../utils/helper.mjs";
 import { keysDown } from "../utils/input.mjs";
 import { UIHUDLabel } from "../utils/ui/uiHUDLabel.mjs";
 import { UIImage } from "../utils/ui/uiImage.mjs";
@@ -326,7 +326,15 @@ export function gameSetup(scope) {
                   "HighScorePoints":0
             }
 
-
-
+            var temp=(async function (){
+                  await assetLoader.loadAudio("BGM1","audio/ProjMusic.wav")
+                  playAudio(scope.audio,"BGM1",{
+                  loop:true,
+                  //loopEnd:1.0,
+                  audioPath:"ProjMusic.wav",
+                  gain:1.0
+                  })
+            })()
+            
 	};
 }

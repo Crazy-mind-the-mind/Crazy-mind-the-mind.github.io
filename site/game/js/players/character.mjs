@@ -56,7 +56,8 @@ export class Character extends Entity{
 		if (this.immunityFramesTime>0) return false;
 		playAudio(this.scope.audio,this.hurtAudioEffect);
 		
-		console.log(this)	
+		//console.log(this)	
+		//console.log(damageAmount)	
 		this.statHealth-=damageAmount;
 		
 		this.immunityFramesTime=this.immunityFramesWaitTime;

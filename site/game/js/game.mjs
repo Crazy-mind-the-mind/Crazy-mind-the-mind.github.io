@@ -14,7 +14,6 @@ import { gameEvents } from "./core/game.events.mjs";
 import { playAudio } from "./utils/helper.mjs";
 
 
-import { Projectile } from "./players/projectile.mjs";
 
 
 var $container = document.getElementById('container');
@@ -72,8 +71,10 @@ function Game(w, h, targetFps, showFps,gameOptions) {
 
 		this.context = this.viewport.getContext('2d');
 	}
-	this.audio = new AudioContext();
 
+
+	this.audio = new AudioContext();
+	this.backgroundMusic
 
 	if (this.context instanceof WebGL2RenderingContext || this.context instanceof WebGLRenderingContext){
 		this.configurations.renderer = "webgl";

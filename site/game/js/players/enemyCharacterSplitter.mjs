@@ -72,7 +72,7 @@ export class EnemyCharacterSplitter extends EnemyCharacter{
                 {
                     direction:(new vec2(-1,0)).rotated(
                         Math.PI/4.0-((Math.PI/2.0)/ (this.aggressive?5.0:3.0) ) ),
-                    initialVelocity: new vec2(5,0).rotated(
+                    initialVelocity: new vec2(-5,0).rotated(
                         (Math.PI/4)+
 
                         (

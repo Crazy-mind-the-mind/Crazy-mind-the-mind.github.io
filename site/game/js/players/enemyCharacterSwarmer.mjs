@@ -62,7 +62,7 @@ export class EnemyCharacterSwarmer extends EnemyCharacter{
             (swarmer)=>{
                 if (swarmer!=this){
                     moveawayto.vecAdd(
-                    vec2.copy(moveawayto).vecSub(swarmer.transform.position)
+                    vec2.copy(moveawayto).vecAdd(swarmer.transform.position)
                 )
                 }
                 
@@ -77,7 +77,7 @@ export class EnemyCharacterSwarmer extends EnemyCharacter{
                     this.movementPattern[this.currentMovementInPattern]
                 )
              ) 
-             .vecSub(moveawayto.vecMult(0.1))
+             
             )
 
         this.velocity.x+=-movdir.x*this.moveAccel.x;

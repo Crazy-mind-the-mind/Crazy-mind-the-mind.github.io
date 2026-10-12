@@ -11,7 +11,7 @@ export class ProjectileSlugShot extends Projectile{
 
     constructor(scope, x, y) {
 			super(scope, x, y);
-			this.timeLeft=20;
+			this.timeLeft=40;
 			this.damage=10
 			
 			this.collisionSize=new vec2(16,16)
@@ -23,7 +23,7 @@ export class ProjectileSlugShot extends Projectile{
 
 	
 	async loadAssets(){
-		this.texture = await assetLoader.loadImage("projectileSlug","textures/projectiles/projectileSlug.png")
+		this.texture = Projectile.imageProjectileAtlas["ProjectileSlugShot"]
 	}
 	
 	AI(){

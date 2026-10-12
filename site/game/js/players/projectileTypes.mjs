@@ -8,14 +8,14 @@ import { ProjectileWaverPellet } from "./projectileWaverPellet.mjs";
 
 
 
-export const ProjectileTypes = [
+export var ProjectileTypes = [
 	function (scope,x,y) {return new Projectile(scope,x,y)},
 	function (scope,x,y) {return new ProjectilePellet(scope,x,y)},
 	function (scope,x,y) {return new ProjectileWaverPellet(scope,x,y)},
 	function (scope,x,y) {return new ProjectileSlugShot(scope,x,y)},
 	function (scope,x,y) {return new ProjectileRocket(scope,x,y)},
 ];
-export const ProjectileTypesNames = {
+export var ProjectileTypesNames = {
 	"Projectile":0,	
 	"ProjectilePellet":1,	
 	"ProjectileWaverPellet":2,	

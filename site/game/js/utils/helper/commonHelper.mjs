@@ -1,4 +1,4 @@
-import { Projectile} from "../../players/projectile.mjs";
+
 import { transform2, uiTransform } from "../dataTypes.mjs";
 import { ProjectileTypes } from "../../players/projectileTypes.mjs";
 import { EnemyCharacterTypes } from "../../players/enemyCharacterTypes.mjs";

@@ -1,23 +1,25 @@
 
-import { assetLoader } from "../core/game.assetLoader.mjs";
-import { rect2,vec2} from "../utils/dataTypes.mjs";
-import { correctDrawTransform, deleteEntity, drawRect, drawTexture } from "../utils/helper.mjs";
-import { Entity } from "./entity.mjs";
-import { Projectile} from "./projectile.mjs";
+import {Projectile} from "./projectile.mjs";
 
 
 export class ProjectilePellet extends Projectile{
+	
+	get damage(){
+		return 1;
+	}
+	set damage(v){
+
+	}
     constructor(scope, x, y) {
 			super(scope, x, y);
 			this.timeLeft=240;
-			this.damage=1;
+			this.damage = 1;
 			
 	}
 
 	
 	async loadAssets(){
-		this.texture=await assetLoader.loadImage("projectile","textures/projectiles/projectile.png")
-		this.lightTexture=await assetLoader.loadImage("texture","textures/light.png")
+		this.texture=Projectile.imageProjectileAtlas["ProjectilePellet"]
 	}
 	AI(){
 		this.velocity.x*=0.99;

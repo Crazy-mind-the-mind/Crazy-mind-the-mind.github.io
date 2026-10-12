@@ -1,4 +1,4 @@
-import { Projectile } from "../../players/projectile.mjs";
+
 import { rect2, vec2 } from "../dataTypes.mjs";
 import { drawRect } from "../helper.mjs";
 

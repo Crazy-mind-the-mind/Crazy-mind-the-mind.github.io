@@ -10,27 +10,48 @@ export class ProjectileRocket extends Projectile{
     get damage(){
 		return this.hostile? 3:7;
 	}
+	set damage(v){
+
+	}
 	constructor(scope, x, y) {
 			super(scope, x, y);
 			this.timeLeft=240;
-			
+			this.damage = 1;			
 			
 	}
 
 	
 	async loadAssets(){
 		this.texture=Projectile.imageProjectileAtlas["ProjectileRocket"]
-		this.lightTexture=await assetLoader.loadImage("texture","textures/light.png")
+		
 	}
 	AI(){
 		this.target = this.hostile?this.scope.state.player:null
 		
 		if (!this.target){return}
-		this.velocity = this.velocity.directionTo(this.target.transform.position).vecMult(1.5)
-
-		//this.transform.scale.vecMult(0.99)
+		this.direction =this.velocity.directionTo(this.target.transform.position)
+		this.velocity = vec2.copy(this.direction).vecMult(10)
+		this.transform.scale.x=-1
+		
 	}
 
+	render(){
+
+		if (!this.texture) return;
+		if (!this.scope) return;
+		var renderer=this.scope.context
+		drawTexture(
+			renderer,
+			this.texture,
+			correctDrawTransform(this),
+			{
+				transparency:this.friendly?0.2:1.0,
+				useCanvasTransforms:true
+			}
+		)
+
+
+	}
 	
 
 }

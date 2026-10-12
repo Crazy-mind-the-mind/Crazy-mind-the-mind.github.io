@@ -85,9 +85,9 @@ export class gameWaveSystem{
     }
     static get debugPositions(){
         return [
-            new vec2(300,40),
-            new vec2(300,180),
-            new vec2(300,320)
+            new vec2(500,40),
+            new vec2(500,180),
+            new vec2(500,320)
         ];
     }
     constructor(scope){

@@ -2,7 +2,6 @@
 import { assetLoader } from "../core/game.assetLoader.mjs";
 import { ColliderAbstract } from "../utils/collision/collisionAbstract.mjs";
 import { registerCollider } from "../utils/collision/collisionsystem.mjs";
-import { RectCollider } from "../utils/collision/rectCollision.mjs";
 import { RectGroupCollider } from "../utils/collision/rectGroupCollision.mjs";
 import { rect2,vec2} from "../utils/dataTypes.mjs";
 import { correctDrawTransform, deleteEntity, drawRect, drawTexture } from "../utils/helper.mjs";
@@ -13,13 +12,8 @@ import { PlayerCharacter } from "./playerCharacter.mjs";
 
 
 
-
-
-
-
-
 export class Projectile extends Entity{
-	
+	static imageProjectileAtlas;
 	static projectiles=[];
 	static projectileTypes=[];
 
@@ -62,13 +56,18 @@ export class Projectile extends Entity{
 		collisionGroup.removeColliderOwnerQueue(entity);
 	}
 
-
-	
+	damage ;
+	get damage(){
+		return 1;
+	}
+	set damage(v){
+		
+	}
     constructor(scope, x, y) {
 			super(scope, x, y);
 			this.velocity = new vec2();
 			this.owner = null;
-			this.damage = 0;
+			this.damage;
 			this.timeLeft=30;
 			this.z_index=-10;
 			this.friendly=false;
@@ -84,10 +83,15 @@ export class Projectile extends Entity{
 	}
 
 	
+
 	async loadAssets(){
 		this.texture=await assetLoader.loadImage("projectile","textures/projectiles/projectile.png")
 	}
 	update(){
+		this.active= !this.scope.state.paused
+		if (!this.active){
+			return false
+		}
 		this.AI()
 		this.timeLeft-=1;
 		this.transform.position.x+=this.velocity.x;
@@ -168,3 +172,17 @@ export class Projectile extends Entity{
 
 Projectile.projectiles.length=1000;
 
+Projectile.imageProjectileAtlas={
+	"ProjectilePellet":await createImageBitmap(
+		await assetLoader.loadImage("projectileAtlas","textures/projectiles/projectileTextureAtlas.png"),
+		0,0,8,8
+	),
+	"ProjectileSlugShot":await createImageBitmap(
+		await assetLoader.loadImage("projectileAtlas","textures/projectiles/projectileTextureAtlas.png"),
+		8,0,16,16
+	),
+	"ProjectileRocket":await createImageBitmap(
+		await assetLoader.loadImage("projectileAtlas","textures/projectiles/projectileTextureAtlas.png"),
+		24,0,16,16
+	),
+}

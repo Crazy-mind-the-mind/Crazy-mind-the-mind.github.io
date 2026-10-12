@@ -244,7 +244,9 @@ class PlayerCharacter extends Character{
 					if (this.currentWeapon.shootCooldownTime<=0){
 						this.currentWeapon.shootBehavior()
 						this.currentWeapon.shootCooldownTime=this.currentWeapon.shootCooldownWaitTime;
-						playAudio(this.scope.audio,"LaserShotSound")
+						playAudio(this.scope.audio,"LaserShotSound",{
+							gain:-0.5
+						})
 						
 					}
 					
@@ -254,7 +256,9 @@ class PlayerCharacter extends Character{
 						if (this.currentWeapon2.shootCooldownTime<=0){
 							this.currentWeapon2.shootBehavior()
 							this.currentWeapon2.shootCooldownTime=this.currentWeapon2.shootCooldownWaitTime;
-							playAudio(this.scope.audio,"LaserShotSound")
+							playAudio(this.scope.audio,"LaserShotSound",{
+							gain:-0.1
+							})
 
 						}
 					}
@@ -350,10 +354,10 @@ class PlayerCharacter extends Character{
 			
 			this.pointsNeededForNewSpellcard=this.lastSpellcardPoints-this.scope.state.playerStatus.ScorePoints
 			
-			if (this.pointsNeededForNewSpellcard >100){
+			if (this.pointsNeededForNewSpellcard <-50){
 
 				for (let idx=0;idx<this.currentSpellCards.length;idx++){
-					if (this.currentSpellCards[idx]==null){this.currentSpellCards[idx]=new SpellcardDefinition()}
+					if (this.currentSpellCards[idx]==null){this.currentSpellCards[idx]=new SpellcardDefinition(); break;}
 				}
 				console.log("NEW SPELLCARD ACQUIRED");
 				this.lastSpellcardPoints = this.scope.state.playerStatus.ScorePoints

@@ -99,14 +99,17 @@ class EnemyCharacter extends Character{
     }
 
     onCollisionReceived(collider){
-        //console.log(collider)
 
         if (collider instanceof Projectile){
 
             
                 var collidingProjectile=collider
                 if (this.isDead){return}
-                if (collidingProjectile.friendly){this.Hurt(collidingProjectile.damage)}       
+                if (collidingProjectile.friendly){
+                    //console.log(collider)
+                    //console.log(collidingProjectile.damage)
+                    
+                    this.Hurt(collidingProjectile.damage)}       
             
         }
 
@@ -120,8 +123,8 @@ class EnemyCharacter extends Character{
 			
 	}
 
-    Hurt(){
-        if(super.Hurt()){
+    Hurt(damageAmount){
+        if(super.Hurt(damageAmount)){
             this.scope.state.playerStatus.ScorePoints+=this.pointsGivenOnHit
             return true
         }

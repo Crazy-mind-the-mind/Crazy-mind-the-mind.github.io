@@ -1,11 +1,12 @@
 import { assetLoader } from "../../core/game.assetLoader.mjs";
+import { EnemyCharacterWaver } from "../../players/enemyCharacterWaver.mjs";
 
 
 export var loadedAudios={
 
 }
 
-var audioVolume = 0;
+var audioVolume = 1.0;
 
 var globalAudioGain;
 
@@ -18,10 +19,12 @@ export function playAudio(/**@type{AudioContext} */ctx,audioName,options){
     options = options || {};
     
     var source=ctx.createBufferSource();
-    source.buffer=assetLoader.getAudio(audioName)
-    apllyAudioEffects(ctx,source.buffer,options);
+    source.buffer=assetLoader.getAudio(audioName) || assetLoader.loadAudio(audioName,"audio/"+options.audioPath|| "hit.wav") ;
+    
+    applyAudioEffects(ctx,source.buffer,options);
     source.connect(ctx.destination);
     source.start()
+    
     
 }
 
@@ -29,24 +32,31 @@ export function playMultiAudio(/**@type{AudioContext} */ctx,audioname){
     var source=ctx.createBufferSource()
     source.
     source.buffer=assetLoader.getAudio(audioName)
-    apllyAudioEffects(ctx,source.buffer)
+    applyAudioEffects(ctx,source.buffer)
     source.connect(ctx.destination);
     source.start()
 }
-export function playAudioLoop(ctx,audioname){
-
+export function playAudioLoop(ctx,audioName,options){
+    options = options || {};
+    
+    var source=ctx.createBufferSource();
+    source.buffer=assetLoader.getAudio(audioName) || assetLoader.loadAudio(audioName,"audio/"+options.audioPath|| "hit.wav") ;
+    
+    applyAudioEffects(ctx,source.buffer,options);
+    source.connect(ctx.destination);
+    source.start()
+    
 }
 
-export function apllyAudioEffects(/**@type{AudioContext} */ctx, /**@type{AudioBufferSourceNode} */ audiobuffer,options){
+export function applyAudioEffects(/**@type{AudioContext} */ctx, /**@type{AudioBufferSourceNode} */ audiobuffer,options){
     options = options || {};
+    
 
-    var delay = options.delay?ctx.createDelay(0.1) : null 
-    if (delay){
-        delay.connect(ctx)
-    }
-
-    audiobuffer.loop = options.loop;
-    audiobuffer.loopEnd = options.loopEnd;
+    var gainNode = ctx.createGain()
+    gainNode.gain.value= audioVolume+(options.gain || 0.1)
+    gainNode.connect(ctx.destination)
+    audiobuffer.loop = options.loop || false
+    audiobuffer.loopEnd = options.loopEnd*audiobuffer.length || audiobuffer.length;
 
 }
 
