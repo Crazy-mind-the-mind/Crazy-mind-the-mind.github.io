@@ -1,7 +1,7 @@
 import { vec2 } from "../utils/dataTypes.mjs";
 import { createEnemy } from "../utils/helper.mjs";
 
-
+import { EnemyCharacterTypesNames } from "../players/enemyCharacterTypes.mjs";
 
 const enemyWaves = [
 
@@ -10,7 +10,18 @@ export class gameWaveSystem{
     
     static get enemyWavePatternPossibilities(){
         return [
-            [1,1,1,1,1,1,1],
+            [
+                EnemyCharacterTypesNames["EnemyCharacterDefault"],
+                EnemyCharacterTypesNames["EnemyCharacterDefault"],
+                EnemyCharacterTypesNames["EnemyCharacterDefault"],
+                EnemyCharacterTypesNames["EnemyCharacterDefault"],
+                EnemyCharacterTypesNames["EnemyCharacterDefault"],
+                EnemyCharacterTypesNames["EnemyCharacterDefault"],
+                EnemyCharacterTypesNames["EnemyCharacterDefault"],
+                EnemyCharacterTypesNames["EnemyCharacterDefault"],
+                EnemyCharacterTypesNames["EnemyCharacterDefault"],
+
+            ],
             [2,2,2,2,2,2,2],
             [3,3,3,3,3,2,1],
             [1,1,1,2,3,3,3],
@@ -23,6 +34,45 @@ export class gameWaveSystem{
             [4,2,2,2,2,1,1,1,1,1],
             [4,3,3,2,2,1,1,1,1,1],
             [4,3,3,3,3,2,2,1,1,1,1,1],
+
+            [
+                EnemyCharacterTypesNames["EnemyCharacterTanker"],
+                EnemyCharacterTypesNames["EnemyCharacterTanker"],
+                EnemyCharacterTypesNames["EnemyCharacterTanker"],
+                EnemyCharacterTypesNames["EnemyCharacterSplitter"],
+            ],
+            [
+                EnemyCharacterTypesNames["EnemyCharacterTanker"],
+                EnemyCharacterTypesNames["EnemyCharacterSpiker"],
+                EnemyCharacterTypesNames["EnemyCharacterWaver"],
+                EnemyCharacterTypesNames["EnemyCharacterSplitter"],
+                EnemyCharacterTypesNames["EnemyCharacterSplitter"],
+                EnemyCharacterTypesNames["EnemyCharacterDefault"],
+                EnemyCharacterTypesNames["EnemyCharacterDefault"],
+                EnemyCharacterTypesNames["EnemyCharacterDefault"],
+                EnemyCharacterTypesNames["EnemyCharacterSwarmer"],
+                EnemyCharacterTypesNames["EnemyCharacterSwarmer"],
+                EnemyCharacterTypesNames["EnemyCharacterSwarmer"],
+            ],
+            [
+                EnemyCharacterTypesNames["EnemyCharacterSplitter"],
+                EnemyCharacterTypesNames["EnemyCharacterSplitter"],
+                EnemyCharacterTypesNames["EnemyCharacterSplitter"],
+                EnemyCharacterTypesNames["EnemyCharacterSplitter"],
+
+            ],
+            [
+                EnemyCharacterTypesNames["EnemyCharacterSplitter"],
+                EnemyCharacterTypesNames["EnemyCharacterSplitter"],
+                EnemyCharacterTypesNames["EnemyCharacterSplitter"],
+                EnemyCharacterTypesNames["EnemyCharacterSplitter"],
+                EnemyCharacterTypesNames["EnemyCharacterSwarmer"],
+                EnemyCharacterTypesNames["EnemyCharacterSwarmer"],
+                EnemyCharacterTypesNames["EnemyCharacterSwarmer"],
+                EnemyCharacterTypesNames["EnemyCharacterSwarmer"],
+
+
+            ],
         ];
     }
 
@@ -33,7 +83,13 @@ export class gameWaveSystem{
             new vec2(680,320)
         ];
     }
-    
+    static get debugPositions(){
+        return [
+            new vec2(300,40),
+            new vec2(300,180),
+            new vec2(300,320)
+        ];
+    }
     constructor(scope){
         this.scope=scope
         
@@ -71,6 +127,10 @@ export class gameWaveSystem{
                 for (let enemyIdx = 0; enemyIdx < wavePattern.length; enemyIdx++) {
                     //console.log(parseInt( Math.random()*gameWaveSystem.positions.length))
                     var randomPos= vec2.copy(
+                        this.scope.constants.debug?
+                        gameWaveSystem.debugPositions[parseInt( Math.random()*gameWaveSystem.positions.length)]
+                        
+                        :
                         gameWaveSystem.positions[parseInt( Math.random()*gameWaveSystem.positions.length)]
                     );
 

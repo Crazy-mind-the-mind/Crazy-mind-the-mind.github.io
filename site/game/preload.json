@@ -31,7 +31,16 @@
         {
             "name":"SpellcardBackground",
             "path":"textures/spellCard.png"
+        },
+        {
+            "name":"ShipTextureAtlas",
+            "path":"textures/ships/shipTextureAtlas.png"
+        },
+        {
+            "name":"projectileAtlas",
+            "path":"textures/projectiles/projectileTextureAtlas.png"
         }
+        
     ],
     "preloadAudio":[
         {
@@ -41,6 +50,14 @@
         {
             "name":"DamageHitSoundEffect",
             "path":"audio/hit.wav"
+        },
+        {
+            "name":"DamageHitPlayerSoundEffect",
+            "path":"audio/hitPlayer.wav"
+        },
+        {
+            "name":"DeathSound",
+            "path":"audio/deathSound.wav"
         },
         {
             "name":"BGM1",

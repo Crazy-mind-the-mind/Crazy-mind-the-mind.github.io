@@ -9,6 +9,7 @@ import { ColliderAbstract } from "../utils/collision/collisionAbstract.mjs";
 import { TextureWebGL } from "../utils/dataTypes/texture.mjs";
 import { SpellcardDefinition } from "../utils/dataTypes/spellcards.mjs";
 import { ParticleEmmiter } from "./particles/particles.mjs";
+import { ProjectileTypesNames } from "./projectileTypes.mjs";
 
 
 
@@ -30,6 +31,12 @@ class PlayerCharacter extends Character{
 
 			this.moveSpeed=2
 			
+			this.pausePressed = false
+
+			this.hurtAudioEffect="DamageHitPlayerSoundEffect"
+
+
+
 			let player = this
 			
 			PlayerCharacter.weapons={
@@ -138,6 +145,25 @@ class PlayerCharacter extends Character{
 					shootCooldownWaitTime:30,
 					shootCooldownTime:0,
 				},
+				RocketShot:{
+					shootBehavior:function(){
+						createProjectile(
+							player.scope,
+							player.transform.position.x,
+							player.transform.position.y,
+							ProjectileTypesNames["ProjectileRocket"],
+							{
+								direction:new vec2(1,0),
+								initialVelocity: new vec2(1,0),
+								friendly:true,
+								hostile:false,
+								owner:this,
+							}
+					).velocity.x=5;
+					},
+					shootCooldownWaitTime:30,
+					shootCooldownTime:0,
+				},
 			}
 
 			this.currentSpellCards= [];
@@ -174,7 +200,7 @@ class PlayerCharacter extends Character{
 		}
 		async loadAssets(){
 			this.texture= this.scope.configurations.renderer=="canvas"?
-			await assetLoader.loadImage("PlayerSprite","textures/ships/ship.png"):
+			Character.imageAtlas["PlayerSprite"]:
 			new TextureWebGL("PlayerSprite","textures/ships/ship.png", {
 				"scope":this.scope
 			});
@@ -182,7 +208,17 @@ class PlayerCharacter extends Character{
 			
 		}
 		update() {
-			super.update(this)
+
+			
+
+			
+
+
+			if (!super.update(this)){
+				return false
+			}
+
+
 			if (!this.isDead){
 				if (isPressed.left && !isPressed.right) {
 					this.velocity.x = -this.moveSpeed;
@@ -262,6 +298,9 @@ class PlayerCharacter extends Character{
 					this.currentSpellCardChanged=false
 				}
 			}
+
+			
+
 			this.scope.state.cameraScroll.x+=1
 
 			if (this.currentWeapon)
@@ -271,9 +310,15 @@ class PlayerCharacter extends Character{
 
 			this.scoringTimer--;
 			if (this.scoringTimer==0 && !this.isDead){
-				this.scope.state.playerStatus.ScorePoints++
+				this.scope.state.playerStatus.ScorePoints++;
 				this.scoringTimer=60;
 			}
+
+
+
+
+
+
 
 
 			Boundary(this, new rect2(
@@ -391,6 +436,7 @@ class PlayerCharacter extends Character{
 			this.isDead=true
 			this.deathtimeout=240
 			this.scope.eventSystem.emitEvent("playerDied")
+			playAudio(this.scope.audio,"DeathSound")
 		}
 }
 

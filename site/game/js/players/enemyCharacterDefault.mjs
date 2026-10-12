@@ -4,8 +4,17 @@ import { EnemyCharacter } from "./enemyCharacter.mjs";
 import { vec2, rect2} from "../utils/dataTypes.mjs";
 import { correctDrawTransform , drawTexture, createProjectile, degToRad, playAudio, clampValue} from "../utils/helper.mjs";
 import { RectCollider } from "../utils/collision/rectCollision.mjs";
+import { Character } from "./character.mjs";
 
 export class EnemyCharacterDefault extends EnemyCharacter{
+    doImplementedCorrections(){
+        this.moveSpeed.x= clampValue(this.moveSpeed.x,0.1,1000)
+        this.moveSpeed.y= clampValue(this.moveSpeed.y,0.1,1000)
+        this.moveAccel.x= clampValue(this.moveAccel.x,0.1,1000)
+        this.moveAccel.y= clampValue(this.moveAccel.y,0.1,1000)
+    }
+
+
     constructor(scope, x, y){
         super(scope,x,y)
         this.statHealth=3
@@ -29,12 +38,14 @@ export class EnemyCharacterDefault extends EnemyCharacter{
             collisionLayers:["enemies"],
             collisionMask:["projectiles"],
         });
+
+        this.doImplementedCorrections()
     }
 
 
 
     async loadAssets(){
-        this.texture = await assetLoader.loadImage("EnemyDefaultSprite","textures/ships/enemyShip.png")
+        this.texture = Character.imageAtlas["EnemyDefaultSprite"]
     }
 
 
@@ -44,7 +55,7 @@ export class EnemyCharacterDefault extends EnemyCharacter{
         var player=this.scope.state.entities.player
 
         var movdir = this.transform.position.directionTo(
-            vec2.copy(player.transform.position)
+            vec2.copy(player.transform.position).vecAdd(new vec2(100,0))
         )
         
 

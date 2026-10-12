@@ -7,6 +7,8 @@ import { ColliderAbstract } from "../utils/collision/collisionAbstract.mjs";
 import { Projectile } from "./projectile.mjs";
 import { RectGroupCollider } from "../utils/collision/rectGroupCollision.mjs";
 import { registerCollider } from "../utils/collision/collisionsystem.mjs";
+import { playAudio } from "../utils/helper.mjs";
+
 class EnemyCharacter extends Character{
 
     static collisionGroup;
@@ -49,11 +51,21 @@ class EnemyCharacter extends Character{
 		collisionGroup.removeColliderOwnerQueue(entity);
 	}
 
+
+
+
+    doImplementedCorrections(){
+
+    }
+
+
     constructor(scope, x, y) {
         super(scope, x, y);
         this.boundary = new rect2(0,0,scope.constants.width*2,scope.constants.height)
         this.aliveTime=0
         
+        this.pointsGivenOnDeath=10
+        this.pointsGivenOnHit=0
         this.collisionSize = new vec2(16,16)
 
         window.game.eventSystem.connectToEvent("playerDied",function(){
@@ -64,7 +76,10 @@ class EnemyCharacter extends Character{
 	}
 
     update(){
-        super.update()
+        if (!super.update(this)){
+				return false
+		}
+        
         this.AI()
 
         Boundary(this,this.boundary)
@@ -105,12 +120,24 @@ class EnemyCharacter extends Character{
 			
 	}
 
-    Dead(){
-        if (this.active){
-            this.scope.state.playerStatus.ScorePoints+=10
-            this.scope.eventSystem.emitEvent("enemyKilled")
-            deleteEntity(this.scope,this);
+    Hurt(){
+        if(super.Hurt()){
+            this.scope.state.playerStatus.ScorePoints+=this.pointsGivenOnHit
+            return true
+        }
+        return false
+    }
 
+    Dead(){
+        playAudio(this.scope.audio,"DeathSound")
+
+        if (this.active){
+
+            this.scope.state.playerStatus.ScorePoints+=this.pointsGivenOnDeath
+            this.scope.eventSystem.emitEvent("enemyKilled")
+            
+            deleteEntity(this.scope,this);
+            
         }
     }
 }

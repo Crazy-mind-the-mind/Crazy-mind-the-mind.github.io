@@ -5,6 +5,8 @@ import { Entity } from "./entity.mjs";
 
 
 export class Character extends Entity{
+	static imageAtlas={}
+
     constructor(scope, x, y) {
 			super(scope, x, y);
 			this.velocity = new vec2(0, 0);
@@ -16,12 +18,15 @@ export class Character extends Entity{
 			this.isDead = false;
 			this.immunityFramesWaitTime = 30
 			this.immunityFramesTime = 0
+
+			this.hurtAudioEffect="DamageHitSoundEffect"
 	}
 	loadAssets(){
 		//this.texture = await assetLoader.loadImage("WaverEnemyShip","textures/ships/ship.png");
 	}
 	update(){
-        if (!this.active) return;
+		this.active = !window.game.state.paused
+        if (!this.active) return false;
 
 		if (this.collision){
 			this.collision.transform=this.transform
@@ -29,6 +34,8 @@ export class Character extends Entity{
 		}
 		this.immunityFramesTime--;
 		this.transform.position.vecAdd(this.velocity)
+		return true
+
 	}
 
 	render(){
@@ -46,8 +53,8 @@ export class Character extends Entity{
 
 	Hurt(damageAmount){
 		
-		if (this.immunityFramesTime>0) return;
-		playAudio(this.scope.audio,"DamageHitSoundEffect");
+		if (this.immunityFramesTime>0) return false;
+		playAudio(this.scope.audio,this.hurtAudioEffect);
 		
 		console.log(this)	
 		this.statHealth-=damageAmount;
@@ -55,7 +62,8 @@ export class Character extends Entity{
 		this.immunityFramesTime=this.immunityFramesWaitTime;
 		if (this.statHealth<=0){
 			this.Dead()
-		}	
+		}
+		return true
 	}
 	
 	Dead(){
@@ -70,4 +78,51 @@ export class Character extends Entity{
 			this.texture.image.height || this.texture.height
 		);
 	}
+}
+
+
+Character.imageAtlas={
+	"PlayerSprite":await createImageBitmap(
+		await assetLoader.loadImage(
+			"ShipTextureAtlas","textures/ships/shipTextureAtlas.png"
+		),
+		0,0,16,16
+	),
+	"EnemyDefaultSprite":await createImageBitmap(
+		await assetLoader.loadImage(
+			"ShipTextureAtlas","textures/ships/shipTextureAtlas.png"
+		),
+		16,0,16,16
+	),
+	"EnemySwarmerSprite":await createImageBitmap(
+		await assetLoader.loadImage(
+			"ShipTextureAtlas","textures/ships/shipTextureAtlas.png"
+		),
+		32,0,16,16
+	),
+	"EnemyWaverSprite":await createImageBitmap(
+		await assetLoader.loadImage(
+			"ShipTextureAtlas","textures/ships/shipTextureAtlas.png"
+		),
+		48,0,16,16
+	),
+	"EnemySpikerSprite":await createImageBitmap(
+		await assetLoader.loadImage(
+			"ShipTextureAtlas","textures/ships/shipTextureAtlas.png"
+		),
+		64,0,32,32
+	),
+	"EnemyTankerSprite":await createImageBitmap(
+		await assetLoader.loadImage(
+			"ShipTextureAtlas","textures/ships/shipTextureAtlas.png"
+		),
+		96,0,32,32
+	),
+	"EnemySplitterSprite":await createImageBitmap(
+		await assetLoader.loadImage(
+			"ShipTextureAtlas","textures/ships/shipTextureAtlas.png"
+		),
+		128,0,16,16
+	),
+	
 }

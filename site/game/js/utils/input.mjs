@@ -31,6 +31,9 @@ export var InputAction={
         code:"Minus"
 
     },
+    "pause":{
+        code:"KeyP"
+    }
 }
 
 export var isPressedLastFrame = {}

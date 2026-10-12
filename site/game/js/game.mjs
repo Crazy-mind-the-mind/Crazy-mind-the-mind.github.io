@@ -14,6 +14,8 @@ import { gameEvents } from "./core/game.events.mjs";
 import { playAudio } from "./utils/helper.mjs";
 
 
+import { Projectile } from "./players/projectile.mjs";
+
 
 var $container = document.getElementById('container');
 
@@ -37,6 +39,7 @@ function Game(w, h, targetFps, showFps,gameOptions) {
 		showColliders: gameOptions.showColliders || false,
 		showUIanchors: gameOptions.showColliders || false,
 		forceCanvasAPI:true,
+		debug:true,
 	}
 
 	this.configurations={
@@ -53,6 +56,7 @@ function Game(w, h, targetFps, showFps,gameOptions) {
 
 	this.extrasFncs = {
 		renderFncs:[]
+		
 	}
 
 

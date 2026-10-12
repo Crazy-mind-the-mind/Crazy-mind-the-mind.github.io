@@ -4,6 +4,7 @@ import { EnemyCharacter } from "./enemyCharacter.mjs";
 import { vec2, rect2} from "../utils/dataTypes.mjs";
 import { correctDrawTransform , drawTexture, createProjectile, degToRad, playAudio} from "../utils/helper.mjs";
 import { RectCollider } from "../utils/collision/rectCollision.mjs";
+import { Character } from "./character.mjs";
 
 export class EnemyCharacterSpiker extends EnemyCharacter{
     constructor(scope, x, y){
@@ -42,7 +43,7 @@ export class EnemyCharacterSpiker extends EnemyCharacter{
 
 
     async loadAssets(){
-        this.texture = await assetLoader.loadImage("EnemySpikerSprite","textures/ships/enemyShipSpiker.png")
+        this.texture = Character.imageAtlas["EnemySpikerSprite"]
     }
 
 

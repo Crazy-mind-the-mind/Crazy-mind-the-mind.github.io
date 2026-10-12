@@ -4,6 +4,7 @@ import { EnemyCharacter } from "./enemyCharacter.mjs";
 import { vec2, rect2} from "../utils/dataTypes.mjs";
 import { correctDrawTransform , drawTexture, createProjectile, degToRad, playAudio, clampValue} from "../utils/helper.mjs";
 import { RectCollider } from "../utils/collision/rectCollision.mjs";
+import { Character } from "./character.mjs";
 
 export class EnemyCharacterWaver extends EnemyCharacter{
     constructor(scope, x, y){
@@ -17,6 +18,8 @@ export class EnemyCharacterWaver extends EnemyCharacter{
         this.moveAccel = new vec2( Math.random()*0.2,Math.random()*0.75 )
         this.HDirection=-1
 
+        this.pointsGivenOnDeath = 7;
+
 
         
 
@@ -26,7 +29,7 @@ export class EnemyCharacterWaver extends EnemyCharacter{
 
 
     async loadAssets(){
-        this.texture = await assetLoader.loadImage("EnemyWaverSprite","textures/ships/enemyShipWaver.png")
+        this.texture = Character.imageAtlas["EnemyWaverSprite"]
     }
 
 
@@ -66,7 +69,7 @@ export class EnemyCharacterWaver extends EnemyCharacter{
                 this.transform.position.y,
                 2,
                 {
-                    direction:new vec2(-1,0),
+                    direction:new vec2(-this.HDirection ,0),
                     initialVelocity: new vec2(-5,0),
                     friendly:false,
                     hostile:true,

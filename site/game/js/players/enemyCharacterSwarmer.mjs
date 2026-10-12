@@ -4,7 +4,7 @@ import { EnemyCharacter } from "./enemyCharacter.mjs";
 import { vec2, rect2} from "../utils/dataTypes.mjs";
 import { correctDrawTransform , drawTexture, createProjectile, degToRad, playAudio, clampValue} from "../utils/helper.mjs";
 import { RectCollider } from "../utils/collision/rectCollision.mjs";
-
+import { Character } from "./character.mjs";
 export class EnemyCharacterSwarmer extends EnemyCharacter{
 
     static swarmers = [];
@@ -25,6 +25,8 @@ export class EnemyCharacterSwarmer extends EnemyCharacter{
             new vec2(0,50),
         ]
 
+        this.pointsGivenOnDeath = 3;
+        this.pointsGivenOnHit=2;
         this.currentMovementInPattern=0
         this.timerpattern=240
 
@@ -47,7 +49,7 @@ export class EnemyCharacterSwarmer extends EnemyCharacter{
 
 
     async loadAssets(){
-        this.texture = await assetLoader.loadImage("EnemySwarmerSprite","textures/ships/enemyShipSwarmer.png")
+        this.texture = Character.imageAtlas["EnemySwarmerSprite"]
     }
 
     AI(){

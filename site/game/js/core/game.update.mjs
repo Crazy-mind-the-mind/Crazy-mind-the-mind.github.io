@@ -4,6 +4,7 @@ import { isJustPressed,isJustReleased, isPressed } from "../utils/input.mjs"
 
 
 export function gameUpdate(scope) {
+			var pausePressed = false
 			return function update(tFrame) {
 				var state = scope.state || {};
 
@@ -39,6 +40,21 @@ export function gameUpdate(scope) {
 					console.log("V_DOWN")
 
 				}
+
+
+				if (isPressed.pause==true && !pausePressed){
+					
+					window.game.state.paused= !window.game.state.paused
+					pausePressed=true
+					
+				}
+				else if (isPressed.pause==true && pausePressed){
+						pausePressed=true
+				}
+				else if (isPressed.pause==false && pausePressed){
+						pausePressed=false
+				}
+
 				return state;
 	};
 }
