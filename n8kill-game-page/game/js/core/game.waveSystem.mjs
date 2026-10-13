@@ -8,8 +8,17 @@ const enemyWaves = [
 ];
 export class gameWaveSystem{
     
-    static get enemyWavePatternPossibilities(){
-        return [
+    static allowedEnemyTypes=[
+        EnemyCharacterTypesNames["EnemyCharacter"],
+        EnemyCharacterTypesNames["EnemyCharacterDefault"],
+        EnemyCharacterTypesNames["EnemyCharacterSwarmer"],
+        EnemyCharacterTypesNames["EnemyCharacterWaver"],
+        EnemyCharacterTypesNames["EnemyCharacterSpiker"],
+        EnemyCharacterTypesNames["EnemyCharacterTanker"],
+        EnemyCharacterTypesNames["EnemyCharacterSplitter"],
+    ] 
+
+    static =[
             [
                 EnemyCharacterTypesNames["EnemyCharacterDefault"],
                 EnemyCharacterTypesNames["EnemyCharacterDefault"],
@@ -74,6 +83,13 @@ export class gameWaveSystem{
 
             ],
         ];
+
+    
+    static get enemyWavePatternPossibilities(){
+        return enemyWavePatternPossibilities
+    }
+    static set enemyWavePatternPossibilities(v){
+        this.enemyWavePatternPossibilities=v
     }
 
     static get positions(){
@@ -90,6 +106,8 @@ export class gameWaveSystem{
             new vec2(500,320)
         ];
     }
+
+
     constructor(scope){
         this.scope=scope
         
@@ -113,6 +131,8 @@ export class gameWaveSystem{
     }
     waveSystemUpdate(){
 
+        if (this.scope.state.paused) return;
+        
         if (!this.waveStarted){
             if (this.waveStartDelay<=0){
                 this.waveStarted= true

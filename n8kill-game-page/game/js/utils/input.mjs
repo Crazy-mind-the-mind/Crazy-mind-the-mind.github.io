@@ -1,5 +1,7 @@
 
-export var InputAction={
+import {vec2} from './dataTypes.mjs'
+
+export var InputActionKeys={
     "left":{
         code:"ArrowLeft"
     },
@@ -36,6 +38,8 @@ export var InputAction={
     }
 }
 
+export var InputActionMouse={}
+
 export var isPressedLastFrame = {}
 export var isPressed = {}
 
@@ -44,8 +48,9 @@ export var isJustPressed = {}
 export var isJustReleased = {}
 
 
-export var mousePressed
-export var mousePosition
+
+export var mousePressed = false
+export var mousePosition = new vec2(0,0)
 
 
 
@@ -56,7 +61,7 @@ export function keysDown() {
     
 
     var actions = {}
-    Object.keys(InputAction).forEach(action => {
+    Object.keys(InputActionKeys).forEach(action => {
         actions[action]=false
     });
 
@@ -65,10 +70,10 @@ export function keysDown() {
     }
     
     document.onkeydown = function (ev) {
-        Object.keys(InputAction).forEach( action =>{
+        Object.keys(InputActionKeys).forEach( action =>{
 
-            if (InputAction[action].code){
-                if (ev.code == InputAction[action].code){
+            if (InputActionKeys[action].code){
+                if (ev.code == InputActionKeys[action].code){
                     actions[action]=true;
                 }
             }
@@ -76,10 +81,10 @@ export function keysDown() {
         })
     };
     document.onkeyup = function (ev) {
-        Object.keys(InputAction).forEach( action =>{
+        Object.keys(InputActionKeys).forEach( action =>{
 
-            if (InputAction[action].code){
-                if (ev.code == InputAction[action].code){
+            if (InputActionKeys[action].code){
+                if (ev.code == InputActionKeys[action].code){
                     actions[action]=false;
                 }
             }
@@ -87,7 +92,7 @@ export function keysDown() {
         })
     };
     
-    Object.keys(InputAction).forEach(action => {
+    Object.keys(InputActionKeys).forEach(action => {
         Object.defineProperty(isPressed, action, {
             get: function() { return actions[action]; },
             configurable: true,
@@ -122,15 +127,22 @@ export function keysDown() {
 
 
 
-export function mouseDown(){
+export function mouseDown(scope){
 	
-	document.onmousedown=function(ev){
+
+	scope.viewport.onmousedown=function(ev){
 		mousePressed=true
 	}
 	
-	document.onmouseup=function(ev){
+	scope.viewport.onmouseup=function(ev){
 		mousePressed=false
 	}
+
+    scope.viewport.onmousemove=function(ev){
+        mousePosition.x = ev.offsetX
+        mousePosition.y = ev.offsetY
+    }
+
 	
 	
 	

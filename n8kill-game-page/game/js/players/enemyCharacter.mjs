@@ -72,6 +72,10 @@ class EnemyCharacter extends Character{
             deleteEntity(this.scope,this)
         },this)
 
+        window.game.eventSystem.connectToEvent("stageChanged",function(){
+            deleteEntity(this.scope,this)
+        },this)
+
         EnemyCharacter.addToCollisionGroup(this,scope)
 	}
 

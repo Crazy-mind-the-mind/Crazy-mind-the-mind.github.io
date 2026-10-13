@@ -65,7 +65,7 @@ class AssetLoader {
         return promise;
     }
     
-    async loadStageData(stageName,stagePath){
+    async loadStageData(stagePath){
     	
     	const promise = new Promise(async (resolve,reject) =>{
             fetch(stagePath)
@@ -73,18 +73,10 @@ class AssetLoader {
                 return response.json();
             })
             .then(async (stageData)=>{
-                await Promise.all(
-                	stageData.textures.map(imageData=>this.loadImage(imageData.name,imageData.path)),
-                	stageData.audios.map(audioData=>this.loadImage(audioData.name,audioData.path))
-                	)
-                stage.waveSettings
-                stage.spelcards
+                return stageData
             })
             .catch(
-                (e)=>{
-                    delete this.loadingAudios[audioName];
-                    return new Error(`Failed: ${audioPath}`);
-                }
+               (e)=>{}
             );
             
         })

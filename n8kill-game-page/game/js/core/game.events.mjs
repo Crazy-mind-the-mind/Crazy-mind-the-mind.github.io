@@ -6,22 +6,33 @@ export class gameEvents{
     constructor(scope){
         this.scope=scope;
         this.scope.globalEvents={
-            playerDied:[],
-            waveStarted:[],
-            waveEnded:[],
-            enemyKilled:[],
+            'playerDied':[],
+
+            'waveStarted':[],
+            'waveEnded':[],
+
+            'enemyKilled':[],
+
+            'stageChanged':[],
+            'stageStart':[],
+            'stageClear':[],
+
+            'startGame':[],
+
+            'paused':[],
+            'unpaused':[],
         }
 
     }
 
-    emitEvent(eventname){
+    emitEvent(eventname,params){
         this.scope.globalEvents[eventname].forEach(eventCallback => {
-            eventCallback();
+            eventCallback(params || {});
         });
     }
 
     addEvent(eventname){
-        this.scope.globalEvents[eventname]=[]
+        this.scope.globalEvents[eventname]=this.scope.globalEvents[eventname] || []
     }
     connectToEvent(eventname,/**@type{Function} */eventCallback,/**@type{Object} */eventCallbackReceiver){
         /**@type{Array} */

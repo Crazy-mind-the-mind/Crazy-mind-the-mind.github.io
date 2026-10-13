@@ -40,16 +40,14 @@ export function gameSetup(scope) {
             keysDown()
 
             
-            
-            //let pl2=new ParallaxLayer(scope,0,0)
-            //pl2.z_index=100
-            //scope.state.entities.layer2=pl2;
+            /*
             var pbl =[
                   new ParallaxLayer(scope,scope.viewport.width/scope.viewport.height/2),
                   new ParallaxLayer(scope,scope.viewport.width/scope.viewport.height/2),
                   new ParallaxLayer(scope,scope.viewport.width/scope.viewport.height/2),
                   
             ]
+            
 
             pbl[1].z_index+=2
             pbl[2].z_index+=4
@@ -66,6 +64,8 @@ export function gameSetup(scope) {
             scope.state.entities.background2=pbl[1]
             scope.state.entities.background3=pbl[2]
             
+            */
+
             scope.state.entities.player=new PlayerCharacter(scope,50,180);
             
 
@@ -285,18 +285,22 @@ export function gameSetup(scope) {
             scope.state.ui["DeadScreen"] = DeadScreen[0]
             
 
-            }
-            
+
+
             
             
             var mainMenu={
             	"rootMenu":new UINode(scope,0,0,null),
             	"TitleImage":new UIImage(scope,0,0,null,"GameTitle","textures/title.png"),
-            	"StartButton":new UIButton(scope,0,0,null)
+            	"StartButton":new UIButton(scope,0,0,null,"Start")
             }
             
             
-            mainMenu["StartButton"]
+            mainMenu["StartButton"].pressedAction = function(){
+                  if (scope.hasOwnProperty("events")){
+                        scope.eventSystem.emitEvent("startGame");
+                  }
+            }
             
             
             
@@ -305,16 +309,101 @@ export function gameSetup(scope) {
             	mainMenu["TitleImage"],
             	"StartButton"
             )
-			mainMenu["rootMenu"].addChild(
+		mainMenu["rootMenu"].addChild(
 				mainMenu["StartButton"],
 				"StartButton"
             )
             
+            mainMenu.updateAction = function(){
+                  this.visible = !scope.state.gameStarted
+            }
             
-            mainMenu.visible=false
+
+
+
+
+            
+            mainMenu.visible=true
             scope.state.ui["MainMenu"] = mainMenu["rootMenu"]
             
 
+
+            var gameStatusUI={
+                  "rootUI": new UINode(
+                        scope,
+                        0,0,
+                        null
+                  ),
+                  "WaveStartCountStatus": new UILabel(
+                        scope,
+                        0,0,
+                        null,
+                        "WAVE 0"
+                  ),
+                  "StageStartName": new UILabel(
+                        scope,
+                        0,0,
+                        null,
+                        "STAGE (pĺaceholder)"
+                  ),
+
+            }
+
+            gameStatusUI["WaveStartCountStatus"].visible =false
+            gameStatusUI["WaveStartCountStatus"].visibilityTime = 0
+            gameStatusUI["WaveStartCountStatus"].transform.scale.x=0.5
+            gameStatusUI["WaveStartCountStatus"].transform.scale.y=0.5
+
+            gameStatusUI["WaveStartCountStatus"].updateAction=function(){
+                  this.text = "WAVE "+toString(scope.waveSystem.waveCount)
+                  this.visible= this.visibilityTime>0
+                  this.visibilityTime -= this.visibilityTime>0?1:0
+                  this.transform.offset.x=-(this.text.length*8)/2;
+                  
+            }
+            scope.eventSystem.connectToEvent(
+                  "waveStarted",
+                  function(){
+                        this.visibilityTime = 240
+                  },
+                  gameStatusUI["WaveStartCountStatus"]
+            )
+
+            gameStatusUI["StageStartName"].visible =false
+            gameStatusUI["StageStartName"].visibilityTime = 0
+            gameStatusUI["WaveStartCountStatus"].transform.scale.x=0.5
+            gameStatusUI["WaveStartCountStatus"].transform.scale.y=0.5
+            gameStatusUI["WaveStartCountStatus"].transform.offset.y=-4
+            gameStatusUI["StageStartName"].updateAction=function(){
+                  this.text = "STAGE "+scope.state.currentStage.name
+                  this.visible= this.visibilityTime>0
+                  this.visibilityTime -= this.visibilityTime>0?1:0
+                  this.transform.offset.x=-(this.text.length*8)/2
+            }
+            scope.eventSystem.connectToEvent(
+                  "stageStart",
+                  function(){
+                        this.visibilityTime = 240
+                  },
+                  gameStatusUI["StageStartName"]
+            )
+
+            gameStatusUI["rootUI"].addChild(
+                  gameStatusUI["WaveStartCountStatus"],
+                  "WaveStartCountStatus"
+            )
+
+            gameStatusUI["rootUI"].addChild(
+                  gameStatusUI["StageStartName"],
+                  "StageStartName"
+            )
+
+            
+            scope.state.ui["GameStatus"] = gameStatusUI["rootUI"]
+
+
+            }
+            
 
 
 

@@ -76,7 +76,7 @@ export class SpellcardDefinition{
     }
     constructor(){
         this.spellcardActName=Object.keys(SpellcardDefinition.SpellcardActions)[
-                Math.round( Math.random()*Object.keys(SpellcardDefinition.SpellcardActions).length)
+                Math.min(Math.round( Math.random()*Object.keys(SpellcardDefinition.SpellcardActions).length-1),0)
             ]
         this.spellcardAct=SpellcardDefinition.SpellcardActions[
             this.spellcardActName

@@ -46,11 +46,16 @@ function Game(w, h, targetFps, showFps,gameOptions) {
 	}
 
 	this.state = {
-		'gameStarted':true,
+		'gameStarted':false,
 		'paused':false,
 		'cameraScroll':new vec2(0,0),
 		'cameraTransform': new transform2(0,0,1,1),
 		'entities':[],
+		'currentStage':{
+			'name':'',
+			'maxWave':100,
+			
+		}
 	};
 
 	this.extrasFncs = {
@@ -100,24 +105,38 @@ function Game(w, h, targetFps, showFps,gameOptions) {
 
 	console.log('Starting Engine');
 	console.log('Selected Renderer = ',this.configurations.renderer)
-	
+
+	this.eventSystem = new gameEvents(this);
 	this.setup = gameSetup(this);
 	this.setup()
-	this.eventSystem = new gameEvents(this);
 	this.collisionSystem = collisionSystemUpdate(this);
 	
 	this.scoreSystem = gameScore(this);
 	this.waveSystem = new gameWaveSystem(this);
 
-	// playAudio(this.audio,"BGM1",{
-	// 	loop:true,
-	// 	loopEnd:1000000,
-	// })
-
 	this.update = gameUpdate(this);
 	this.render = this.configurations.renderer == "webgl" ? gameRenderWebGL(this) : gameRender(this);
 	this.loop = new gameLoop(this);
 
+
+
+	this.eventSystem.connectToEvent("gameStart",
+		function(){
+			this.state.gameStarted=true
+		},
+		this
+	)
+
+
+	this.eventSystem.connectToEvent("stageChanged",
+		function(){
+			this.waveCount=0
+			this.eventSystem.emitEvent("stageStart")
+		},
+		this.waveSystem
+	)
+
+	
 	
 
 	

@@ -4,6 +4,21 @@ import { correctDrawTransform, drawRect , drawTexture } from "../utils/helper.mj
 import { assetLoader } from "../core/game.assetLoader.mjs";
 import { TextureWebGL } from "../utils/dataTypes/texture.mjs";
 export class ParallaxLayer extends Entity {
+
+
+    layerTextureData = {
+        "name":null,
+        "path":null
+    }
+    get layerTextureData(){
+        return this.layerTextureData;
+    }
+    set layerTextureData(v){
+        this.layerTextureData=v;
+        this.loadAssets();
+    }
+
+
     constructor(scope, x, y) {
         super(scope, x, y);
 
@@ -21,9 +36,11 @@ export class ParallaxLayer extends Entity {
     }
 
     async loadAssets() {
+        if (!this.layerTextureData.name || !this.layerTextureData.path) return;
+
         this.texture = this.scope.configurations.renderer=="canvas"?await assetLoader.loadImage(
-            "StarBackgroundTexture",
-            "textures/starsBackground.png"
+            this.layerTextureData.name,
+            this.layerTextureData.path
         ): new TextureWebGL("StarBackgroundTexture","textures/starsBackground.png") ;
     }
 

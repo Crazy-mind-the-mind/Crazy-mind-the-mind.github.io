@@ -4,6 +4,16 @@ import { transform2 } from "../dataTypes.mjs";
 
 
 class UINode{
+    updateAction
+    get updateAction(){
+        return this.updateAction
+    }
+    set updateAction(v){
+        if (!(v instanceof Function)) return;
+        this.updateAction=v.bind(this)
+    }
+
+
     constructor(scope, x,y , /**@type{UINode}*/parentUInode){
         this.scope=scope
         this.parentNode=null
