@@ -18,7 +18,7 @@ export class gameWaveSystem{
         EnemyCharacterTypesNames["EnemyCharacterSplitter"],
     ] 
 
-    static =[
+    static enemyWavePatternPossibilities=[
             [
                 EnemyCharacterTypesNames["EnemyCharacterDefault"],
                 EnemyCharacterTypesNames["EnemyCharacterDefault"],
@@ -86,7 +86,7 @@ export class gameWaveSystem{
 
     
     static get enemyWavePatternPossibilities(){
-        return enemyWavePatternPossibilities
+        return this.enemyWavePatternPossibilities
     }
     static set enemyWavePatternPossibilities(v){
         this.enemyWavePatternPossibilities=v

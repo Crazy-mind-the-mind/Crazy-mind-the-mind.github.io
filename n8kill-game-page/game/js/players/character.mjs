@@ -25,7 +25,7 @@ export class Character extends Entity{
 		//this.texture = await assetLoader.loadImage("WaverEnemyShip","textures/ships/ship.png");
 	}
 	update(){
-		this.active = !window.game.state.paused
+		this.active = !window.game.state.paused || scope.state.paused
         if (!this.active) return false;
 
 		if (this.collision){

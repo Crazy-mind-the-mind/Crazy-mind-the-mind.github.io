@@ -114,7 +114,7 @@ function Game(w, h, targetFps, showFps,gameOptions) {
 	this.eventSystem.connectToEvent(
 		"gameFinishedLoadingCore",
 		function(){
-			loadStage("stages/stage1.json");
+			loadStage(this,"stages/stage1.json");
 		},
 		this
 	)
