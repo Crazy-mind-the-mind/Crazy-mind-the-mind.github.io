@@ -1,13 +1,13 @@
 {
-    "stageName":"",
+    "stageName":"SPACE",
     "stageMaxWave":100,
     "stageBackground":{
 
 
         "starBackground1":{
             "texture":{
-                "name":"",
-                "path":""
+                "name":"StarBackground",
+                "path":"textures/starsBackground.png"
             },
             "z_index":-102,
             "transform":{
@@ -16,30 +16,32 @@
                     "y":0
                 },
                 "scale":{
-                    "x":0,
-                    "y":0
+                    "x":0.5,
+                    "y":0.5
                 },
                 "rotation":0
             },
             "parallaxScale":{
                 "scale":{
-                    "x":0,
-                    "y":0
+                    "x":0.5,
+                    "y":0.5
                 },
                 "offset":{
                     "x":0,
                     "y":0
                 },
                 "repeat":{
-                    "x":0,
-                    "y":0
+                    "x":2,
+                    "y":2
                 }
             }
         },
+
+
         "starBackground2":{
             "texture":{
-                "name":"",
-                "path":""
+                "name":"StarBackground",
+                "path":"textures/starsBackground.png"
             },
             "z_index":-101,
             "transform":{
@@ -48,30 +50,33 @@
                     "y":0
                 },
                 "scale":{
-                    "x":0,
-                    "y":0
+                    "x":0.7,
+                    "y":0.7
                 },
                 "rotation":0
             },
             "parallaxScale":{
                 "scale":{
-                    "x":0,
-                    "y":0
+                    "x":0.7,
+                    "y":0.7
                 },
                 "offset":{
                     "x":0,
                     "y":0
                 },
                 "repeat":{
-                    "x":0,
-                    "y":0
+                    "x":4,
+                    "y":4
                 }
             }
         },
+
+
+
         "starBackground3":{
             "texture":{
-                "name":"",
-                "path":""
+                "name":"StarBackground",
+                "path":"textures/starsBackground.png"
             },
             "z_index":100,
             "transform":{
@@ -80,23 +85,23 @@
                     "y":0
                 },
                 "scale":{
-                    "x":0,
-                    "y":0
+                    "x":1,
+                    "y":1
                 },
                 "rotation":0
             },
             "parallaxScale":{
                 "scale":{
-                    "x":0,
-                    "y":0
+                    "x":1,
+                    "y":1
                 },
                 "offset":{
                     "x":0,
                     "y":0
                 },
                 "repeat":{
-                    "x":0,
-                    "y":0
+                    "x":4,
+                    "y":4
                 }
             }
         }

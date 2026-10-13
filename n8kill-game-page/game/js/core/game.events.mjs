@@ -17,6 +17,7 @@ export class gameEvents{
             'stageStart':[],
             'stageClear':[],
 
+            'gameFinishedLoadingCore':[],
             'startGame':[],
 
             'paused':[],

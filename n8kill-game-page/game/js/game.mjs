@@ -11,7 +11,7 @@ import { collisionSystemUpdate } from "./utils/collision/collisionsystem.mjs";
 import { gameRenderWebGL } from "./core/game.renderWebGL.mjs";
 import { generateCanvasWebGL } from "./utils/canvasWebGL.mjs";
 import { gameEvents } from "./core/game.events.mjs";
-import { playAudio } from "./utils/helper.mjs";
+import { loadStage, playAudio } from "./utils/helper.mjs";
 
 
 
@@ -106,7 +106,20 @@ function Game(w, h, targetFps, showFps,gameOptions) {
 	console.log('Starting Engine');
 	console.log('Selected Renderer = ',this.configurations.renderer)
 
+
+
+
 	this.eventSystem = new gameEvents(this);
+
+	this.eventSystem.connectToEvent(
+		"gameFinishedLoadingCore",
+		function(){
+			loadStage("stages/stage1.json");
+		},
+		this
+	)
+
+
 	this.setup = gameSetup(this);
 	this.setup()
 	this.collisionSystem = collisionSystemUpdate(this);
@@ -118,6 +131,7 @@ function Game(w, h, targetFps, showFps,gameOptions) {
 	this.render = this.configurations.renderer == "webgl" ? gameRenderWebGL(this) : gameRender(this);
 	this.loop = new gameLoop(this);
 
+	this.eventSystem.emitEvent("gameFinishedLoadingCore")
 
 
 	this.eventSystem.connectToEvent("gameStart",
