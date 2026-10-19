@@ -241,7 +241,7 @@ export function gameSetup(scope) {
 
 
             gameHUD["waveScore"].updateAction=function(){
-                  this.hudValueText=window.game.waveSystem.waveCount
+                  this.hudValueText=scope.waveSystem.waveCount
             }
             gameHUD["waveScore"].hudLabelUpdate.bind(gameHUD["waveScore"])
 

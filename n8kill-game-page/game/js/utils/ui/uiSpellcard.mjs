@@ -33,7 +33,7 @@ export class UISpellcard extends UINode{
     update(){
     	super.update()
     	
-    	var player = window.game.state.entities.player
+    	var player = ((window.game && window.game.state.entities.player) || this.scope.state.entities.player) 
 
         if (!player) {return}
 

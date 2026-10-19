@@ -37,7 +37,7 @@ export class gameEvents{
     }
     connectToEvent(eventname,/**@type{Function} */eventCallback,/**@type{Object} */eventCallbackReceiver){
         /**@type{Array} */
-        var event=this.scope.globalEvents[eventname];
+        var event=this.scope.globalEvents[eventname] || (this.globalEvents[eventname]) || (window.game);
         event.push(eventCallback.bind(eventCallbackReceiver))
     }
     

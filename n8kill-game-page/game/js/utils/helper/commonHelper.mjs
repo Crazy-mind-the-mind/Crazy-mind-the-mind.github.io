@@ -178,58 +178,86 @@ export function clampValue(value,min,max){
 export async function loadStage(scope,stagePath){
     scope.eventSystem.emitEvent("stageChanged")
 
-    var stageData = await assetLoader.loadStageData(stagePath);
-    var stageDataBackgroundLayerNames = Object.keys(stageData.stageBackground);    
+    assetLoader.loadStageData(stagePath).then(
+        (stageData)=>{
+            console.log(stageData)
+            
+            var stageDataBackgroundLayerNames
+            try{
+            stageDataBackgroundLayerNames  = Object.keys(stageData.stageBackground);    
 
-    scope.state.currectStage.name=stageData.name;
-    scope.state.currentStage.maxWave=stageData.stageMaxWave
-    
-    for (let idx; idx < stageDataBackgroundLayerNames.length; idx++){
+            }
+            catch{
+
+            }
+
+            console.log(stageData)
 
 
-        const newParallaxData=stageData.stageBackground[stageDataBackgroundLayerNames[idx]];
+            scope.state.currentStage.name=/*stageData.stageName ||*/ "SPACE"
+
+            
+            
+            scope.state.currentStage.maxWave=/*stageData.stageMaxWave ||*/ 100
+            
+            try{
+            for (let idx; idx < stageDataBackgroundLayerNames.length; idx++){
 
 
-        var newParallax=new ParallaxLayer(scope || window.game , 0 , 0)
+                const newParallaxData=stageData.stageBackground[stageDataBackgroundLayerNames[idx]];
 
-        newParallax.layerTextureData={
-            "name":newParallaxData.texture.name,
-            "path":newParallaxData.texture.path
+
+                var newParallax=new ParallaxLayer(scope || window.game , 0 , 0)
+
+                newParallax.layerTextureData={
+                    "name":newParallaxData.texture.name,
+                    "path":newParallaxData.texture.path
+                }
+
+                newParallax.z_index = newParallaxData.z_index
+
+
+                newParallax.transform.position.x=newParallaxData.transform.position.x
+                newParallax.transform.position.y=newParallaxData.transform.position.y
+
+                newParallax.transform.scale.x=newParallaxData.transform.scale.x
+                newParallax.transform.scale.y=newParallaxData.transform.scale.y
+
+                newParallax.transform.rotation.x=newParallaxData.transform.rotation.x
+
+
+                newParallax.parallaxScale.scale.x = newParallaxData.parallaxScale.scale.x
+                newParallax.parallaxScale.scale.y = newParallaxData.parallaxScale.scale.y
+                
+                newParallax.parallaxScale.offset.x = newParallaxData.parallaxScale.offset.x 
+                newParallax.parallaxScale.offset.y = newParallaxData.parallaxScale.offset.y
+                
+                newParallax.parallaxScale.repeat.x = newParallaxData.parallaxScale.repeat.x
+                newParallax.parallaxScale.repeat.y = newParallaxData.parallaxScale.repeat.y
+
+
+                scope.state.entities[stageBackgroundLayerNames[idx]]=newParallax
+            }
+
+            var stageEnemies=stageData.stageEnemies.slice();
+
+            scope.waveSystem.constructor.allowedEnemyTypes=stageEnemies;
+
+            var stageEnemyPatterns= stageData.stagePatterns.slice();
+            
+            scope.waveSystem.constructor.enemyWavePatternPossibilities=stageEnemyPatterns
+            }
+            catch{
+
+            }
+
+            
+
+            
         }
+    )
 
-        newParallax.z_index = newParallaxData.z_index
-
-
-        newParallax.transform.position.x=newParallaxData.transform.position.x
-        newParallax.transform.position.y=newParallaxData.transform.position.y
-
-        newParallax.transform.scale.x=newParallaxData.transform.scale.x
-        newParallax.transform.scale.y=newParallaxData.transform.scale.y
-
-        newParallax.transform.rotation.x=newParallaxData.transform.rotation.x
-
-
-        newParallax.parallaxScale.scale.x = newParallaxData.parallaxScale.scale.x
-        newParallax.parallaxScale.scale.y = newParallaxData.parallaxScale.scale.y
-        
-        newParallax.parallaxScale.offset.x = newParallaxData.parallaxScale.offset.x 
-        newParallax.parallaxScale.offset.y = newParallaxData.parallaxScale.offset.y
-        
-        newParallax.parallaxScale.repeat.x = newParallaxData.parallaxScale.repeat.x
-        newParallax.parallaxScale.repeat.y = newParallaxData.parallaxScale.repeat.y
-
-
-        scope.state.entities[stageBackgroundLayerNames[idx]]=newParallax
-    }
-
-    
-
-    var stageEnemies=stageData.stageEnemies.slice();
-
-    scope.waveSystem.constructor.allowedEnemyTypes=stageEnemies;
-
-    var stageEnemyPatterns= stageData.stagePatterns.slice();
-    
-    scope.waveSystem.constructor.enemyWavePatternPossibilities=stageEnemyPatterns
+    var temp_test=await assetLoader.loadStageData(stagePath)
+    console.log(temp_test)
 
 }

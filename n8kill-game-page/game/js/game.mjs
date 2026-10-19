@@ -46,7 +46,7 @@ function Game(w, h, targetFps, showFps,gameOptions) {
 	}
 
 	this.state = {
-		'gameStarted':false,
+		'gameStarted':true,
 		'paused':false,
 		'cameraScroll':new vec2(0,0),
 		'cameraTransform': new transform2(0,0,1,1),
@@ -106,7 +106,7 @@ function Game(w, h, targetFps, showFps,gameOptions) {
 	console.log('Starting Engine');
 	console.log('Selected Renderer = ',this.configurations.renderer)
 
-
+	this.globalEvents={}
 
 
 	this.eventSystem = new gameEvents(this);
@@ -134,7 +134,7 @@ function Game(w, h, targetFps, showFps,gameOptions) {
 	this.eventSystem.emitEvent("gameFinishedLoadingCore")
 
 
-	this.eventSystem.connectToEvent("gameStart",
+	this.eventSystem.connectToEvent("startGame",
 		function(){
 			this.state.gameStarted=true
 		},

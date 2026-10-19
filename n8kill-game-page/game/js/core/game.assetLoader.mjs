@@ -68,16 +68,17 @@ class AssetLoader {
     async loadStageData(stagePath){
     	
     	const promise = new Promise(async (resolve,reject) =>{
-            fetch(stagePath)
-            .then((response)=>{
-                return response.json();
+            resolve(fetch(stagePath)
+            .then( async (response)=>{
+                return await response.json();
+                
             })
-            .then(async (stageData)=>{
-                return stageData
+            .then((json)=>{
+                return json
             })
             .catch(
                (e)=>{}
-            );
+            ))
             
         })
     	

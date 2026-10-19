@@ -18,10 +18,10 @@ class rect2 {
 	get data(){
 		return Float32Array.of(this.origin.data,this.size.data)}
 	intersects_point(point) {
-		return ((point.x <= rect2.origin.x+rect2.size.x &&
-			point.x >= rect2.origin.x) &&
-			(point.y <= rect2.origin.y+rect2.size.y &&
-				point.y >= rect2.origin.y)
+		return ((point.x <= this.origin.x+this.size.x &&
+			point.x >= this.origin.x) &&
+			(point.y <= this.origin.y+this.size.y &&
+				point.y >= this.origin.y)
 		);
 	};
 	intersects_rect(rect) {

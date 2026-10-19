@@ -68,11 +68,12 @@ class EnemyCharacter extends Character{
         this.pointsGivenOnHit=0
         this.collisionSize = new vec2(16,16)
 
-        window.game.eventSystem.connectToEvent("playerDied",function(){
+
+        scope.eventSystem.connectToEvent("playerDied",function(){
             deleteEntity(this.scope,this)
         },this)
 
-        window.game.eventSystem.connectToEvent("stageChanged",function(){
+        scope.eventSystem.connectToEvent("stageChanged",function(){
             deleteEntity(this.scope,this)
         },this)
 
