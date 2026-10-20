@@ -35,6 +35,9 @@ export var InputActionKeys={
     },
     "pause":{
         code:"KeyP"
+    },
+    "retry":{
+        code:"Enter"
     }
 }
 

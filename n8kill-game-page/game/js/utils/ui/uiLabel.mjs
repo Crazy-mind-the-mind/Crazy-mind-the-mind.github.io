@@ -11,7 +11,7 @@ export class UILabel extends UINode{
 
 
     render(){
-        this.visible=this.parentNode?this.parentNode.visible:this.visible;
+        this.visible=this.isVisible();
         
         if (!this.visible) return;
         this.calculateTransform()

@@ -13,6 +13,10 @@ class UINode{
         this.updateAction=v.bind(this)
     }
 
+    isVisible(){
+        return this.parentNode?this.parentNode.visible && this.visibility:this.visible;
+    }
+
 
     constructor(scope, x,y , /**@type{UINode}*/parentUInode){
         this.scope=scope
@@ -21,6 +25,7 @@ class UINode{
         this.childrenNodes={};
         this.transform = new uiTransform(new vec2(x,y));
         this.visible=true;
+        this.visibility=true
         this.debugColor="#FFAA00"
 
         this.updateAction = null;
@@ -54,7 +59,7 @@ class UINode{
     }
     render(){
 
-        this.visible=this.parentNode?this.parentNode.visible:this.visible;
+        this.visible=this.isVisible()
         this.calculateTransform()
 
         if (this.scope.constants.showUIanchors){

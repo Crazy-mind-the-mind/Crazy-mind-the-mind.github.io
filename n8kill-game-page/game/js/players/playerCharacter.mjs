@@ -19,6 +19,21 @@ class PlayerCharacter extends Character{
 
 		static weapons
 		
+		respawn(){
+			this.statHealthMax=3
+			this.statHealth=3
+			this.isDead=false
+			this.transform.position.y=window.game.constants.height/2
+			this.transform.position.x=50
+			this.scope.state.playerStatus.ScorePoints=0
+
+			for (let idx=0;idx<this.currentSpellCards.length;idx++){
+				this.currentSpellCards[idx]=new SpellcardDefinition()
+			}
+			this.scoringTimer=60;
+
+		}
+
         constructor(scope, x, y) {
 			super(scope, x, y);
 			this.statHealth=3
@@ -192,6 +207,7 @@ class PlayerCharacter extends Character{
 				collisionMask:["projectiles"],
 			})
 
+			this.scope.eventSystem.connectToEvent('restartGame',this.respawn,this)
 
 
 			this.deathtimeout=0
@@ -313,7 +329,7 @@ class PlayerCharacter extends Character{
 				this.currentWeapon2.shootCooldownTime--;
 
 			this.scoringTimer--;
-			if (this.scoringTimer==0 && !this.isDead){
+			if (this.scoringTimer<=0 && !this.isDead){
 				this.scope.state.playerStatus.ScorePoints++;
 				this.scoringTimer=60;
 			}
@@ -338,18 +354,7 @@ class PlayerCharacter extends Character{
 				this.velocity.vecMult(0)
 				this.deathtimeout--;
 			}
-			if (this.deathtimeout<=0 && this.isDead){
-				this.statHealthMax=3
-				this.statHealth=3
-				this.isDead=false
-				this.transform.position.y=window.game.constants.height/2
-				this.transform.position.x=50
-				this.scope.state.playerStatus.ScorePoints=0
-
-				for (let idx=0;idx<this.currentSpellCards.length;idx++){
-					this.currentSpellCards[idx]=new SpellcardDefinition()
-				}
-			}
+			
 			
 			
 			this.pointsNeededForNewSpellcard=this.lastSpellcardPoints-this.scope.state.playerStatus.ScorePoints

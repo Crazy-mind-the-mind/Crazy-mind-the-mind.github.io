@@ -47,6 +47,7 @@ function Game(w, h, targetFps, showFps,gameOptions) {
 
 	this.state = {
 		'gameStarted':true,
+		'gameEnded':false,
 		'paused':false,
 		'cameraScroll':new vec2(0,0),
 		'cameraTransform': new transform2(0,0,1,1),
@@ -54,7 +55,6 @@ function Game(w, h, targetFps, showFps,gameOptions) {
 		'currentStage':{
 			'name':'',
 			'maxWave':100,
-			
 		}
 	};
 
@@ -149,6 +149,18 @@ function Game(w, h, targetFps, showFps,gameOptions) {
 		},
 		this.waveSystem
 	)
+
+	this.eventSystem.connectToEvent("playerDied",
+		function(){
+			this.eventSystem.emitEvent("endGame");
+			window.localStorage.setItem('PlayerHighestScore' )
+			this.state.gameEnded=true;
+		},
+		this
+	)
+
+
+
 
 	
 	
