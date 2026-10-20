@@ -314,7 +314,7 @@ export function gameSetup(scope) {
 				"StartButton"
             )
             
-            mainMenu.updateAction = function(){
+            mainMenu["rootMenu"].updateAction = function(){
                   this.visible = !scope.state.gameStarted
             }
             
@@ -323,7 +323,7 @@ export function gameSetup(scope) {
 
 
             
-            mainMenu.visible=true
+            mainMenu["rootMenu"].visible=false
             scope.state.ui["MainMenu"] = mainMenu["rootMenu"]
             
 
@@ -350,15 +350,16 @@ export function gameSetup(scope) {
             }
 
             gameStatusUI["WaveStartCountStatus"].visible =false
-            gameStatusUI["WaveStartCountStatus"].visibilityTime = 0
+            gameStatusUI["WaveStartCountStatus"].visibilityTime = 240
             gameStatusUI["WaveStartCountStatus"].transform.position.scale.x=0.5
             gameStatusUI["WaveStartCountStatus"].transform.position.scale.y=0.5
             gameStatusUI["WaveStartCountStatus"].transform.position.offset.y=-4
 
             gameStatusUI["WaveStartCountStatus"].updateAction=function(){
-                  this.text = "WAVE "+toString(scope.waveSystem.waveCount)
-                  this.visible= this.visibilityTime>0
-                  this.visibilityTime -= this.visibilityTime>0?1:0
+                  // console.log(this)
+                  this.text = "WAVE "+scope.waveSystem.waveCount;
+                  this.visibility= this.visibilityTime>0 && !gameStatusUI["StageStartName"].visibility;
+                  this.visibilityTime -= this.visibilityTime>0 && !gameStatusUI["StageStartName"].visibility?1:0;
                   this.transform.position.offset.x=-(this.text.length*8)/2;
                   
             }
@@ -371,14 +372,16 @@ export function gameSetup(scope) {
             )
 
             gameStatusUI["StageStartName"].visible =false
-            gameStatusUI["StageStartName"].visibilityTime = 0
-            gameStatusUI["WaveStartCountStatus"].transform.position.scale.x=0.5
-            gameStatusUI["WaveStartCountStatus"].transform.position.scale.y=0.5
-            gameStatusUI["WaveStartCountStatus"].transform.position.offset.y=-4
+            gameStatusUI["StageStartName"].visibilityTime = 240
+            gameStatusUI["StageStartName"].transform.position.scale.x=0.5
+            gameStatusUI["StageStartName"].transform.position.scale.y=0.5
+            gameStatusUI["StageStartName"].transform.position.offset.y=-4
             gameStatusUI["StageStartName"].updateAction=function(){
-                  this.text = "STAGE "+scope.state.currentStage.name
-                  this.visible= this.visibilityTime>0
-                  this.visibilityTime -= this.visibilityTime>0?1:0
+                  // console.log(this.visibilityTime)
+                  this.text = "STAGE "+scope.state.currentStage.name;
+                  this.visibility= this.visibilityTime>0;
+                  this.visibilityTime -= this.visibilityTime>0?1:0;
+
                   this.transform.position.offset.x=-(this.text.length*8)/2
             }
             scope.eventSystem.connectToEvent(
@@ -398,6 +401,8 @@ export function gameSetup(scope) {
                   gameStatusUI["StageStartName"],
                   "StageStartName"
             )
+
+
 
             
             scope.state.ui["GameStatus"] = gameStatusUI["rootUI"]

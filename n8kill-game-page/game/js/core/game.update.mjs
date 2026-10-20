@@ -5,6 +5,7 @@ import { isJustPressed,isJustReleased, isPressed } from "../utils/input.mjs"
 
 export function gameUpdate(scope) {
 			var pausePressed = false
+			var retryPressed = false
 			return function update(tFrame) {
 				var state = scope.state || {};
 
@@ -53,6 +54,23 @@ export function gameUpdate(scope) {
 				}
 				else if (isPressed.pause==false && pausePressed){
 						pausePressed=false
+				}
+
+
+				if (isPressed.retry==true && !retryPressed){
+					
+					if (scope.state.gameEnded == true){
+						scope.eventSystem.emitEvent('restartGame')
+						console.log('Restarting Game')
+					}
+					retryPressed=true
+					
+				}
+				else if (isPressed.retry==true && retryPressed){
+						retryPressed=true
+				}
+				else if (isPressed.retry==false && retryPressed){
+						retryPressed=false
 				}
 
 				return state;

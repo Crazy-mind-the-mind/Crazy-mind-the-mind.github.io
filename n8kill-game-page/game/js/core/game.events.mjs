@@ -19,6 +19,8 @@ export class gameEvents{
 
             'gameFinishedLoadingCore':[],
             'startGame':[],
+            'endGame':[],
+            'restartGame':[],
 
             'paused':[],
             'unpaused':[],

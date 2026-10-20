@@ -123,7 +123,7 @@ export class gameWaveSystem{
 
         },this);
 
-        this.scope.eventSystem.connectToEvent("playerDied",function(){
+        this.scope.eventSystem.connectToEvent("restartGame",function(){
             this.waveCount=0
             this.waveStarted=false
             this.waveStartDelay = 240
@@ -157,7 +157,7 @@ export class gameWaveSystem{
                     createEnemy(this.scope,randomPos.x,randomPos.y, wavePattern[enemyIdx])
                 }
 
-                console.log("Yolk")
+                this.scope.eventSystem.emitEvent("waveStarted")
                 this.waveStartDelay=241
                 
             }
@@ -168,6 +168,7 @@ export class gameWaveSystem{
         else{
             if (this.waveEnemiesLeft==0){
                 this.waveStarted=false;
+                this.scope.eventSystem.emitEvent("waveEnded")
             }
         }       
     }
