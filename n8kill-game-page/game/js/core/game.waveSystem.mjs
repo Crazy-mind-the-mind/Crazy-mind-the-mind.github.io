@@ -3,11 +3,13 @@ import { createEnemy } from "../utils/helper.mjs";
 
 import { EnemyCharacterTypesNames } from "../players/enemyCharacterTypes.mjs";
 
-const enemyWaves = [
+import { waveData, waveEnemyData } from "../utils/dataTypes/waveData.mjs"; 
 
-];
+
 export class gameWaveSystem{
     
+    
+
     static allowedEnemyTypes=[
         EnemyCharacterTypesNames["EnemyCharacter"],
         EnemyCharacterTypesNames["EnemyCharacterDefault"],
@@ -129,6 +131,26 @@ export class gameWaveSystem{
             this.waveStartDelay = 240
         },this)
     }
+
+    waveFromArray(wavePattern){
+        this.waveEnemiesLeft=wavePattern.length
+                
+        for (let enemyIdx = 0; enemyIdx < wavePattern.length; enemyIdx++) {
+            //console.log(parseInt( Math.random()*gameWaveSystem.positions.length))
+            var randomPos= vec2.copy(
+                this.scope.constants.debug?
+                gameWaveSystem.debugPositions[parseInt( Math.random()*gameWaveSystem.positions.length)]
+                
+                :
+                gameWaveSystem.positions[parseInt( Math.random()*gameWaveSystem.positions.length)]
+            );
+
+            createEnemy(this.scope,randomPos.x,randomPos.y, wavePattern[enemyIdx])
+        }
+    }
+    waveFromWaveData(/** */ wavePattern){
+        
+    }
     waveSystemUpdate(){
 
         if (this.scope.state.paused) return;
@@ -137,24 +159,35 @@ export class gameWaveSystem{
             if (this.waveStartDelay<=0){
                 this.waveStarted= true
                 this.waveCount++;
-                var wavePattern=gameWaveSystem.enemyWavePatternPossibilities[
-                    parseInt(Math.random()*gameWaveSystem.enemyWavePatternPossibilities.length)
+
+                var wavePattern
+                wavePattern=gameWaveSystem.enemyWavePatternPossibilities[
+                    Math.floor(Math.random()*gameWaveSystem.enemyWavePatternPossibilities.length)
                 ]
+                var tries=0;
+
+                do{
+                    wavePattern=gameWaveSystem.enemyWavePatternPossibilities[
+                        Math.floor(Math.random()*gameWaveSystem.enemyWavePatternPossibilities.length)
+                    ]
+                    console.log(wavePattern)
+                    console.log(tries)
+                    tries++
+                }while(
+                    (!(wavePattern instanceof Array) || 
+                    (wavePattern instanceof waveData && wavePattern.minimumWave<=this.waveCount))&&
+                    !(tries>10)
+                )
+
                 console.log(wavePattern)
                 
-                this.waveEnemiesLeft=wavePattern.length
-                
-                for (let enemyIdx = 0; enemyIdx < wavePattern.length; enemyIdx++) {
-                    //console.log(parseInt( Math.random()*gameWaveSystem.positions.length))
-                    var randomPos= vec2.copy(
-                        this.scope.constants.debug?
-                        gameWaveSystem.debugPositions[parseInt( Math.random()*gameWaveSystem.positions.length)]
-                        
-                        :
-                        gameWaveSystem.positions[parseInt( Math.random()*gameWaveSystem.positions.length)]
-                    );
+                if (wavePattern instanceof Array){
+                    this.waveFromArray(wavePattern)
+                }
+                else if (wavePattern instanceof waveData){
 
-                    createEnemy(this.scope,randomPos.x,randomPos.y, wavePattern[enemyIdx])
+                    this.waveFromWaveData(wavePattern)
+
                 }
 
                 this.scope.eventSystem.emitEvent("waveStarted")

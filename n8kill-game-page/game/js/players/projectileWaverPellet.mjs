@@ -12,7 +12,7 @@ export class ProjectileWaverPellet extends Projectile{
 			this.timeLeft=360;
 			this.direction=new vec2(1,0)
 			this.waveTime=0;
-			this.damage=3;
+			this.damage=2;
 			this.randomWavePoint=Math.random()*20
 	}
 

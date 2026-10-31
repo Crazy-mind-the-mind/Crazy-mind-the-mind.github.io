@@ -11,8 +11,9 @@ export class EnemyCharacterSwarmer extends EnemyCharacter{
 
     constructor(scope, x, y){
         super(scope,x,y)
-        this.statHealth=2
-		this.statHealthMax=2
+        this.statHealthMax=2* Math.ceil(scope.waveSystem.currentWave/4 || 1)
+        this.statHealth=this.statHealthMax
+        
         this.shotCooldown= 240+Math.random()*40
         this.velocity = new vec2(-0.1,0)
         this.transform.rotation = Math.PI

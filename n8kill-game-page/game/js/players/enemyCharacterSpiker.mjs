@@ -9,8 +9,10 @@ import { Character } from "./character.mjs";
 export class EnemyCharacterSpiker extends EnemyCharacter{
     constructor(scope, x, y){
         super(scope,x,y)
-        this.statHealth=12
-		this.statHealthMax=12
+
+        this.statHealthMax=12* Math.ceil(scope.waveSystem.currentWave/10 || 1)
+        this.statHealth=this.statHealthMax
+        
         this.shotCooldown= 30+Math.random()*40
         this.velocity = new vec2(-0.1,0)
         this.transform.rotation = Math.PI

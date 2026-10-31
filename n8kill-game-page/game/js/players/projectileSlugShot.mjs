@@ -12,7 +12,7 @@ export class ProjectileSlugShot extends Projectile{
     constructor(scope, x, y) {
 			super(scope, x, y);
 			this.timeLeft=40;
-			this.damage=10
+			this.damage=4
 			
 			this.collisionSize=new vec2(16,16)
 

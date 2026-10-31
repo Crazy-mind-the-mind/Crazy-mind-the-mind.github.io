@@ -81,6 +81,7 @@ class AssetLoader {
             ))
             
         })
+        return promise
     	
     }
 

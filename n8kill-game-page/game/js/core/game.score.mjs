@@ -4,7 +4,7 @@ import { uiTransform } from "../utils/dataTypes.mjs"
 
 export function gameScore(scope){
     scope.state.playerStatus.ScorePoints=0
-    scope.state.playerStatus.HighScorePoints=0
+    scope.state.playerStatus.HighScorePoints=window.localStorage.getItem('PlayerHighestScore');
 
     
 

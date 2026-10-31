@@ -8,8 +8,10 @@ import { Character } from "./character.mjs";
 export class EnemyCharacterSplitter extends EnemyCharacter{
     constructor(scope, x, y){
         super(scope,x,y)
-        this.statHealth=3
-		this.statHealthMax=3
+
+        this.statHealthMax=3* Math.ceil(scope.waveSystem.currentWave/4 || 1)
+        this.statHealth=this.statHealthMax
+        
         this.shotCooldown= 180+Math.random()*40
         this.velocity = new vec2(-0.1,0)
         this.transform.rotation = Math.PI
@@ -70,13 +72,12 @@ export class EnemyCharacterSplitter extends EnemyCharacter{
                 this.transform.position.y,
                 1,
                 {
-                    direction:(new vec2(-1,0)).rotated(
-                        Math.PI/4.0-((Math.PI/2.0)/ (this.aggressive?5.0:3.0) ) ),
+                    direction:(new vec2(-1,0)),
                     initialVelocity: new vec2(-5,0).rotated(
-                        (Math.PI/4)+
+                        (Math.PI/2)+
 
                         (
-                            (Math.PI/2)
+                            (Math.PI/3)*idx
                         / 
                             (this.aggressive?5.0:3.0)-1
                         )*idx ),

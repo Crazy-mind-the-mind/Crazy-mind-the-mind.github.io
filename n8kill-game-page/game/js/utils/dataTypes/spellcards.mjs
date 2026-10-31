@@ -76,7 +76,7 @@ export class SpellcardDefinition{
     }
     constructor(){
         this.spellcardActName=Object.keys(SpellcardDefinition.SpellcardActions)[
-                Math.min(Math.round( Math.random()*Object.keys(SpellcardDefinition.SpellcardActions).length-1),0)
+                Math.floor( Math.random()*Object.keys(SpellcardDefinition.SpellcardActions).length)
             ]
         this.spellcardAct=SpellcardDefinition.SpellcardActions[
             this.spellcardActName
@@ -84,7 +84,7 @@ export class SpellcardDefinition{
         this.spellcardActType = SpellcardDefinition.SpellcardActionTypes[
             this.spellcardActName
         ] 
-        console.log("This spellcard has ",Math.round( Math.random()*Object.keys(SpellcardDefinition.SpellcardActions).length))
+        console.log("This spellcard has ",Math.floor( Math.random()*Object.keys(SpellcardDefinition.SpellcardActions).length))
 
         SpellcardDefinition.loadAssets()
     }

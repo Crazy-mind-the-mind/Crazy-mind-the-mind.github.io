@@ -119,6 +119,10 @@
         "EnemyCharacterSplitter"
     ],
     "stagePatterns":[
+        ["EnemyCharacterDefault"],
+        ["EnemyCharacterDefault"],
+        ["EnemyCharacterDefault"],
+        ["EnemyCharacterDefault"],
         ["EnemyCharacterDefault"]
     ]
 }

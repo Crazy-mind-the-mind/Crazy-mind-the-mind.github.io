@@ -7,10 +7,11 @@ import { RectCollider } from "../utils/collision/rectCollision.mjs";
 import { Character } from "./character.mjs";
 
 export class EnemyCharacterWaver extends EnemyCharacter{
+
     constructor(scope, x, y){
         super(scope,x,y)
-        this.statHealth=3
-		this.statHealthMax=3
+		this.statHealthMax=3* Math.ceil(scope.waveSystem.currentWave/15 || 1)
+        this.statHealth=this.statHealthMax
         this.shotCooldown= 180+Math.random()*40
         this.velocity = new vec2(-0.1,0)
         this.transform.rotation = Math.PI

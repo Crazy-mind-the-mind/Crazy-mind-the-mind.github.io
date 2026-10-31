@@ -57,7 +57,7 @@ class EnemyCharacter extends Character{
     doImplementedCorrections(){
 
     }
-
+    
 
     constructor(scope, x, y) {
         super(scope, x, y);

@@ -31,7 +31,6 @@ export class ProjectileRocket extends Projectile{
 		if (!this.target){return}
 		this.direction =this.velocity.directionTo(this.target.transform.position)
 		this.velocity = vec2.copy(this.direction).vecMult(10)
-		this.transform.scale.x=-1
 		
 	}
 
@@ -40,6 +39,8 @@ export class ProjectileRocket extends Projectile{
 		if (!this.texture) return;
 		if (!this.scope) return;
 		var renderer=this.scope.context
+		this.transform.rotation=Math.PI
+
 		drawTexture(
 			renderer,
 			this.texture,

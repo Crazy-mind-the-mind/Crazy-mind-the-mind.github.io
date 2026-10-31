@@ -1,9 +1,10 @@
 
-import { transform2, uiTransform } from "../dataTypes.mjs";
+import { transform2, uiTransform, vec2 } from "../dataTypes.mjs";
 import { ProjectileTypes } from "../../players/projectileTypes.mjs";
-import { EnemyCharacterTypes } from "../../players/enemyCharacterTypes.mjs";
+import { EnemyCharacterTypes, EnemyCharacterTypesNames} from "../../players/enemyCharacterTypes.mjs";
 import { assetLoader } from "../../core/game.assetLoader.mjs";
 import { ParallaxLayer } from "../../players/parallaxLayer.mjs";
+import { waveData, waveEnemyData } from "../dataTypes/waveData.mjs";
 
 
 
@@ -183,73 +184,83 @@ export async function loadStage(scope,stagePath){
             console.log(stageData)
             
             var stageDataBackgroundLayerNames
-            try{
             stageDataBackgroundLayerNames  = Object.keys(stageData.stageBackground);    
-
-            }
-            catch{
-
-            }
-
-            console.log(stageData)
-
-
-            scope.state.currentStage.name=/*stageData.stageName ||*/ "SPACE"
-
             
-            
-            scope.state.currentStage.maxWave=/*stageData.stageMaxWave ||*/ 100
-            
-            try{
-            for (let idx; idx < stageDataBackgroundLayerNames.length; idx++){
 
+            console.log(stageDataBackgroundLayerNames)
 
-                const newParallaxData=stageData.stageBackground[stageDataBackgroundLayerNames[idx]];
-
-
-                var newParallax=new ParallaxLayer(scope || window.game , 0 , 0)
-
-                newParallax.layerTextureData={
-                    "name":newParallaxData.texture.name,
-                    "path":newParallaxData.texture.path
+            stageDataBackgroundLayerNames.forEach(stgBG=>{
+                var newPBG= new ParallaxLayer(scope,0,0);
+                newPBG.layerTextureData={
+                    "name":stageData.stageBackground[stgBG].texture.name,
+                    "path":stageData.stageBackground[stgBG].texture.path
                 }
-
-                newParallax.z_index = newParallaxData.z_index
-
-
-                newParallax.transform.position.x=newParallaxData.transform.position.x
-                newParallax.transform.position.y=newParallaxData.transform.position.y
-
-                newParallax.transform.scale.x=newParallaxData.transform.scale.x
-                newParallax.transform.scale.y=newParallaxData.transform.scale.y
-
-                newParallax.transform.rotation.x=newParallaxData.transform.rotation.x
-
-
-                newParallax.parallaxScale.scale.x = newParallaxData.parallaxScale.scale.x
-                newParallax.parallaxScale.scale.y = newParallaxData.parallaxScale.scale.y
                 
-                newParallax.parallaxScale.offset.x = newParallaxData.parallaxScale.offset.x 
-                newParallax.parallaxScale.offset.y = newParallaxData.parallaxScale.offset.y
+                newPBG.z_index=stageData.stageBackground[stgBG].z_index;
+
+                newPBG.transform.position=vec2.copy(stageData.stageBackground[stgBG].transform.position)
+                newPBG.transform.scale=vec2.copy(stageData.stageBackground[stgBG].transform.scale)
+                newPBG.transform.rotation=stageData.stageBackground[stgBG].transform.rotation
+
+                newPBG.parallaxScale.scale=vec2.copy(stageData.stageBackground[stgBG].parallaxScale.scale)
+                newPBG.parallaxScale.offset=vec2.copy(stageData.stageBackground[stgBG].parallaxScale.offset)
+                newPBG.parallaxScale.repeat=vec2.copy(stageData.stageBackground[stgBG].parallaxScale.repeat)
                 
-                newParallax.parallaxScale.repeat.x = newParallaxData.parallaxScale.repeat.x
-                newParallax.parallaxScale.repeat.y = newParallaxData.parallaxScale.repeat.y
+                scope.state.entities[stgBG]=newPBG
+            })
 
 
-                scope.state.entities[stageBackgroundLayerNames[idx]]=newParallax
+            scope.state.currentStage.name=stageData.stageName || "SPACE"
+
+            
+            
+            scope.state.currentStage.maxWave=stageData.stageMaxWave || 100
+            
+
+            
+
+            
+
+            var stageEnemies=[]
+
+            stageData.stageEnemies.forEach((stgEnemy)=>{
+                stageEnemies.push(EnemyCharacterTypesNames[stgEnemy])
             }
-
-            var stageEnemies=stageData.stageEnemies.slice();
+            )
+            
 
             scope.waveSystem.constructor.allowedEnemyTypes=stageEnemies;
+            console.log(scope.waveSystem.constructor.allowedEnemyTypes)
 
-            var stageEnemyPatterns= stageData.stagePatterns.slice();
+            var stageEnemyPatterns = [];
+            stageData.stagePatterns.forEach((pattern)=>{
+                var enemyTypeNamesPresent=[]
+                var translatedPattern=[]
+
+                pattern.forEach(piece=>{
+                    if (!(piece in enemyTypeNamesPresent)){
+                        enemyTypeNamesPresent[piece] = 1
+                    }
+                    else{
+                        enemyTypeNamesPresent[piece]++
+                    }
+                })
+                
+                var newWaveData= new waveData()
+                Object.keys(enemyTypeNamesPresent).forEach(enmyType=>{
+                    var newWaveEnemyData = new waveEnemyData()
+                    newWaveEnemyData.enemy= EnemyCharacterTypesNames[enmyType]
+                    newWaveEnemyData.enemyPositions = new vec2(800,120);
+                    newWaveEnemyData.repeatEnemy = enemyTypeNamesPresent[enmyType]
+
+                    newWaveData.enemies.push(newWaveEnemyData)
+                })
+                
+                
+            })
             
-            scope.waveSystem.constructor.enemyWavePatternPossibilities=stageEnemyPatterns
-            }
-            catch{
-
-            }
+            scope.waveSystem.constructor.enemyWavePatternPossibilities=stageEnemyPatterns || scope.waveSystem.constructor.enemyWavePatternPossibilities
+            console.log(scope.waveSystem.constructor.enemyWavePatternPossibilities  )
 
             
 

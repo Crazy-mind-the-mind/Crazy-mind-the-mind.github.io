@@ -7,12 +7,10 @@ export class ParallaxLayer extends Entity {
 
 
     layerTextureData = {
-        "name":null,
-        "path":null
+        "name":"",
+        "path":""
     }
-    get layerTextureData(){
-        return this.layerTextureData;
-    }
+    
     set layerTextureData(v){
         this.layerTextureData=v;
         this.loadAssets();
@@ -36,7 +34,7 @@ export class ParallaxLayer extends Entity {
     }
 
     async loadAssets() {
-        if (!this.layerTextureData.name || !this.layerTextureData.path) return;
+        if (!this.layerTextureData || (!this.layerTextureData.name || !this.layerTextureData.path)) return;
 
         this.texture = this.scope.configurations.renderer=="canvas"?await assetLoader.loadImage(
             this.layerTextureData.name,

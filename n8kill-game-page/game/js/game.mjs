@@ -27,6 +27,7 @@ var $container = document.getElementById('container');
 
 
 function Game(w, h, targetFps, showFps,gameOptions) {
+	window.game = this
 	gameOptions = gameOptions || {}
 	this.constants = {
 		width: w,
@@ -137,6 +138,7 @@ function Game(w, h, targetFps, showFps,gameOptions) {
 	this.eventSystem.connectToEvent("startGame",
 		function(){
 			this.state.gameStarted=true
+			
 		},
 		this
 	)
@@ -153,7 +155,7 @@ function Game(w, h, targetFps, showFps,gameOptions) {
 	this.eventSystem.connectToEvent("playerDied",
 		function(){
 			this.eventSystem.emitEvent("endGame");
-			window.localStorage.setItem('PlayerHighestScore' )
+			window.localStorage.setItem('PlayerHighestScore',this.state.playerStatus.HighScorePoints )
 			this.state.gameEnded=true;
 		},
 		this
@@ -170,6 +172,5 @@ function Game(w, h, targetFps, showFps,gameOptions) {
 
 	return this;
 }
-
 
 window.game = new Game(640 , 360 , 60, true);
