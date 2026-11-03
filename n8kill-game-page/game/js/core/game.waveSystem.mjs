@@ -148,7 +148,27 @@ export class gameWaveSystem{
             createEnemy(this.scope,randomPos.x,randomPos.y, wavePattern[enemyIdx])
         }
     }
-    waveFromWaveData(/** */ wavePattern){
+    waveFromWaveData(/**@type{waveData} */ wavePattern){
+        
+        this.waveEnemiesLeft=0
+        
+        for (let enemyDataIdx = 0; enemyDataIdx < wavePattern.enemies.length; enemyDataIdx++) {
+            /** @type{waveEnemyData} */const enemyData = wavePattern.enemies[enemyDataIdx];
+            
+            for (let enemyIdx = 0; enemyIdx < enemyData.repeatEnemy; enemyIdx++) {
+                var randomPos= vec2.copy(
+                this.scope.constants.debug?
+                    gameWaveSystem.debugPositions[parseInt( Math.random()*gameWaveSystem.positions.length)]
+                
+                    :
+                    gameWaveSystem.positions[parseInt( Math.random()*gameWaveSystem.positions.length)]
+                );
+                console.log(enemyData.enemy )
+                createEnemy(this.scope,randomPos.x,randomPos.y, enemyData.enemy )
+                this.waveEnemiesLeft++
+            }
+            
+        }
         
     }
     waveSystemUpdate(){
@@ -174,10 +194,12 @@ export class gameWaveSystem{
                     console.log(tries)
                     tries++
                 }while(
-                    (!(wavePattern instanceof Array) || 
-                    (wavePattern instanceof waveData && wavePattern.minimumWave<=this.waveCount))&&
-                    !(tries>10)
+                    ((wavePattern instanceof Array) || 
+                    (wavePattern instanceof waveData && wavePattern.minimumWave<=this.waveCount) )&&
+                    !(tries>10)     
                 )
+                console.log((wavePattern instanceof Array))
+                console.log((wavePattern instanceof waveData && wavePattern.minimumWave<=this.waveCount))
 
                 console.log(wavePattern)
                 
