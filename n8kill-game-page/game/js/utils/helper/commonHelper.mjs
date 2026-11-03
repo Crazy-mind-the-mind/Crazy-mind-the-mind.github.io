@@ -231,37 +231,55 @@ export async function loadStage(scope,stagePath){
 
             scope.waveSystem.constructor.allowedEnemyTypes=stageEnemies;
             console.log(scope.waveSystem.constructor.allowedEnemyTypes)
-
+            scope.waveSystem.constructor.enemyWavePatternPossibilities=[]
             var stageEnemyPatterns = [];
             stageData.stagePatterns.forEach((pattern)=>{
                 var enemyTypeNamesPresent=[]
                 var translatedPattern=[]
-
+                var test =""
+                
                 pattern.forEach(piece=>{
-                    if (!(piece in enemyTypeNamesPresent)){
+                    console.log(piece instanceof String)
+                    if ( piece instanceof String){
+                        if (!(piece in enemyTypeNamesPresent)){
                         enemyTypeNamesPresent[piece] = 1
+                        }
+                        else{
+                            enemyTypeNamesPresent[piece]++
+                        }
                     }
                     else{
-                        enemyTypeNamesPresent[piece]++
+                        console.log(piece)
+                        console.log(piece["type"])
+                        if (!(EnemyCharacterTypesNames[piece.type] in enemyTypeNamesPresent)){
+                            enemyTypeNamesPresent[EnemyCharacterTypesNames[piece.type]] = piece.count
+                        }
+                        else{
+                            enemyTypeNamesPresent[EnemyCharacterTypesNames[piece.type]] += piece.count
+                        }
                     }
+                    
                 })
-                
+                console.log("\n\n\n\n\n")
+                console.log("enemy types present in pattern")
+                console.log(enemyTypeNamesPresent)
                 var newWaveData= new waveData()
+
+                
                 Object.keys(enemyTypeNamesPresent).forEach(enmyType=>{
+                    console.log(EnemyCharacterTypesNames[enmyType])
                     var newWaveEnemyData = new waveEnemyData()
-                    newWaveEnemyData.enemy= EnemyCharacterTypesNames[enmyType]
+                    newWaveEnemyData.enemy= enmyType
                     newWaveEnemyData.enemyPositions = new vec2(800,120);
-                    newWaveEnemyData.repeatEnemy = enemyTypeNamesPresent[enmyType]
+                    newWaveEnemyData.repeatEnemy = enemyTypeNamesPresent[enmyType] || 0
 
                     newWaveData.enemies.push(newWaveEnemyData)
                 })
-                
+                scope.waveSystem.constructor.enemyWavePatternPossibilities.push(newWaveData) 
                 
             })
-            
-            scope.waveSystem.constructor.enemyWavePatternPossibilities=stageEnemyPatterns || scope.waveSystem.constructor.enemyWavePatternPossibilities
-            console.log(scope.waveSystem.constructor.enemyWavePatternPossibilities  )
-
+            console.log("Enemy Wave Pattern possibilities")
+            console.log(scope.waveSystem.constructor.enemyWavePatternPossibilities)
             
 
             
