@@ -119,10 +119,31 @@
         "EnemyCharacterSplitter"
     ],
     "stagePatterns":[
-        ["EnemyCharacterDefault"],
-        ["EnemyCharacterDefault"],
-        ["EnemyCharacterDefault"],
-        ["EnemyCharacterDefault"],
-        ["EnemyCharacterDefault"]
-    ]
+        [{"type":"EnemyCharacterDefault", "count":10}],
+        [{"type":"EnemyCharacterSwarmer", "count":10}],
+        [{"type":"EnemyCharacterWaver", "count":10}],
+        [{"type":"EnemyCharacterSplitter", "count":10}],
+        [
+            {"type":"EnemyCharacterSplitter", "count":10},
+            {"type":"EnemyCharacterSwarmer", "count":10}
+        ],
+        [
+            {"type":"EnemyCharacterWaver", "count":10},
+            {"type":"EnemyCharacterSwarmer", "count":10}
+        ],
+        [
+            {"type":"EnemyCharacterDefault", "count":5},
+            {"type":"EnemyCharacterSwarmer", "count":8},
+            {"type":"EnemyCharacterWaver", "count":2}
+        ],
+        [
+            {"type":"EnemyCharacterTanker", "count":2},
+            {"type":"EnemyCharacterSpiker", "count":1}
+        ],
+        [
+            {"type":"EnemyCharacterTanker", "count":3},
+            {"type":"EnemyCharacterSpiker", "count":3}
+        ]
+    ],
+    "stagePatternLevels":[0,0,0,0,0,0,0,0]
 }
