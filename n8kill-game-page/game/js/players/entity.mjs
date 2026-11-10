@@ -30,6 +30,7 @@ export class Entity{
 			this.transform=new transform2(x,y,1,1)
 			this.z_index = 0;
 			this.texture;
+			this.textureOffset=new vec2(0,0);
 			this.renderable;
 			this.loadAssets()
 			this.active=true;

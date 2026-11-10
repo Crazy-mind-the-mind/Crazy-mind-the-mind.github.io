@@ -17,8 +17,8 @@ export class EnemyCharacterDefault extends EnemyCharacter{
 
     constructor(scope, x, y){
         super(scope,x,y)
-        this.statHealth=3
-		this.statHealthMax=3
+        this.statHealth=5
+		this.statHealthMax=5
         this.shotCooldown= 180+Math.random()*40
         this.velocity = new vec2(-0.1,0)
         this.transform.rotation = Math.PI
@@ -126,7 +126,7 @@ export class EnemyCharacterDefault extends EnemyCharacter{
             this.transform,
             {
                 useCanvasTransforms:true,
-                offsets: vec2.copy(this.transform.position).vecSub(drawCorrectedTransform.position)
+                offsets: vec2.copy(this.transform.position).vecSub(drawCorrectedTransform.position).vecAdd(this.textureOffset)
             }
         )
         

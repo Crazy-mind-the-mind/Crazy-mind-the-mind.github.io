@@ -10,7 +10,7 @@ export class EnemyCharacterWaver extends EnemyCharacter{
 
     constructor(scope, x, y){
         super(scope,x,y)
-		this.statHealthMax=3* Math.ceil(scope.waveSystem.currentWave/15 || 1)
+		this.statHealthMax=5* Math.ceil(scope.waveSystem.currentWave/15 || 1)
         this.statHealth=this.statHealthMax
         this.shotCooldown= 180+Math.random()*40
         this.velocity = new vec2(-0.1,0)
@@ -116,7 +116,7 @@ export class EnemyCharacterWaver extends EnemyCharacter{
             this.transform,
             {
                 useCanvasTransforms:true,
-                offsets: vec2.copy(this.transform.position).vecSub(drawCorrectedTransform.position)
+                offsets: vec2.copy(this.transform.position).vecSub(drawCorrectedTransform.position).vecAdd(this.textureOffset)
             }
         )
 

@@ -211,6 +211,9 @@ class PlayerCharacter extends Character{
 
 
 			this.deathtimeout=0
+
+
+			this.shakeFrame=0;
 			
 
 		}
@@ -336,7 +339,20 @@ class PlayerCharacter extends Character{
 
 
 
-
+			if (this.statHealth<=1){
+				this.shakeFrame = (this.shakeFrame+1)%5
+				this.textureOffset  = [
+					new vec2(0,0),
+					new vec2(1,0),
+					new vec2(1,1),
+					new vec2(-1,1),
+					new vec2(-1,-1),
+				].at(this.shakeFrame)
+			}
+			else{
+				this.textureOffset.x=0
+				this.textureOffset.y=0
+			}
 
 
 
@@ -393,7 +409,7 @@ class PlayerCharacter extends Character{
 					this.transform,
 					{
 						useCanvasTransforms:true,
-						offsets: vec2.copy(this.transform.position).vecSub(drawCorrectedTransform.position)
+						offsets: vec2.copy(this.transform.position).vecSub(drawCorrectedTransform.position).vecAdd(this.textureOffset)
 					}
 				)
 			}

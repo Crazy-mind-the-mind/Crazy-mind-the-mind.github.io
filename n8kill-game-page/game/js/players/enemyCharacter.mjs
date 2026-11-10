@@ -59,6 +59,7 @@ class EnemyCharacter extends Character{
     }
     
 
+
     constructor(scope, x, y) {
         super(scope, x, y);
         this.boundary = new rect2(0,0,scope.constants.width*2,scope.constants.height)
@@ -68,7 +69,7 @@ class EnemyCharacter extends Character{
         this.pointsGivenOnHit=0
         this.collisionSize = new vec2(16,16)
 
-
+        this.shakeFrame=0
         scope.eventSystem.connectToEvent("playerDied",function(){
             deleteEntity(this.scope,this)
         },this)
@@ -87,6 +88,7 @@ class EnemyCharacter extends Character{
         
         this.AI()
 
+        this.onLowHealth()
         Boundary(this,this.boundary)
         this.aliveTime++;
 
@@ -147,6 +149,24 @@ class EnemyCharacter extends Character{
             deleteEntity(this.scope,this);
             
         }
+    }
+
+
+    onLowHealth(){
+        if (this.statHealth< this.statHealthMax/4){
+            this.shakeFrame = (this.shakeFrame+1)%5
+            this.textureOffset  = [
+                new vec2(0,0),
+                new vec2(1,0),
+                new vec2(1,1),
+                new vec2(-1,1),
+                new vec2(-1,-1),
+            ].at(this.shakeFrame)
+		}
+		else{
+			this.textureOffset.x=0
+			this.textureOffset.y=0
+		}
     }
 }
 

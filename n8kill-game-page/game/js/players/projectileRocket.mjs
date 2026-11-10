@@ -7,16 +7,11 @@ import { Projectile} from "./projectile.mjs";
 
 
 export class ProjectileRocket extends Projectile{
-    get damage(){
-		return this.hostile? 3:7;
-	}
-	set damage(v){
-
-	}
+    
 	constructor(scope, x, y) {
 			super(scope, x, y);
 			this.timeLeft=240;
-			this.damage = 1;			
+			this.damage = 3;			
 			
 	}
 
@@ -26,11 +21,16 @@ export class ProjectileRocket extends Projectile{
 		
 	}
 	AI(){
-		this.target = this.hostile?this.scope.state.player:null
+		this.target = this.hostile?this.scope.state.entities.player:this.scope.state.entities.player
 		
-		if (!this.target){return}
-		this.direction =this.velocity.directionTo(this.target.transform.position)
-		this.velocity = vec2.copy(this.direction).vecMult(10)
+
+		this.direction.x= -this.transform.position.directionTo(this.target.transform.position).x
+		this.direction.y= -this.transform.position.directionTo(this.target.transform.position).y
+		this.direction = this.direction.normalized()
+		
+		
+		this.velocity.vecAdd(vec2.copy(this.direction).vecMult(0.01))
+
 		
 	}
 
@@ -47,6 +47,7 @@ export class ProjectileRocket extends Projectile{
 			correctDrawTransform(this),
 			{
 				transparency:this.friendly?0.2:1.0,
+				offsets: new vec2(this.texture.width,this.texture.height)/2,
 				useCanvasTransforms:true
 			}
 		)

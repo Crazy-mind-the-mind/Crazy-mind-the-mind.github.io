@@ -10,11 +10,6 @@ export class ParallaxLayer extends Entity {
         "name":"",
         "path":""
     }
-    
-    set layerTextureData(v){
-        this.layerTextureData=v;
-        this.loadAssets();
-    }
 
 
     constructor(scope, x, y) {
@@ -36,10 +31,10 @@ export class ParallaxLayer extends Entity {
     async loadAssets() {
         if (!this.layerTextureData || (!this.layerTextureData.name || !this.layerTextureData.path)) return;
 
-        this.texture = this.scope.configurations.renderer=="canvas"?await assetLoader.loadImage(
+        this.texture = await assetLoader.loadImage(
             this.layerTextureData.name,
             this.layerTextureData.path
-        ): new TextureWebGL("StarBackgroundTexture","textures/starsBackground.png") ;
+        )
     }
 
     update() {
@@ -87,7 +82,7 @@ export class ParallaxLayer extends Entity {
             t.position.y = y*this.transform.scale.x;
             t.scale.x = this.transform.scale.x
             t.scale.y = this.transform.scale.y
-            drawTexture(this.scope.context, this.texture, t);
+            drawTexture(this.scope.context, this.texture, t,{});
         } 
         else{
 

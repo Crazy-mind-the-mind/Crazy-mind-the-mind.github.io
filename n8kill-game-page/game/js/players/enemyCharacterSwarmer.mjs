@@ -11,7 +11,7 @@ export class EnemyCharacterSwarmer extends EnemyCharacter{
 
     constructor(scope, x, y){
         super(scope,x,y)
-        this.statHealthMax=2* Math.ceil(scope.waveSystem.currentWave/4 || 1)
+        this.statHealthMax=5* Math.ceil(scope.waveSystem.currentWave/4 || 1)
         this.statHealth=this.statHealthMax
         
         this.shotCooldown= 240+Math.random()*40
@@ -142,7 +142,7 @@ export class EnemyCharacterSwarmer extends EnemyCharacter{
             this.transform,
             {
                 useCanvasTransforms:true,
-                offsets: vec2.copy(this.transform.position).vecSub(drawCorrectedTransform.position)
+                offsets: vec2.copy(this.transform.position).vecSub(drawCorrectedTransform.position).vecAdd(this.textureOffset)
             }
         )
 

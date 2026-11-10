@@ -73,14 +73,21 @@ export class EnemyCharacterSplitter extends EnemyCharacter{
                 1,
                 {
                     direction:(new vec2(-1,0)),
-                    initialVelocity: new vec2(-5,0).rotated(
-                        (Math.PI/2)+
-
-                        (
-                            (Math.PI/3)*idx
-                        / 
-                            (this.aggressive?5.0:3.0)-1
-                        )*idx ),
+                    initialVelocity: this.agressive?
+                    [
+                        new vec2( 0.5 , -1 ),
+                        new vec2( -1 , -1 ),
+                        new vec2( -1 , 0 ),
+                        new vec2( -1 , 1 ),
+                        new vec2( 0.5 , 1 )
+                    ][idx].normalized().vecMult(5)
+                    :
+                    ([
+                        new vec2( -1 , -1 ),
+                        new vec2( -1 , 0 ),
+                        new vec2( -1 , 1 ),
+                    ][idx]).normalized().vecMult(5)
+                    ,
                     friendly:false,
                     hostile:true,
                     owner:this,
@@ -134,7 +141,7 @@ export class EnemyCharacterSplitter extends EnemyCharacter{
             this.transform,
             {
                 useCanvasTransforms:true,
-                offsets: vec2.copy(this.transform.position).vecSub(drawCorrectedTransform.position)
+                offsets: vec2.copy(this.transform.position).vecSub(drawCorrectedTransform.position).vecAdd(this.textureOffset)
             }
         )
         

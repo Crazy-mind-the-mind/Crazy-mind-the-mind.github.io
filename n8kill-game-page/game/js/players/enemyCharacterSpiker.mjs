@@ -125,7 +125,7 @@ export class EnemyCharacterSpiker extends EnemyCharacter{
             this.transform,
             {
                 useCanvasTransforms:true,
-                offsets: vec2.copy(this.transform.position).vecSub(drawCorrectedTransform.position)
+                offsets: vec2.copy(this.transform.position).vecSub(drawCorrectedTransform.position).vecAdd(this.textureOffset)
             }
         )
         
