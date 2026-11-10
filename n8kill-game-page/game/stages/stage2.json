@@ -1,104 +1,147 @@
 {
-    "stageName":"",
+    "stageName":"PLANET",
     "stageMaxWave":100,
     "stageBackground":{
 
 
-        "starBackground1":{
+        "bg1":{
             "texture":{
-                "name":"",
-                "path":""
+                "name":"stage2Bg1",
+                "path":"textures/stage2bg1.png"
             },
+            "z_index":-100,
             "transform":{
                 "position":{
                     "x":0,
                     "y":0
                 },
                 "scale":{
-                    "x":0,
-                    "y":0
+                    "x":4,
+                    "y":4
                 },
                 "rotation":0
             },
             "parallaxScale":{
                 "scale":{
-                    "x":0,
-                    "y":0
+                    "x":0.9,
+                    "y":0.5
                 },
                 "offset":{
                     "x":0,
-                    "y":0
+                    "y":-8
                 },
                 "repeat":{
-                    "x":0,
+                    "x":3,
                     "y":0
                 }
             }
         },
-        "starBackground2":{
+        "bg2":{
             "texture":{
-                "name":"",
-                "path":""
+                "name":"stage2Bg2",
+                "path":"textures/stage2bg2.png"
             },
+            "z_index":-101,
             "transform":{
                 "position":{
                     "x":0,
                     "y":0
                 },
                 "scale":{
-                    "x":0,
-                    "y":0
+                    "x":2,
+                    "y":2
                 },
                 "rotation":0
             },
             "parallaxScale":{
                 "scale":{
-                    "x":0,
-                    "y":0
+                    "x":0.8,
+                    "y":0.5
                 },
                 "offset":{
                     "x":0,
-                    "y":0
+                    "y":-32
                 },
                 "repeat":{
-                    "x":0,
+                    "x":5,
                     "y":0
                 }
             }
         },
-        "starBackground3":{
+        "bg3":{
             "texture":{
-                "name":"",
-                "path":""
+                "name":"stage2Bg2",
+                "path":"textures/stage2bg2.png"
             },
+            "z_index":-102,
             "transform":{
                 "position":{
                     "x":0,
-                    "y":0
+                    "y":-32
                 },
                 "scale":{
-                    "x":0,
-                    "y":0
+                    "x":1,
+                    "y":1
                 },
                 "rotation":0
             },
             "parallaxScale":{
                 "scale":{
-                    "x":0,
-                    "y":0
+                    "x":0.5,
+                    "y":0.5
                 },
                 "offset":{
                     "x":0,
-                    "y":0
+                    "y":32
                 },
                 "repeat":{
-                    "x":0,
+                    "x":4,
                     "y":0
                 }
             }
         }
+    },
+    "stageEnemies":[
+        "EnemyCharacter",
+        "EnemyCharacterDefault",
+        "EnemyCharacterSwarmer",
+        "EnemyCharacterWaver",
+        "EnemyCharacterSpiker",
+        "EnemyCharacterTanker",
+        "EnemyCharacterSplitter"
+    ],
+    "stagePatterns":[
+        [{"type":"EnemyCharacterDefault", "count":10}],
+        [{"type":"EnemyCharacterSwarmer", "count":10}],
+        [{"type":"EnemyCharacterWaver", "count":4}],
+        [{"type":"EnemyCharacterSplitter", "count":5}],
+        [
+            {"type":"EnemyCharacterSplitter", "count":4},
+            {"type":"EnemyCharacterSwarmer", "count":10}
+        ],
+        [
+            {"type":"EnemyCharacterWaver", "count":10},
+            {"type":"EnemyCharacterSwarmer", "count":10}
+        ],
+        [
+            {"type":"EnemyCharacterDefault", "count":5},
+            {"type":"EnemyCharacterSwarmer", "count":8},
+            {"type":"EnemyCharacterWaver", "count":2}
+        ],
+        [
+            {"type":"EnemyCharacterTanker", "count":3},
+            {"type":"EnemyCharacterSpiker", "count":3}
+        ],
+        [
+            {"type":"EnemyCharacterTanker", "count":3},
+            {"type":"EnemyCharacterSplitter", "count":3}
+        ],
+        [
+            {"type":"EnemyCharacterTanker", "count":1},
+            {"type":"EnemyCharacterSplitter", "count":3}
+        ]
+    ],
+    "stagePatternLevels":[0,0,0,0]
 
 
-
-    }
 }
