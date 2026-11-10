@@ -195,6 +195,7 @@ export async function loadStage(scope,stagePath){
                     "name":stageData.stageBackground[stgBG].texture.name,
                     "path":stageData.stageBackground[stgBG].texture.path
                 }
+                newPBG.loadAssets();
                 
                 newPBG.z_index=stageData.stageBackground[stgBG].z_index;
 
