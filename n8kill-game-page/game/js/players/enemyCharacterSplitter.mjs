@@ -66,31 +66,31 @@ export class EnemyCharacterSplitter extends EnemyCharacter{
         if(this.shotCooldown<=0){
 
             try{
-            for (let idx = 0; idx < 5; idx++) {
-                var p =createProjectile(
-                this.scope,
-                this.transform.position.x,
-                this.transform.position.y,
-                1,
-                {
-                    direction:(new vec2(-1,0)),
-                    initialVelocity: 
-                    [
-                        new vec2( 0.5 , -1 ),
-                        new vec2( -1 , -1 ),
-                        new vec2( -1 , 0 ),
-                        new vec2( -1 , 1 ),
-                        new vec2( 0.5 , 1 )
-                    ][idx].normalized().vecMult(5)
-                    
-                    ,
-                    friendly:false,
-                    hostile:true,
-                    owner:this,
-                }
-                )
+            
+			var p =createProjectile(
+				this.scope,
+				this.transform.position.x,
+				this.transform.position.y,
+				1,
+				{
+					direction:(new vec2(-1,0)),
+					initialVelocity: 
+					[
+						new vec2( 0.5 , -1 ),
+						new vec2( -1 , -1 ),
+						new vec2( -1 , 0 ),
+						new vec2( -1 , 1 ),
+						new vec2( 0.5 , 1 )
+					][2].normalized().vecMult(5)
+					
+					,
+					friendly:false,
+					hostile:true,
+					owner:this,
+				}
+			);
                 
-            }
+            
             
             this.shotCooldown=180+Math.random()*40;
 
