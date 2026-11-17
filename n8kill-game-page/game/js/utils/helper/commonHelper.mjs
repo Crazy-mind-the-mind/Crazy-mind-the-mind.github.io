@@ -216,7 +216,7 @@ export async function loadStage(scope,stagePath){
             
             
             scope.state.currentStage.maxWave=stageData.stageMaxWave || 100
-            
+            scope.state.nextStage = stageData.nextStage || "stages/stage1.json";
 
             
 

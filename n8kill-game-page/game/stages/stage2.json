@@ -237,7 +237,9 @@
             {"type":"EnemyCharacterSplitter", "count":3}
         ]
     ],
-    "stagePatternLevels":[0,0,0,0]
+    "stagePatternLevels":[0,0,0,0],
+    "stageNextStage":"stages/stage3.json"
+
 
 
 }

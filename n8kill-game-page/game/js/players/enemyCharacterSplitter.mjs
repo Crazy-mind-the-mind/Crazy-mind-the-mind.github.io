@@ -65,6 +65,7 @@ export class EnemyCharacterSplitter extends EnemyCharacter{
 
         if(this.shotCooldown<=0){
 
+            try{
             for (let idx = 0; idx < (this.aggressive?5:3); idx++) {
                 var p =createProjectile(
                 this.scope,
@@ -73,7 +74,7 @@ export class EnemyCharacterSplitter extends EnemyCharacter{
                 1,
                 {
                     direction:(new vec2(-1,0)),
-                    initialVelocity: this.agressive?
+                    initialVelocity: 
                     [
                         new vec2( 0.5 , -1 ),
                         new vec2( -1 , -1 ),
@@ -81,12 +82,7 @@ export class EnemyCharacterSplitter extends EnemyCharacter{
                         new vec2( -1 , 1 ),
                         new vec2( 0.5 , 1 )
                     ][idx].normalized().vecMult(5)
-                    :
-                    ([
-                        new vec2( -1 , -1 ),
-                        new vec2( -1 , 0 ),
-                        new vec2( -1 , 1 ),
-                    ][idx]).normalized().vecMult(5)
+                    
                     ,
                     friendly:false,
                     hostile:true,
@@ -101,7 +97,38 @@ export class EnemyCharacterSplitter extends EnemyCharacter{
 
             
             playAudio(this.scope.audio,"LaserShotSound")
+            }
+            catch{
+                console.log("Error occurred with the Splitter Enemy, skipping shot...")
+                var p =createProjectile(
+                this.scope,
+                this.transform.position.x,
+                this.transform.position.y,
+                1,
+                {
+                    direction:(new vec2(-1,0)),
+                    initialVelocity: 
+                    [
+                        new vec2( 0.5 , -1 ),
+                        new vec2( -1 , -1 ),
+                        new vec2( -1 , 0 ),
+                        new vec2( -1 , 1 ),
+                        new vec2( 0.5 , 1 )
+                    ][idx].normalized().vecMult(5)
+                    
+                    ,
+                    friendly:false,
+                    hostile:true,
+                    owner:this,
+                }
+                )
+
+                this.shotCooldown=180+Math.random()*40;
+
+
             
+                playAudio(this.scope.audio,"LaserShotSound")
+            }
             //console.log("velocity",this.velocity)
         }
 

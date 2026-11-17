@@ -1,5 +1,5 @@
 import { vec2 } from "../utils/dataTypes.mjs";
-import { createEnemy } from "../utils/helper.mjs";
+import { createEnemy, loadStage } from "../utils/helper.mjs";
 
 import { EnemyCharacterTypesNames } from "../players/enemyCharacterTypes.mjs";
 
@@ -175,6 +175,11 @@ export class gameWaveSystem{
 
         if (this.scope.state.paused) return;
         
+        if (this.waveCount >= this.scope.state.currentStage.maxWave){
+            this.scope.eventSystem.emitEvent("stageClear");
+            
+        }
+
         if (!this.waveStarted){
             if (this.waveStartDelay<=0){
                 this.waveStarted= true

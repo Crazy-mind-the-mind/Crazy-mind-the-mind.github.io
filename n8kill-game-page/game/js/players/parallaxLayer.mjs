@@ -26,6 +26,11 @@ export class ParallaxLayer extends Entity {
         this.transform.scale.x = 4;
         this.transform.scale.y = 4;
         this.virtualTransform = new transform2();
+        
+        scope.eventSystem.connectToEvent("stageChanged",function(){
+            deleteEntity(this.scope,this)
+        },this)
+
     }
 
     async loadAssets() {

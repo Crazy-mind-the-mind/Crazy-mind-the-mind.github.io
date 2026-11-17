@@ -425,7 +425,8 @@ export function gameSetup(scope) {
                   await assetLoader.loadAudio("BGM1","audio/ProjMusic.wav")
                   playAudio(scope.audio,"BGM1",{
                   loop:true,
-                  //loopEnd:1.0,
+                  loopStart:0,
+                  loopEnd: 96,
                   audioPath:"ProjMusic.wav",
                   gain:1.0
                   })

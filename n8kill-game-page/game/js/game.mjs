@@ -56,7 +56,8 @@ function Game(w, h, targetFps, showFps,gameOptions) {
 		'currentStage':{
 			'name':'',
 			'maxWave':100,
-		}
+		},
+		'nextStage':'stages/stage2.json'
 	};
 
 	this.extrasFncs = {
@@ -161,6 +162,12 @@ function Game(w, h, targetFps, showFps,gameOptions) {
 		this
 	)
 
+	this.eventSystem.connectToEvent("stageClear",
+		function(){
+			loadStage(this,this.state.nextStage);
+		},
+		this
+	)
 
 
 

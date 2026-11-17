@@ -1,6 +1,6 @@
 {
     "stageName":"SPACE",
-    "stageMaxWave":100,
+    "stageMaxWave":200,
     "stageBackground":{
 
 
@@ -145,5 +145,6 @@
             {"type":"EnemyCharacterSpiker", "count":3}
         ]
     ],
-    "stagePatternLevels":[0,0,0,0,0,0,0,0]
+    "stagePatternLevels":[0,0,0,0,0,0,0,0],
+    "stageNextStage":"stages/stage2.json"
 }

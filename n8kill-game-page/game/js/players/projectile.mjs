@@ -77,6 +77,10 @@ export class Projectile extends Entity{
 			this.collisionSize=new vec2(8,8)
 			Projectile.addToCollisionGroup(this,scope)
 			Projectile.projectiles.push(this)
+
+			scope.eventSystem.connectToEvent("stageChanged",function(){
+            	deleteEntity(this.scope,this)
+        	},this)
 			
 
 

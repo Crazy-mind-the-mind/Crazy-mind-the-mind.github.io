@@ -21,7 +21,7 @@ export function playAudio(/**@type{AudioContext} */ctx,audioName,options){
     var source=ctx.createBufferSource();
     source.buffer=assetLoader.getAudio(audioName) || assetLoader.loadAudio(audioName,"audio/"+options.audioPath|| "hit.wav") ;
     
-    applyAudioEffects(ctx,source.buffer,options);
+    applyAudioEffects(ctx,source,options);
     source.connect(ctx.destination);
     source.start()
     
@@ -45,18 +45,16 @@ export function playAudioLoop(ctx,audioName,options){
     applyAudioEffects(ctx,source.buffer,options);
     source.connect(ctx.destination);
     source.start()
-    
+    return source;
 }
 
 export function applyAudioEffects(/**@type{AudioContext} */ctx, /**@type{AudioBufferSourceNode} */ audiobuffer,options){
     options = options || {};
     
 
-    var gainNode = ctx.createGain()
-    gainNode.gain.value= audioVolume+(options.gain || 0.1)
-    gainNode.connect(ctx.destination)
     audiobuffer.loop = options.loop || false
-    audiobuffer.loopEnd = options.loopEnd*audiobuffer.length || audiobuffer.length;
+    audiobuffer.loopStart = options.loopStart || 0;
+    audiobuffer.loopEnd = options.loopEnd || audiobuffer.buffer.duration;
 
 }
 
