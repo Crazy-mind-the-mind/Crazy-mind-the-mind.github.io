@@ -66,7 +66,7 @@ export class EnemyCharacterSplitter extends EnemyCharacter{
         if(this.shotCooldown<=0){
 
             try{
-            for (let idx = 0; idx < (this.aggressive?5:3); idx++) {
+            for (let idx = 0; idx < 5:; idx++) {
                 var p =createProjectile(
                 this.scope,
                 this.transform.position.x,
